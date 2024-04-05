@@ -12,7 +12,7 @@ const Product_Price_History = require('../models/product_price_history');
 const Order_Item = require('../models/order_item');
 const Feedback = require('../models/feedback');
 const Order_Status_Change_History = require('../models/order_status_change_history');
-const Colour = require('../models/colour');
+const color = require('../models/color');
 const Size = require('../models/size');
 
 let create = async (req, res, next) => {
@@ -178,7 +178,7 @@ let list = async (req, res, next) => {
                 {
                     model: Product_Variant, where: { product_id },
                     include: [
-                        { model: Colour, attributes: ['colour_name'] },
+                        { model: color, attributes: ['color_name'] },
                         { model: Size, attributes: ['size_name'] },
                     ]
                 },
@@ -190,7 +190,7 @@ let list = async (req, res, next) => {
             return {
                 customer: feedback.User.Customer_Info.customer_name,
                 rate: feedback.rate,
-                colour: feedback.product_variant.Colour.colour_name,
+                color: feedback.product_variant.color.color_name,
                 size: feedback.product_variant.Size.size_name,
                 content: feedback.content,
                 created_at: feedback.created_at

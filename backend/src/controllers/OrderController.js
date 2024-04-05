@@ -160,7 +160,7 @@ let listCustomerSide = async (req, res, next) => {
             for (let productVariant of productVariantList) {
                 let product = await productVariant.getProduct();
                 let productImages = await productVariant.getProduct_Images();
-                let colour = await productVariant.getColour();
+                let color = await productVariant.getcolor();
                 let size = await productVariant.getSize();
 
                 let feedback = await Feedback.findOne({
@@ -176,7 +176,7 @@ let listCustomerSide = async (req, res, next) => {
                     name: product.product_name,
                     image: productImages[0].path,
                     quantity: productVariant.Order_Item.quantity,
-                    colour: colour.colour_name,
+                    color: color.color_name,
                     size: size.size_name,
                     price: productVariant.Order_Item.price,
                     has_feedback: hasFeedback
@@ -238,13 +238,13 @@ let detailCustomerSide = async (req, res, next) => {
     let orderItemList = [];
     for (let productVariant of productVariantList) {
         let product = await productVariant.getProduct();
-        let colour = await productVariant.getColour();
+        let color = await productVariant.getcolor();
         let size = await productVariant.getSize();
         let productVariantConverted = {
             name: product.product_name,
             quantity: productVariant.Order_Item.quantity,
             price: productVariant.Order_Item.price,
-            colour: colour.colour_name,
+            color: color.color_name,
             size: size.size_name,
             total_value: productVariant.Order_Item.total_value
         }
@@ -291,13 +291,13 @@ let detailAdminSide = async (req, res, next) => {
         let orderItemList = [];
         for (let productVariant of productVariantList) {
             let product = await productVariant.getProduct();
-            let colour = await productVariant.getColour();
+            let color = await productVariant.getcolor();
             let size = await productVariant.getSize();
             let productVariantConverted = {
                 name: product.product_name,
                 quantity: productVariant.Order_Item.quantity,
                 price: productVariant.Order_Item.price,
-                colour: colour.colour_name,
+                color: color.color_name,
                 size: size.size_name,
                 total_value: productVariant.Order_Item.total_value
             }

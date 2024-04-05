@@ -16,8 +16,8 @@ let create = async (req, res, next) => {
         if (quantity === undefined) return res.status(400).send('Trường quantity không tồn tại');
         let product_id = parseInt(req.body.product_id);
         if (product_id === undefined) return res.status(400).send('Trường product_id không tồn tại');
-        let colour_id = parseInt(req.body.colour_id);
-        if (colour_id === undefined) return res.status(400).send('Trường colour_id không tồn tại');
+        let color_id = parseInt(req.body.color_id);
+        if (color_id === undefined) return res.status(400).send('Trường color_id không tồn tại');
         let size_id = parseInt(req.body.size_id);
         if (size_id === undefined) return res.status(400).send('Trường size_id không tồn tại');
         let files = req.files;
@@ -27,7 +27,7 @@ let create = async (req, res, next) => {
             let data = {
                 quantity,
                 product_id,
-                colour_id,
+                color_id,
                 size_id
             };
             let newProductVariant = await Product_Variant.create(data);
@@ -171,8 +171,8 @@ let deleteProductVariant = async (req, res, next) => {
 let detailCustomerSide = async (req, res, next) => {
     let product_id = req.params.product_id;
     if (product_id === undefined) return res.status(400).send('Trường product_id không tồn tại');
-    let colour_id = req.params.colour_id;
-    if (colour_id === undefined) return res.status(400).send('Trường colour_id không tồn tại');
+    let color_id = req.params.color_id;
+    if (color_id === undefined) return res.status(400).send('Trường color_id không tồn tại');
     let size_id = req.params.size_id;
     if (size_id === undefined) return res.status(400).send('Trường size_id không tồn tại');
 
@@ -186,7 +186,7 @@ let detailCustomerSide = async (req, res, next) => {
                 },
                 { model: Product_Image, attributes: ['path'] },
             ],
-            where: { product_id, colour_id, size_id, state: true },
+            where: { product_id, color_id, size_id, state: true },
         });
 
         let newProductVariant = {

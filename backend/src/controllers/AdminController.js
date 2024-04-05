@@ -27,13 +27,11 @@ let login = async (req, res, next) => {
     if(password === undefined) return res.status(400).send('Trường password không tồn tại');
 
     try {
-        console.log("aaaaaaaaaaaaaaa",email, password)
         debugger
         let admin = await User.findOne({ where: { email, role_id: 1 } });
         if(!admin) {
             return res.status(401).send("Email không chính xác");
         }
-        
         // let isPasswordValid = bcrypt.compareSync(password, admin.password);
         // if(!isPasswordValid) {
         //     return res.status(401).send("Mật khẩu không chính xác");

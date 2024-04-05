@@ -9,6 +9,8 @@ const Order_Item = sequelize.define('Order_Item', {
 	product_variant_id: { type: DataTypes.INTEGER, primaryKey: true },
 	order_item_index: { type: DataTypes.INTEGER, allowNull: false },
 	price: { type: DataTypes.INTEGER, allowNull: false },
+	brand: DataTypes.TEXT,
+	material: DataTypes.TEXT,
 	quantity: { type: DataTypes.INTEGER, allowNull: false },
 	total_value: { type: DataTypes.INTEGER, allowNull: false },
 }, {
