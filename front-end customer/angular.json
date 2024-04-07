@@ -35,7 +35,7 @@
             "styles": [
               "src/theme.less",
               "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
-              "assets/css/main.css",
+              "src/assets/css/main.css",
               "src/styles.css",
               {
                 "input": "node_modules/@ionic/angular/css/core.css"
@@ -141,8 +141,7 @@
               }
             ],
             "styles": [
-              "src/styles.css",
-              "assets/css/main.css"
+              "src/styles.css"   
             ],
             "scripts": []
           }
