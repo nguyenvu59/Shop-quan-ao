@@ -41,6 +41,24 @@ export class Product {
   @Column()
   avata: string;
 
+  @Column()
+  image1: string;
+
+  @Column()
+  image2: string;
+
+  @Column()
+  image3: string;
+
+  @Column()
+  image4: string;
+
+  @Column()
+  image5: string;
+  
+  @Column()
+  image6: string;
+
   // @Column()
   // images: string[];
 
