@@ -5,23 +5,4 @@
 @tailwind utilities;
 
 
-html {
-    height: 100%;
-}
 
-body {
-    width: 100%;
-    min-height: 100%;
-    display: block;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-.scroll-height {
-    overflow-y: auto;
-    max-height: calc(140vh - 75px);
-}
-
-.scroll-height::-webkit-scrollbar {
-    display: none;
-}
