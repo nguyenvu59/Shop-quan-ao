@@ -1,3 +1,4 @@
 node_modules
 data
 ormconfig.json
+backend/ormconfig.json
