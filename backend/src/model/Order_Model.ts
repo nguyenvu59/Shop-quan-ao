@@ -1,49 +1,35 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
-import { Order_Detail } from './Order_Detail';
 
 @Entity()
-export class Order {
-  @PrimaryGeneratedColumn()
+export class OrderModel {
   id: number;
-
-  @Column()
   code: string;
-
-  @Column()
   address: string;
-
-  @Column()
   customer_phone_number: string;
-
-  @Column()
   note: string;
-  
-  @Column()
   customer_name: string;
-
-  @Column()
   customer_id: number;
-
-  @Column()
   total_product_value: number;
-
-  @Column()
   voucher_id: number;
-
-  @Column()
   voucher_discount_value: number;
-
-  @Column()
   total_amount: number;
-
-  @Column()
   status: string;
-
-  @Column()
   payment_method: string;
-
-  @CreateDateColumn({ type: 'timestamp' })
   create_time: Date;
-
-  details: Order_Detail[]
+  details: Order_Detail_Model[]
+}
+export class Order_Detail_Model {
+  id: number;
+  order_id: number;
+  product_id: number;
+  product_name: string;
+  description: string;
+  size: string;
+  sex: string;
+  price: number;
+  quantity: number;
+  brand: string;
+  supplier: string;
+  avata: string;
+  create_time: Date;
 }

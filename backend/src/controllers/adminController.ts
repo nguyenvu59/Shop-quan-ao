@@ -5,109 +5,148 @@ import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-// const SALT_ROUND = Number(process.env.BCRYPT_SALT_ROUND);
 const SECRET_KEY = "krizpham123";
 
+/**
+ * Tạo một admin mới.
+ * @param req Request object từ client.
+ * @param res Response object để gửi kết quả về client.
+ */
 export const create = async (req: Request, res: Response) => {
-  // @ts-ignore
-  const { name, email, password } = req.body;
-
-  const adminRepository = getRepository(Admin);
-  const existingAdmin = await adminRepository.findOne({
+  try {
     // @ts-ignore
-    email
-  });
-
-  if (existingAdmin) {
-    // @ts-ignore
-    res.status(400).send({
-      message: 'Email already taken'
-    });
-  } else {
-    const admin = adminRepository.create({
-      name,
-      email,
-      password: password
-    });
-
-    await adminRepository.save(admin);
-
-    // @ts-ignore
-    res.send(admin);
-  }
-};
-
-export const update = async (req: Request, res: Response) => {
-    // @ts-ignore
-    const { name, email, phone_number,password} = req.body;
+    const { name, email, password } = req.body;
     const adminRepository = getRepository(Admin);
-  
-      // @ts-ignore
-    await adminRepository.update(Number(req.params.id), {
-      name,
-      email,
-      password,
-      phone_number
-    });
-  
-    const updatedCustomer = await adminRepository.find({
-      // @ts-ignore
-      id: Number(req.params.id)
-    });
-      // @ts-ignore
-    res.send(updatedCustomer);
-  };
-
-export const login = async (req: Request, res: Response) => {
-  // @ts-ignore
-  const { email, password } = req.body;
-  const adminRepository = getRepository(Admin);
-  const admin = await adminRepository.findOne({  
-    // @ts-ignore
-    email
-  });
-
-  if (!admin) {
-    // @ts-ignore
-    res.status(400).send({ message: 'Invalid email or password' });
-  } else {
-    if (password == admin.password) {
-      const payload = {
-        id: admin.id,
-        name: admin.name
-      };
-      const token = jwt.sign(payload, SECRET_KEY, { expiresIn: 3600 });
-      res.status(200).send({ token });
+    // Kiểm tra xem admin có tồn tại trong cơ sở dữ liệu không
+    const existingAdmin = await adminRepository.findOne({where:{email: email}  });
+    if (existingAdmin) {
+      return res.status(400).send({
+        message: 'Email already taken'
+      });
     } else {
-      res.status(400).send({ message: 'Invalid email or password' });
+      // Tạo admin mới
+      const admin = adminRepository.create({ name, email, password });
+      await adminRepository.save(admin);
+      res.send(admin);
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
   }
 };
 
+/**
+ * Cập nhật thông tin của một admin.
+ * @param req Request object từ client.
+ * @param res Response object để gửi kết quả về client.
+ */
+export const update = async (req: Request, res: Response) => {
+  try {
+    // @ts-ignore
+    const { name, email, phone_number, password } = req.body;
+    const adminRepository = getRepository(Admin);
+    // Cập nhật admin trong cơ sở dữ liệu
+    // @ts-ignore
+    await adminRepository.update(Number(req.params.id), { name, email, password, phone_number });
+    // Lấy thông tin admin đã cập nhật
+    const updatedAdmin = await adminRepository.findOne({where:{email: email}  });
+    res.send(updatedAdmin);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+/**
+ * Đăng nhập với email và mật khẩu.
+ * @param req Request object từ client.
+ * @param res Response object để gửi kết quả về client.
+ */
+export const login = async (req: Request, res: Response) => {
+  try {
+    // @ts-ignore
+    const { email, password } = req.body;
+    const adminRepository = getRepository(Admin);
+    // Tìm admin trong cơ sở dữ liệu dựa trên email
+    const admin = await adminRepository.findOne({where:{email: email}  });
+    if (!admin) {
+      return res.status(400).send({ message: 'Invalid email or password' });
+    } else {
+      // Kiểm tra mật khẩu
+      if (password == admin.password) {
+        // Tạo token
+        const payload = {
+          id: admin.id,
+          name: admin.name
+        };
+        const token = jwt.sign(payload, SECRET_KEY, { expiresIn: 3600 });
+        res.status(200).send({ token });
+      } else {
+        res.status(400).send({ message: 'Invalid email or password' });
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+/**
+ * Lấy danh sách tất cả các admin.
+ * @param req Request object từ client.
+ * @param res Response object để gửi kết quả về client.
+ */
 export const list = async (_: Request, res: Response) => {
-  const adminRepository = getRepository(Admin);
-  const admins = await adminRepository.find();
-  // @ts-ignore
-  res.send(admins);
+  try {
+    const adminRepository = getRepository(Admin);
+    const admins = await adminRepository.find();
+    res.send(admins);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 };
 
+/**
+ * Xóa một admin dựa trên ID.
+ * @param req Request object từ client.
+ * @param res Response object để gửi kết quả về client.
+ */
 export const deleteById = async (req: Request, res: Response) => {
-  const adminRepository = getRepository(Admin);
-  const admin = await adminRepository.find({
-    // @ts-ignore
-    id: Number(req.params.id) });
-
-  await adminRepository.remove(admin);
-    // @ts-ignore
-  res.send(`Admin id ${req.params.id} has been deleted.`);
+  try {
+    const adminRepository = getRepository(Admin);
+    const adminId = Number(req.params.id);
+    // Lấy admin cần xóa từ cơ sở dữ liệu
+    const admin = await adminRepository.findOne({where:{id: adminId}  });
+    if (!admin) {
+      return res.status(404).send('Admin not found');
+    }
+    // Xóa admin
+    await adminRepository.remove(admin);
+    res.send(`Admin id ${adminId} has been deleted.`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 };
 
+/**
+ * Lấy thông tin chi tiết của một admin dựa trên ID.
+ * @param req Request object từ client.
+ * @param res Response object để gửi kết quả về client.
+ */
 export const detail = async (req: Request, res: Response) => {
-  const adminRepository = getRepository(Admin);
-  const admin = await adminRepository.find({
-    // @ts-ignore
-    id: Number(req.params.id)
-  });
-    // @ts-ignore
-  res.send(admin);
+  try {
+    const adminId = Number(req.params.id);
+    const adminRepository = getRepository(Admin);
+    // Lấy thông tin chi tiết của admin từ cơ sở dữ liệu
+    const admin = await adminRepository.findOne({where:{id: adminId}  });
+    if (!admin) {
+      return res.status(404).send('Admin not found');
+    }
+    res.send(admin);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 };
