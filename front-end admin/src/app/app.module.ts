@@ -8,11 +8,12 @@ import { vi_VN } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import vi from '@angular/common/locales/vi';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 registerLocaleData(vi);
 
@@ -31,7 +32,12 @@ registerLocaleData(vi);
     NzMenuModule
   ],
   providers: [
-    { provide: NZ_I18N, useValue: vi_VN }
+    { provide: NZ_I18N, useValue: vi_VN },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

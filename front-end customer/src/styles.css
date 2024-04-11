@@ -4,5 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
+body{
+    height: 300px;
+  overflow-y: scroll;
+}
