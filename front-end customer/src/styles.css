@@ -4,7 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    height: 300px;
+
+
+body {
+  min-height: 100vh;
+  margin: 0;
   overflow-y: scroll;
 }
