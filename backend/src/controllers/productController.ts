@@ -19,10 +19,10 @@ export const create = async (req: Request, res: Response) => {
     await productRepository.save(newProduct);
     // Gửi sản phẩm đã tạo về client
     // @ts-ignore
-    res.send(newProduct);
+    return res.send(newProduct);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };
 
@@ -41,10 +41,10 @@ export const update = async (req: Request, res: Response) => {
     // @ts-ignore
     await productRepository.update(product.id, product);
     // Gửi sản phẩm đã cập nhật về client
-    res.send(product);
+    return res.send(product);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };
 
@@ -67,7 +67,7 @@ export const list = async (req: Request, res: Response) => {
     );
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };
 
@@ -89,10 +89,10 @@ export const deleteById = async (req: Request, res: Response) => {
     await productRepository.remove(product);
     // Gửi thông báo về việc xóa sản phẩm thành công về client
     // @ts-ignore
-    res.send(`Product id ${productId} has been deleted.`);
+    return  res.send(`Product id ${productId} has been deleted.`);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };
 
@@ -112,9 +112,9 @@ export const detail = async (req: Request, res: Response) => {
     }
     // Gửi thông tin chi tiết của sản phẩm về client
     // @ts-ignore
-    res.send(product);
+    return res.send(product);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };

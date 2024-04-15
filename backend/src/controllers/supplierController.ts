@@ -60,7 +60,7 @@ export const list = async (_: Request, res: Response) => {
       supplier.name.toLowerCase().includes(keyword.toLowerCase()));
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return  res.status(500).send('Internal Server Error');
   }
 };
 
@@ -82,10 +82,10 @@ export const deleteById = async (req: Request, res: Response) => {
     await supplierRepository.remove(supplier);
     // Gửi thông báo về việc xóa nhà cung cấp thành công về client
     // @ts-ignore
-    res.send(`Supplier id ${supplierId} has been deleted.`);
+    return  res.send(`Supplier id ${supplierId} has been deleted.`);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };
 
@@ -105,9 +105,9 @@ export const detail = async (req: Request, res: Response) => {
     }
     // Gửi thông tin chi tiết của nhà cung cấp về client
     // @ts-ignore
-    res.send(supplier);
+    return res.send(supplier);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };

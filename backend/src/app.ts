@@ -7,7 +7,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8280;
 
 // Sử dụng middleware bodyParser và cors trước khi định nghĩa các routes
 app.use(bodyParser.json());

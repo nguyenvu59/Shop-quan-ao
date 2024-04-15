@@ -57,7 +57,7 @@ export const list = async (_: Request, res: Response) => {
       category.name.toLowerCase().includes(keyword.toLowerCase()));
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return  res.status(500).send('Internal Server Error');
   }
 };
 
@@ -76,10 +76,10 @@ export const deleteById = async (req: Request, res: Response) => {
     }
     await categoryRepository.remove(category);
     // @ts-ignore
-    res.send(`Category id ${categoryId} has been deleted.`);
+    return  res.send(`Category id ${categoryId} has been deleted.`);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };
 
@@ -97,9 +97,9 @@ export const detail = async (req: Request, res: Response) => {
       return res.status(404).send('Category not found');
     }
     // @ts-ignore
-    res.send(category);
+    return   res.send(category);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };

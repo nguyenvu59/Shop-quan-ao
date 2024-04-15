@@ -27,11 +27,11 @@ export const create = async (req: Request, res: Response) => {
       // Tạo admin mới
       const admin = adminRepository.create({ name, email, password });
       await adminRepository.save(admin);
-      res.send(admin);
+      return res.send(admin);
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };
 
@@ -80,14 +80,14 @@ export const login = async (req: Request, res: Response) => {
           name: admin.name
         };
         const token = jwt.sign(payload, SECRET_KEY, { expiresIn: 3600 });
-        res.status(200).send({ token });
+        return res.status(200).send({ token });
       } else {
-        res.status(400).send({ message: 'Invalid email or password' });
+        return res.status(400).send({ message: 'Invalid email or password' });
       }
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };
 
@@ -100,10 +100,10 @@ export const list = async (_: Request, res: Response) => {
   try {
     const adminRepository = getRepository(Admin);
     const admins = await adminRepository.find();
-    res.send(admins);
+    return res.send(admins);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };
 
@@ -123,10 +123,10 @@ export const deleteById = async (req: Request, res: Response) => {
     }
     // Xóa admin
     await adminRepository.remove(admin);
-    res.send(`Admin id ${adminId} has been deleted.`);
+    return res.send(`Admin id ${adminId} has been deleted.`);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };
 
@@ -144,9 +144,9 @@ export const detail = async (req: Request, res: Response) => {
     if (!admin) {
       return res.status(404).send('Admin not found');
     }
-    res.send(admin);
+    return res.send(admin);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };
