@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { faBars, faHeart, faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -12,4 +12,9 @@ export class AppComponent {
   faHeart=faHeart;
   faShoppingCart=faShoppingCart;
   faBars=faBars;
+
+
+  onActivate(event: any) { 
+    document.getElementsByClassName('overflow-y-auto')[0].scrollTo(0, 0);
+  }
 }
