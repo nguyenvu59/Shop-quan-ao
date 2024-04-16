@@ -24,6 +24,8 @@ import { EcommerceComponent } from './page/ecommerce/ecommerce.component';
 import { ShopCartComponent } from './page/shop-cart/shop-cart.component';
 import { IonicModule } from '@ionic/angular';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { OrderComponent } from './page/detail-user/order/order.component';
+import { ContenDetailUserComponent } from './page/detail-user/conten-detail-user/conten-detail-user.component';
 
 registerLocaleData(vi);
 
@@ -37,7 +39,9 @@ registerLocaleData(vi);
     WishlistComponent,
     ShopPageComponent,
     EcommerceComponent,
-    ShopCartComponent
+    ShopCartComponent,
+    OrderComponent,
+    ContenDetailUserComponent
   ],
   imports: [
     BrowserModule,

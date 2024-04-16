@@ -2,12 +2,14 @@
 
 const plugin = require('tailwindcss/plugin');
 const tailgrids = require('tailgrids/plugin');
+// const flowbite = require('flowbite/plugin');
 
 module.exports = {
 
     mode: "jit",
     content: [
         "./src/**/*.{html,ts}",
+        "./node_modules/flowbite/**/*.js"
     ],
     theme: {
         extend: {},
@@ -16,6 +18,7 @@ module.exports = {
         extend: {},
     },
     plugins: [
+        require('flowbite/plugin'),
         plugin(function({ addBase, theme }) {
             addBase({
                 'h1': { fontSize: theme('fontSize.4xl') },
@@ -24,7 +27,7 @@ module.exports = {
                 'h4': { fontSize: theme('fontSize.xl') },
                 'h5': { fontSize: theme('fontSize.lg') },
                 'h6': { fontSize: theme('fontSize.base') },
-            })
+            })            
         }),
         tailgrids
     ],
