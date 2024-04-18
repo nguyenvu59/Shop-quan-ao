@@ -26,6 +26,7 @@ import { IonicModule } from '@ionic/angular';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { OrderComponent } from './page/detail-user/order/order.component';
 import { ContenDetailUserComponent } from './page/detail-user/conten-detail-user/conten-detail-user.component';
+import { DetailUserComponent } from './page/detail-user/detail-user.component';
 
 registerLocaleData(vi);
 
@@ -41,7 +42,8 @@ registerLocaleData(vi);
     EcommerceComponent,
     ShopCartComponent,
     OrderComponent,
-    ContenDetailUserComponent
+    ContenDetailUserComponent,
+    DetailUserComponent,
   ],
   imports: [
     BrowserModule,
