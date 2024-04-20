@@ -22,23 +22,38 @@ import { AdminComponent } from './account/admin/admin.component';
 import { CustomerComponent } from './account/customer/customer.component';
 import { StorageService } from '../services/storage.service';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-
-
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { BrowserModule } from '@angular/platform-browser';
 @NgModule({
   declarations: [
     MainComponent,
     AdminComponent,
     CustomerComponent
   ],
-  imports: [
-    CommonModule,
+  imports: [    
+    CommonModule,    
     MainRoutingModule,
     NzLayoutModule,
     IconsProviderModule,
     NzMenuModule,
     HttpClientModule,
     NzNotificationModule,
-    NzPageHeaderModule
+    NzPageHeaderModule,
+    NzTableModule,
+    NzPaginationModule,
+    NzModalModule,
+    NzButtonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NzFormModule,
+    NzInputModule
   ],
   providers: [
     AuthService,

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   API:{   
-    url: 'http://localhost:8280/',    
+    url: 'http://localhost:8280',    
   },
   path:{
     assets:''
