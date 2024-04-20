@@ -9,28 +9,31 @@
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <li nz-menu-item>
-        <span nz-icon nzType="pie-chart"></span>
-        <span>Option 1</span>
+        <i nz-icon nzType="shop" nzTheme="outline"></i>
+        <span>Nhà cung cấp</span>
       </li>
-      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/welcome">Welcome</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a>Monitor</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a>Workplace</a>
-          </li>
-        </ul>
+      <li nz-menu-item>
+        <i nz-icon nzType="code-sandbox" nzTheme="outline"></i>
+        <span>Sản phẩm</span>
       </li>
+      <li nz-menu-item>
+        <i nz-icon nzType="ordered-list" nzTheme="outline"></i>
+        <span>Danh mục</span>
+      </li>
+      <li nz-menu-item>
+        <i nz-icon nzType="snippets" nzTheme="outline"></i>
+        <span>Đơn hàng</span>
+      </li>
+      <li nz-menu-item>
+        <i nz-icon nzType="tag" nzTheme="outline"></i>
+        <span>Voucher</span>
+      </li>      
       <li nz-submenu nzOpen nzTitle="Tài khoản" nzIcon="user">
         <ul>
           <li nz-menu-item nzMatchRouter routerLink="account-customer">
             <a>Khách hàng</a>
           </li>
-          <li nz-menu-item nzMatchRouter routerLink="account-admin" (click)="selectMenu()">
+          <li nz-menu-item nzMatchRouter routerLink="account-admin">
             <a>Admin</a>
           </li>
         </ul>
@@ -46,7 +49,7 @@
       </div>
     </nz-header>
     <nz-content>
-      <nz-page-header class="site-page-header" [nzTitle]="nameHeader"></nz-page-header>
+      <!-- <nz-page-header class="site-page-header" [nzTitle]="nameHeader"></nz-page-header> -->
       <div class="inner-content">
         <router-outlet></router-outlet>
       </div>
