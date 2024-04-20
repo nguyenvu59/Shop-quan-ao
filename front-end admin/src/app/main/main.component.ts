@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -10,21 +11,19 @@ export class MainComponent implements OnInit {
   isCollapsed = false;
   nameHeader: any = "";
   constructor(
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly titleService: Title
   ) {
-    console.log('route :', route);
-
+  
    }
 
   ngOnInit(): void {
-    
+    this.nameHeader = this.titleService.setTitle(this.route.snapshot.data['title'])
+    console.log('this.nameHeader :', this.nameHeader);
   }
 
   selectMenu() {
-    console.log('this.route.snapshot.routeConfig?.title :', this.route.snapshot.routeConfig?.title);
-    let currentRoute:any  = this.route.root.children;
-    this.nameHeader = currentRoute.snapshot.routeConfig?.title
-    console.log('this.nameHeader :', this.nameHeader);
+   
   }
 
 }

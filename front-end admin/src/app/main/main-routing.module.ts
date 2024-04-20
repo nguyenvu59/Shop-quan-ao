@@ -9,8 +9,18 @@ const routes: Routes = [
     path: '',
     component: MainComponent,
     children: [
-      { path: "account-admin", component: AdminComponent, title: "Tài khoản Admin" },
-      { path: "account-customer", component: CustomerComponent, title: "Tài khoản khách hàng" },
+      {
+        path: "account-admin", component: AdminComponent,
+        data: {
+          title: 'Tài khoản Admin'
+        }
+      },
+      {
+        path: "account-customer", component: CustomerComponent,
+        data: {
+          title: 'Tài khoản khách hàng'
+        }
+      },      
     ]
   }
 ];
