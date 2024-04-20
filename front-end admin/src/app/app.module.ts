@@ -14,12 +14,26 @@ import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { CustomersService } from './services/customers.service';
+import { AuthService } from './services/auth.service';
+import { CategoryService } from './services/category.service';
+import { OrderService } from './services/order.service';
+import { ProductService } from './services/product.service';
+import { SupplierService } from './services/supplier.service';
+import { LoginComponent } from './auth/login/login.component';
+import { SingUpComponent } from './auth/sing-up/sing-up.component';
+import { AdminService } from './services/admin.service';
+import { ConfigService } from './services/config.service';
 
 registerLocaleData(vi);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    SingUpComponent
   ],
   imports: [
     BrowserModule,
@@ -29,15 +43,29 @@ registerLocaleData(vi);
     BrowserAnimationsModule,
     IconsProviderModule,
     NzLayoutModule,
-    NzMenuModule
+    NzMenuModule,
+    NzNotificationModule,
   ],
   providers: [
+    AuthService,
+    CustomersService,
+    CategoryService,
+    OrderService,
+    ProductService,
+    SupplierService,
+    AdminService,
+    ConfigService,
     { provide: NZ_I18N, useValue: vi_VN },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent]
 })

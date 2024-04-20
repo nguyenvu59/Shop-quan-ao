@@ -1,9 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './auth/login/login.component';
+import { SingUpComponent } from './auth/sing-up/sing-up.component';
 
 const routes: Routes = [
 
-  { path: 'login', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  // {
+  //   path: 'singup',
+  //   component: SingUpComponent,
+  // },
 
   { path: '', loadChildren: () => import('./main/main.module').then(m => m.MainModule) },
   {
