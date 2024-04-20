@@ -6,11 +6,11 @@ import { CustomerComponent } from './account/customer/customer.component';
 
 const routes: Routes = [
   {
-    path: '', 
+    path: '',
     component: MainComponent,
     children: [
-      { path: "account-admin", component: AdminComponent },
-      { path: "account-customer", component: CustomerComponent },
+      { path: "account-admin", component: AdminComponent, title: "Tài khoản Admin" },
+      { path: "account-customer", component: CustomerComponent, title: "Tài khoản khách hàng" },
     ]
   }
 ];

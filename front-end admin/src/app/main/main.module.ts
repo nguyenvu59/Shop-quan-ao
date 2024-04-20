@@ -21,7 +21,7 @@ import { ConfigService } from '../services/config.service';
 import { AdminComponent } from './account/admin/admin.component';
 import { CustomerComponent } from './account/customer/customer.component';
 import { StorageService } from '../services/storage.service';
-
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 
 
 @NgModule({
@@ -38,6 +38,7 @@ import { StorageService } from '../services/storage.service';
     NzMenuModule,
     HttpClientModule,
     NzNotificationModule,
+    NzPageHeaderModule
   ],
   providers: [
     AuthService,
