@@ -18,12 +18,17 @@ import { HttpErrorInterceptor } from '../interceptors/http-error.interceptor';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { AdminService } from '../services/admin.service';
 import { ConfigService } from '../services/config.service';
+import { AdminComponent } from './account/admin/admin.component';
+import { CustomerComponent } from './account/customer/customer.component';
+import { StorageService } from '../services/storage.service';
 
 
 
 @NgModule({
   declarations: [
-    MainComponent
+    MainComponent,
+    AdminComponent,
+    CustomerComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +48,7 @@ import { ConfigService } from '../services/config.service';
     SupplierService,
     AdminService,
     ConfigService,
+    StorageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

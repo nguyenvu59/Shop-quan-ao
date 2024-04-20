@@ -26,6 +26,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { SingUpComponent } from './auth/sing-up/sing-up.component';
 import { AdminService } from './services/admin.service';
 import { ConfigService } from './services/config.service';
+import { StorageService } from './services/storage.service';
 
 registerLocaleData(vi);
 
@@ -55,6 +56,7 @@ registerLocaleData(vi);
     SupplierService,
     AdminService,
     ConfigService,
+    StorageService,
     { provide: NZ_I18N, useValue: vi_VN },
     {
       provide: HTTP_INTERCEPTORS,
