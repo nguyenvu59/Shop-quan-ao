@@ -66,6 +66,7 @@ export class AdminComponent implements OnInit {
     this.isVisible_CreateUpdateAdminModal = true;
     if (!!item) {
       this.id = item.id;
+      this.form.controls['password'].disable();
     }
   }
 
@@ -98,7 +99,7 @@ export class AdminComponent implements OnInit {
 
   handleOk(): void {
     if (!!this.id) {
-      this._adminService.adminController().update(this.id, this.form?.value).subscribe(
+      this._adminService.adminController().update(this.id, this.form?.getRawValue()).subscribe(
         (res: any) => {
           this.handleCancel();
           this.notification.create(

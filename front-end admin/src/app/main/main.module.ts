@@ -28,14 +28,20 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { BrowserModule } from '@angular/platform-browser';
+import { SupplierComponent } from './supplier/supplier.component';
+import { ProductComponent } from './product/product.component';
+import { OrderComponent } from './order/order.component';
+import { CategoryComponent } from './category/category.component';
 @NgModule({
   declarations: [
     MainComponent,
     AdminComponent,
-    CustomerComponent
+    CustomerComponent,
+    SupplierComponent,
+    ProductComponent,
+    OrderComponent,
+    CategoryComponent
   ],
   imports: [    
     CommonModule,    
