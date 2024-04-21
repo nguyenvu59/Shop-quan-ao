@@ -12,14 +12,11 @@ export class Customer {
   password: string;
 
   @Column()
-  position: string;
-
-  @Column()
   email: string;
 
   @Column()
   phone_number: string;
-  
+
   @Column()
   address: string;
 

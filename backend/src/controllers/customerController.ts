@@ -13,14 +13,25 @@ const SECRET_KEY = "krizpham123";
 export const create = async (req: Request, res: Response) => {
   try {
     const customerRepository = getRepository(Customer);
-    const customer = customerRepository.create(req.body); // Tạo một instance của Customer từ request body
-    await customerRepository.save(customer);
-    return res.send({ Status: 200, Data: customer });
+    const request = req.body; // Tạo một instance của Customer từ request body
+    const existingCustomer = await customerRepository.findOne({ where: { email: request.email } });
+    if (existingCustomer) {
+      return res.status(400).send({
+        Status: 400,
+        message: 'Email already taken'
+      });
+    } else {
+      // Tạo admin mới
+      const customer = customerRepository.create(request);
+      await customerRepository.save(customer);
+      return res.send({ Status: 200, Data: customer });
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
+
 
 /**
  * Lấy danh sách tất cả các khách hàng.
@@ -65,10 +76,10 @@ export const detail = async (req: Request, res: Response) => {
  */
 export const update = async (req: Request, res: Response) => {
   try {
-    const { name, position } = req.body;
+    const { name, email, phone_number, address } = req.body;
     const customerId = Number(req.params.id);
     const customerRepository = getRepository(Customer);
-    await customerRepository.update(customerId, { name, position });
+    await customerRepository.update(customerId, { name, email, phone_number, address });
     const updatedCustomer = await customerRepository.findOne({ where: { id: customerId } });
     return res.send({ Status: 200, Data: updatedCustomer });
   } catch (error) {
