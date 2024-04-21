@@ -15,7 +15,7 @@ const SECRET_KEY = "krizpham123";
 export const create = async (req: Request, res: Response) => {
   try {
     // @ts-ignore
-    const { name, email, password } = req.body;
+    const { name, email, password, phone_number } = req.body;
     const adminRepository = getRepository(Admin);
     // Kiểm tra xem admin có tồn tại trong cơ sở dữ liệu không
     const existingAdmin = await adminRepository.findOne({where:{email: email}  });
@@ -25,7 +25,7 @@ export const create = async (req: Request, res: Response) => {
       });
     } else {
       // Tạo admin mới
-      const admin = adminRepository.create({ name, email, password });
+      const admin = adminRepository.create({ name, email, password ,phone_number});
       await adminRepository.save(admin);
       return res.send(admin);
     }
