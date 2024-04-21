@@ -50,8 +50,8 @@ export class AdminComponent implements OnInit {
   getAdmin() {
     this._adminService.adminController().search().subscribe(
       (res: any) => {
-        this.listOfData = res.data;
-        this.page.totalItem = res.totalItem;
+        this.listOfData = res;
+        this.page.totalItem = res.length;
       }
     ),
       (error: any) => {
@@ -66,8 +66,20 @@ export class AdminComponent implements OnInit {
   opentCreateUpdateAdmin_Modal(item: any = undefined) {
     this.isVisible_CreateUpdateAdminModal = true;
     if (!!item) {
-      this.id = item.id;
-      this.form.controls['password'].disable();
+      this.id = item.id;      
+      this._adminService.adminController().getItem(this.id).subscribe(
+        (res: any) => {
+          this.form.patchValue(res);
+        }
+      ),
+        (error: any) => {
+          this.notification.create(
+            TypeNotification.error,
+            'Thông báo',
+            `${error?.description}`
+          );
+        }
+        this.form.controls['password'].disable();
     }
   }
 
@@ -80,6 +92,7 @@ export class AdminComponent implements OnInit {
       nzOnOk: (result) => {
         this._adminService.adminController().delete(id).subscribe(
           (res: any) => {
+            this.getAdmin();
             this.notification.create(
               TypeNotification.success,
               'Thông báo',
@@ -103,6 +116,7 @@ export class AdminComponent implements OnInit {
       this._adminService.adminController().update(this.id, this.form?.getRawValue()).subscribe(
         (res: any) => {
           this.handleCancel();
+          this.getAdmin();
           this.notification.create(
             TypeNotification.success,
             'Thông báo',
@@ -122,6 +136,7 @@ export class AdminComponent implements OnInit {
       this._adminService.adminController().create(this.form?.value).subscribe(
         (res: any) => {
           this.handleCancel();
+          this.getAdmin();
           this.notification.create(
             TypeNotification.success,
             'Thông báo',
