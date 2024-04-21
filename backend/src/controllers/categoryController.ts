@@ -17,10 +17,10 @@ export const create = async (req: Request, res: Response) => {
     const newCategory = categoryRepository.create(category);
     await categoryRepository.save(newCategory);
     // @ts-ignore
-    res.send(newCategory);
+    return res.send({ Status: 200, Data: newCategory });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -35,10 +35,10 @@ export const update = async (req: Request, res: Response) => {
     const { category } = req.body;
     const categoryRepository = getRepository(Category);
     await categoryRepository.update(category.id, category);
-    res.send(category);
+    return res.send({ Status: 200, Data: category });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -53,11 +53,13 @@ export const list = async (_: Request, res: Response) => {
     const categoryRepository = getRepository(Category);
     const categories = await categoryRepository.find();
     // @ts-ignore
-    return categories.filter(category =>
-      category.name.toLowerCase().includes(keyword.toLowerCase()));
+    return res.status(500).send({
+      Status: 200, Data: categories.filter(category =>
+        category.name.toLowerCase().includes(keyword.toLowerCase()))
+    });
   } catch (error) {
     console.error(error);
-    return  res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 };
 
@@ -72,14 +74,14 @@ export const deleteById = async (req: Request, res: Response) => {
     const categoryId = Number(req.params.id);
     const category = await categoryRepository.findOne({ where: { id: categoryId } });
     if (!category) {
-      return res.status(404).send('Category not found');
+      return res.status(400).send({ Status: 400, Data: 'Category not found' });
     }
     await categoryRepository.remove(category);
     // @ts-ignore
-    return  res.send(`Category id ${categoryId} has been deleted.`);
+    return res.send({ Status: 200, Data: `Category id ${categoryId} has been deleted.` });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -94,12 +96,12 @@ export const detail = async (req: Request, res: Response) => {
     const categoryRepository = getRepository(Category);
     const category = await categoryRepository.findOne({ where: { id: categoryId } });
     if (!category) {
-      return res.status(404).send('Category not found');
+      return res.status(404).send({ Status: 400, Data: 'Category not found' });
     }
     // @ts-ignore
-    return   res.send(category);
+    return res.send(category);
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };

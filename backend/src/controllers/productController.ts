@@ -19,10 +19,10 @@ export const create = async (req: Request, res: Response) => {
     await productRepository.save(newProduct);
     // Gửi sản phẩm đã tạo về client
     // @ts-ignore
-    return res.send(newProduct);
+    return res.send({ Status: 400, Data: newProduct });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -41,10 +41,10 @@ export const update = async (req: Request, res: Response) => {
     // @ts-ignore
     await productRepository.update(product.id, product);
     // Gửi sản phẩm đã cập nhật về client
-    return res.send(product);
+    return res.send({ Status: 200, Data: product });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -61,13 +61,15 @@ export const list = async (req: Request, res: Response) => {
     const products = await productRepository.find();
     // Lọc sản phẩm theo từ khóa và danh mục
     // @ts-ignore
-    return products.filter(product =>
-      product.name.toLowerCase().includes(keyword.toLowerCase()) &&
-      product.category.toLowerCase().includes(category.toLowerCase())
-    );
+    return res.status(500).send({
+      Status: 400, Data: products.filter(product =>
+        product.name.toLowerCase().includes(keyword.toLowerCase()) &&
+        product.category.toLowerCase().includes(category.toLowerCase())
+      )
+    });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -83,16 +85,16 @@ export const deleteById = async (req: Request, res: Response) => {
     // Lấy sản phẩm cần xóa từ cơ sở dữ liệu
     const product = await productRepository.findOne({ where: { id: productId } });
     if (!product) {
-      return res.status(404).send('Product not found');
+      return res.status(404).send({ Status: 400, Data: 'Product not found' });
     }
     // Xóa sản phẩm
     await productRepository.remove(product);
     // Gửi thông báo về việc xóa sản phẩm thành công về client
     // @ts-ignore
-    return  res.send(`Product id ${productId} has been deleted.`);
+    return res.send({ Status: 200, Data: `Product id ${productId} has been deleted.` });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -108,13 +110,13 @@ export const detail = async (req: Request, res: Response) => {
     // Lấy thông tin chi tiết của sản phẩm từ cơ sở dữ liệu
     const product = await productRepository.findOne({ where: { id: productId } });
     if (!product) {
-      return res.status(404).send('Product not found');
+      return res.status(404).send({ Status: 400, Data: 'Product not found' });
     }
     // Gửi thông tin chi tiết của sản phẩm về client
     // @ts-ignore
-    return res.send(product);
+    return res.send({ Status: 200, Data: product });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };

@@ -15,10 +15,10 @@ export const create = async (req: Request, res: Response) => {
     const customerRepository = getRepository(Customer);
     const customer = customerRepository.create(req.body); // Tạo một instance của Customer từ request body
     await customerRepository.save(customer);
-    res.send(customer);
+    return res.send({ Status: 200, Data: customer });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -31,10 +31,10 @@ export const list = async (_: Request, res: Response) => {
   try {
     const customerRepository = getRepository(Customer);
     const customers = await customerRepository.find();
-    res.send(customers);
+    return res.send({ Status: 200, Data: customers });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -47,14 +47,14 @@ export const detail = async (req: Request, res: Response) => {
   try {
     const customerId = Number(req.params.id);
     const customerRepository = getRepository(Customer);
-    const customer = await customerRepository.findOne({ where: { id: customerId }});
+    const customer = await customerRepository.findOne({ where: { id: customerId } });
     if (!customer) {
-      return res.status(404).send('Customer not found');
+      return res.status(404).send({ Status: 400, Data: 'Customer not found' });
     }
-    return res.send(customer);
+    return res.send({ Status: 200, Data: customer });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -69,11 +69,11 @@ export const update = async (req: Request, res: Response) => {
     const customerId = Number(req.params.id);
     const customerRepository = getRepository(Customer);
     await customerRepository.update(customerId, { name, position });
-    const updatedCustomer = await customerRepository.findOne({ where: { id: customerId }});
-    res.send(updatedCustomer);
+    const updatedCustomer = await customerRepository.findOne({ where: { id: customerId } });
+    return res.send({ Status: 200, Data: updatedCustomer });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -86,15 +86,15 @@ export const deleteById = async (req: Request, res: Response) => {
   try {
     const customerId = Number(req.params.id);
     const customerRepository = getRepository(Customer);
-    const customer = await customerRepository.findOne({ where: { id: customerId }});
+    const customer = await customerRepository.findOne({ where: { id: customerId } });
     if (!customer) {
-      return res.status(404).send('Customer not found');
+      return res.status(404).send({ Status: 400, Data: 'Customer not found' });
     }
     await customerRepository.remove(customer);
-    return res.send(`Customer id ${customerId} has been deleted.`);
+    return res.send({ Status: 200, Data: `Customer id ${customerId} has been deleted.` });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -107,15 +107,15 @@ export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const customerRepository = getRepository(Customer);
-    const customer = await customerRepository.findOne({ where: { email: email }});
+    const customer = await customerRepository.findOne({ where: { email: email } });
     if (!customer || password !== customer.password) {
-      return res.status(400).send({ message: 'Invalid email or password' });
+      return res.status(400).send({ Status: 400, Data: 'Invalid email or password' });
     }
     const payload = { id: customer.id, name: customer.name };
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: 3600 });
-    return res.status(200).send({ token });
+    return res.status(200).send({ Status: 400, Data: token });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };

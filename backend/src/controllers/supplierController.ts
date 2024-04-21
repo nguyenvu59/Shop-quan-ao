@@ -17,10 +17,10 @@ export const create = async (req: Request, res: Response) => {
     const newSupplier = supplierRepository.create(supplier);
     await supplierRepository.save(newSupplier);
     // @ts-ignore
-    res.send(newSupplier);
+    return res.send({ Status: 200, Data: newSupplier });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -36,10 +36,10 @@ export const update = async (req: Request, res: Response) => {
     const supplierRepository = getRepository(Supplier);
     // @ts-ignore
     await supplierRepository.update(supplier.id, supplier);
-    res.send(supplier);
+    return res.send({ Status: 200, Data: supplier });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -56,11 +56,13 @@ export const list = async (_: Request, res: Response) => {
     const suppliers = await supplierRepository.find();
     // Lọc nhà cung cấp theo từ khóa
     // @ts-ignore
-    return suppliers.filter(supplier =>
-      supplier.name.toLowerCase().includes(keyword.toLowerCase()));
+    return res.status(500).send({
+      Status: 400, Data: suppliers.filter(supplier =>
+        supplier.name.toLowerCase().includes(keyword.toLowerCase()))
+    });
   } catch (error) {
     console.error(error);
-    return  res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -76,16 +78,16 @@ export const deleteById = async (req: Request, res: Response) => {
     // Lấy nhà cung cấp cần xóa từ cơ sở dữ liệu
     const supplier = await supplierRepository.findOne({ where: { id: supplierId } });
     if (!supplier) {
-      return res.status(404).send('Supplier not found');
+      return res.status(404).send({ Status: 400, Data: 'Supplier not found' });
     }
     // Xóa nhà cung cấp
     await supplierRepository.remove(supplier);
     // Gửi thông báo về việc xóa nhà cung cấp thành công về client
     // @ts-ignore
-    return  res.send(`Supplier id ${supplierId} has been deleted.`);
+    return res.send({ Status: 400, Data: `Supplier id ${supplierId} has been deleted.` });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -101,13 +103,13 @@ export const detail = async (req: Request, res: Response) => {
     // Lấy thông tin chi tiết của nhà cung cấp từ cơ sở dữ liệu
     const supplier = await supplierRepository.findOne({ where: { id: supplierId } });
     if (!supplier) {
-      return res.status(404).send('Supplier not found');
+      return res.status(404).send({ Status: 400, Data: 'Supplier not found' });
     }
     // Gửi thông tin chi tiết của nhà cung cấp về client
     // @ts-ignore
-    return res.send(supplier);
+    return res.send({ Status: 200, Data: supplier });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
