@@ -116,13 +116,13 @@
           <!-- <a href="javascript:void(0)" class="text-gray-200 hover:text-white transition">Về chúng tôi</a>
           <a href="javascript:void(0)" class="text-gray-200 hover:text-white transition">Liên hệ chúng tôi</a> -->
         </div>
-        <div class="flex">
-          <a href="javascript:void(0)" class="text-gray-200 hover:text-white transition" data-modal-target="login-modal"
+        <p class="text-gray-200">
+          <a href="javascript:void(0)" class="hover:text-white transition" data-modal-target="login-modal"
             data-modal-toggle="login-modal">Đăng nhập</a>
           /
-          <a href="javascript:void(0)" class="text-gray-200 hover:text-white transition" data-modal-target="login-modal"
-            data-modal-toggle="login-modal">Đăng ký</a>
-        </div>
+          <a href="javascript:void(0)" class="hover:text-white transition" data-modal-target="register-modal"
+            data-modal-toggle="register-modal">Đăng ký</a>
+        </p>
       </div>
     </div>
   </nav>
@@ -201,63 +201,53 @@
     </div>
   </footer>
   <!-- ./footer -->
-
-  <!-- copyright -->
-  <div class="bg-gray-800 py-4">
-    <div class="container flex items-center justify-between">
-      <p class="text-white">&copy; TailCommerce - All Right Reserved</p>
-      <div>
-        <img src="assets/images/methods.png" alt="methods" class="h-5">
-      </div>
-    </div>
-  </div>
-  <!-- ./copyright -->
 </div>
 
 
 
-<!-- Main modal login-->
+<!-- modal login-->
 <div id="login-modal" tabindex="-1" aria-hidden="true"
   class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
   <div class="relative w-full max-w-2xl max-h-full">
     <!-- Modal content -->
     <div class="relative bg-white rounded-lg dark:bg-gray-700">
       <div class="max-w-lg mx-auto py-7 rounded overflow-hidden">
-        <h2 class="text-2xl uppercase font-medium mb-1">Login</h2>
+        <h2 class="text-2xl uppercase font-medium mb-1">Đăng nhập</h2>
         <p class="text-gray-600 mb-6 text-sm">
-          welcome back customer
+          chào mừng khách hàng trở lại
         </p>
         <form action="#" method="post" autocomplete="off">
           <div class="space-y-2">
             <div>
-              <label for="email" class="text-gray-600 mb-2 block">Email address</label>
+              <label for="email" class="text-gray-600 mb-2 block">Email</label>
               <input type="email" name="email" id="email"
                 class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                 placeholder="youremail.@domain.com">
             </div>
             <div>
-              <label for="password" class="text-gray-600 mb-2 block">Password</label>
+              <label for="password" class="text-gray-600 mb-2 block">Mật khẩu</label>
               <input type="password" name="password" id="password"
                 class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                 placeholder="*******">
             </div>
           </div>
-          <div class="flex items-center justify-between mt-6">
+          <!-- <div class="flex items-center justify-between mt-6">
             <div class="flex items-center">
               <input type="checkbox" name="remember" id="remember"
                 class="text-primary focus:ring-0 rounded-sm cursor-pointer">
               <label for="remember" class="text-gray-600 ml-3 cursor-pointer">Remember me</label>
             </div>
             <a href="#" class="text-primary">Forgot password</a>
-          </div>
+          </div> -->
           <div class="mt-4">
             <button type="submit"
-              class="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">Login</button>
+              class="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">Đăng
+              nhập</button>
           </div>
         </form>
 
         <!-- login with -->
-        <div class="mt-6 flex justify-center relative">
+        <!-- <div class="mt-6 flex justify-center relative">
           <div class="text-gray-600 uppercase px-3 bg-white z-10 relative">Or login with</div>
           <div class="absolute left-0 top-3 w-full border-b-2 border-gray-200"></div>
         </div>
@@ -266,12 +256,101 @@
             class="w-1/2 py-2 text-center text-white bg-blue-800 rounded uppercase font-roboto font-medium text-sm hover:bg-blue-700">facebook</a>
           <a href="#"
             class="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500">google</a>
-        </div>
+        </div> -->
         <!-- ./login with -->
 
-        <p class="mt-4 text-center text-gray-600">Don't have account? <a href="register.html"
-            class="text-primary">Register
-            now</a></p>
+        <p class="mt-4 text-center text-gray-600">Bạn chưa có tài khoản? <a href="javascript:void(0)"
+            class="text-primary" data-modal-target="register-modal" data-modal-toggle="register-modal"
+            data-modal-hide="login-modal">Đăng ký
+            ngay</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal register-->
+<div id="register-modal" tabindex="-1" aria-hidden="true"
+  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+  <div class="relative w-full max-w-2xl max-h-full">
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg dark:bg-gray-700">
+      <div class="contain py-16">
+        <div class="max-w-lg mx-auto rounded overflow-hidden">
+          <h2 class="text-2xl uppercase font-medium mb-1">Tạo tài khoản</h2>
+          <p class="text-gray-600 mb-6 text-sm">
+            Đăng ký tài khoản shop
+          </p>
+          <form action="#" method="post" autocomplete="off">
+            <div class="space-y-2">
+              <div>
+                <label for="name" class="text-gray-600 mb-2 block">Họ và tên</label>
+                <input type="text" name="name" id="name"
+                  class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                  placeholder="fulan fulana">
+              </div>
+              <div>
+                <label for="email" class="text-gray-600 mb-2 block">Email</label>
+                <input type="email" name="email" id="email"
+                  class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                  placeholder="youremail.@domain.com">
+              </div>
+              <div>
+                <label for="password" class="text-gray-600 mb-2 block">Mật khẩu</label>
+                <input type="password" name="password" id="password"
+                  class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                  placeholder="*******">
+              </div>
+              <div>
+                <label for="confirm" class="text-gray-600 mb-2 block">Nhập lại mật khẩu</label>
+                <input type="password" name="confirm" id="confirm"
+                  class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                  placeholder="*******">
+              </div>
+              <div>
+                <label for="addres" class="text-gray-600 mb-2 block">Địa chỉ</label>
+                <input type="text" name="addres" id="addres"
+                  class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                  placeholder="125 Hà Đông">
+              </div>
+              <div>
+                <label for="phone_number" class="text-gray-600 mb-2 block">Số điện thoại</label>
+                <input type="text" name="phone_number" id="phone_number"
+                  class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                  placeholder="0988116739">
+              </div>
+            </div>
+            <div class="mt-6">
+              <div class="flex items-center">
+                <input type="checkbox" name="aggrement" id="aggrement"
+                  class="text-primary focus:ring-0 rounded-sm cursor-pointer">
+                <label for="aggrement" class="text-gray-600 ml-3 cursor-pointer">Tôi đã đọc và đồng ý với <a href="/"
+                    class="text-primary">Điều khoản và điều kiện</a></label>
+              </div>
+            </div>
+            <div class="mt-4">
+              <button type="submit"
+                class="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">Tạo
+                tài khoản</button>
+            </div>
+          </form>
+
+          <!-- login with -->
+          <!-- <div class="mt-6 flex justify-center relative">
+                <div class="text-gray-600 uppercase px-3 bg-white z-10 relative">Or signup with</div>
+                <div class="absolute left-0 top-3 w-full border-b-2 border-gray-200"></div>
+            </div>
+            <div class="mt-4 flex gap-4">
+                <a href="#"
+                    class="w-1/2 py-2 text-center text-white bg-blue-800 rounded uppercase font-roboto font-medium text-sm hover:bg-blue-700">facebook</a>
+                <a href="#"
+                    class="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500">google</a>
+            </div> -->
+          <!-- ./login with -->
+
+          <p class="mt-4 text-center text-gray-600">Đã có tài khoản? <a href="javascript:void(0)" class="text-primary"
+              data-modal-target="login-modal" data-modal-toggle="login-modal" data-modal-hide="register-modal">Đăng nhập
+              ngay</a></p>
+        </div>
       </div>
     </div>
   </div>

@@ -31,8 +31,8 @@ export class CustomerComponent implements OnInit {
   getCustomer() {
     this._customersService.customerController().search().subscribe(
       (res: any) => {
-        this.listOfData = res;
-        this.page.totalItem = res.length;
+        this.listOfData = res.Data;
+        this.page.totalItem = res.Data.length;
       }
     ),
       (error: any) => {
@@ -76,5 +76,7 @@ export class CustomerComponent implements OnInit {
     });
   }
 
-
+  onChangePageIndex(index: number) {
+    this.page.page = index;
+  }
 }
