@@ -13,6 +13,7 @@ import { messageAddSuccess, messageDeleteSuccess, messageUpdateSuccess } from 's
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
+  passwordVisible = false;
 
   listOfData: any[] = [];
 
