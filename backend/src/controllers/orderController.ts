@@ -24,10 +24,10 @@ export const create = async (req: Request, res: Response) => {
       const orderDetail = orderdetailRepository.create(item);
       await orderdetailRepository.save(orderDetail);
     }
-    res.send(newOrder);
+    return res.send({ Status: 200, Data: newOrder });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -41,7 +41,7 @@ export const update = async (req: Request, res: Response) => {
     const { order } = req.body;
     const orderRepository = getRepository(Order);
     const orderDetailRepository = getRepository(Order_Detail);
-    
+
     // Cập nhật đơn hàng
     await orderRepository.update(order.id, order);
 
@@ -54,11 +54,10 @@ export const update = async (req: Request, res: Response) => {
       const orderDetail = orderDetailRepository.create(item);
       await orderDetailRepository.save(orderDetail);
     }
-
-    res.send(order);
+    return res.send({ Status: 400, Data: order });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -71,10 +70,10 @@ export const list = async (req: Request, res: Response) => {
   try {
     const orderRepository = getRepository(Order);
     const orders = await orderRepository.find({ order: { create_time: "DESC" } });
-    res.send(orders);
+    return res.send({ Status: 200, Data: orders });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 /**
@@ -86,11 +85,11 @@ export const list_by_customer_id = async (req: Request, res: Response) => {
   try {
     const customer_id: number = Number(req.params.customer_id);
     const orderRepository = getRepository(Order);
-    const orders = await orderRepository.find({ where:{customer_id:customer_id}, order: { create_time: "DESC" } });
-    res.send(orders);
+    const orders = await orderRepository.find({ where: { customer_id: customer_id }, order: { create_time: "DESC" } });
+    return res.send({ Status: 400, Data: orders });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 /**
@@ -104,13 +103,13 @@ export const deleteById = async (req: Request, res: Response) => {
     const orderId = Number(req.params.id);
     const order = await orderRepository.findOne({ where: { id: orderId } });
     if (!order) {
-      return res.status(404).send('Order not found');
+      return res.status(404).send({ Status: 400, Data: 'Order not found' });
     }
     await orderRepository.remove(order);
-    return res.send(`Order id ${orderId} has been deleted.`);
+    return res.send({ Status: 200, Data: `Order id ${orderId} has been deleted.` });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
 
@@ -128,13 +127,13 @@ export const detail = async (req: Request, res: Response) => {
     const order = await orderRepository.findOne({ where: { id: orderId } });
 
     if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+      return res.status(404).json({ Status: 400, Data: 'Order not found' });
     }
 
     order.details = await orderDetailRepository.find({ where: { order_id: order.id } });
-    return res.send(order);
+    return res.send({ Status: 200, Data: order });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
