@@ -17,9 +17,12 @@
       <td>{{ data.name }}</td>
       <td>{{ data.email }}</td>
       <td>{{ data.phone_number }}</td>
-      <td class="flex space-x-2">
-        <i nz-icon nzType="delete" nzTheme="outline" (click)="deleteAdmin(data.id)" class="cursor-pointer"></i>
-        <i nz-icon nzType="edit" nzTheme="outline"(click)="opentCreateUpdateAdmin_Modal(data)" class="cursor-pointer"></i>
+      <td>
+        <div class="flex space-x-2">
+          <i nz-icon nzType="delete" nzTheme="outline" (click)="deleteAdmin(data.id)" class="cursor-pointer"></i>
+          <i nz-icon nzType="edit" nzTheme="outline" (click)="opentCreateUpdateAdmin_Modal(data)"
+            class="cursor-pointer"></i>
+        </div>
       </td>
     </tr>
   </tbody>
