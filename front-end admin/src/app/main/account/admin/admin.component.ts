@@ -1,3 +1,4 @@
+import { page } from './../../../common/const';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AdminService } from './../../../services/admin.service';
 import { Component, OnInit } from '@angular/core';
@@ -50,8 +51,8 @@ export class AdminComponent implements OnInit {
   getAdmin() {
     this._adminService.adminController().search().subscribe(
       (res: any) => {
-        this.listOfData = res;
-        this.page.totalItem = res.length;
+        this.listOfData = res.Data;
+        this.page.totalItem = res.Data.length;
       }
     ),
       (error: any) => {
@@ -167,6 +168,10 @@ export class AdminComponent implements OnInit {
   handleCancel(): void {
     this.isVisible_CreateUpdateAdminModal = false;
     this.form?.reset();
+  }
+
+  onChangePageIndex(index: number) {
+    this.page.page = index;
   }
 
 }
