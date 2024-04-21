@@ -101,7 +101,7 @@ export const list = async (_: Request, res: Response) => {
   try {
     const adminRepository = getRepository(Admin);
     const admins = await adminRepository.find();
-    return res.send(admins);
+    return res.send({ Status: 500, Data: admins });
   } catch (error) {
     console.error(error);
     return res.status(400).send({ Status: 500, Data: 'Internal Server Error' });
@@ -120,11 +120,11 @@ export const deleteById = async (req: Request, res: Response) => {
     // Lấy admin cần xóa từ cơ sở dữ liệu
     const admin = await adminRepository.findOne({ where: { id: adminId } });
     if (!admin) {
-      return res.status(404).send('Admin not found');
+      return res.status(404).send({ Status: 500, Data: 'Admin not found' });
     }
     // Xóa admin
     await adminRepository.remove(admin);
-    return res.send(`Admin id ${adminId} has been deleted.`);
+    return res.send({ Status: 500, Data: `Admin id ${adminId} has been deleted.` });
   } catch (error) {
     console.error(error);
     return res.status(400).send({ Status: 500, Data: 'Internal Server Error' });
