@@ -19,12 +19,12 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(
     private router: Router,
     private notification: NzNotificationService,
-  ) {}
+  ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-          //   return throwError(error);
+        //   return throwError(error);
 
         if (error.status === HttpStatusCode.Unauthorized) {
           // TODO: if error at path refresh token then throw error
@@ -63,7 +63,17 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           // this.router.navigate(['/no-permission']);
           // this.router.navigateByUrl('/home/no-permission');
           return throwError(error);
-        } else if (error.status === 0) {
+        } else if (error.status === HttpStatusCode.BadRequest) {
+          if (error.error?.message) {
+            this.notification.create(
+              TypeNotification.error,
+              'Thông báo',
+              `${error.error?.message}`
+            );
+          }
+          return throwError(error);
+        }
+        else if (error.status === 0) {
           console.log('error :', error);
           if (error?.message) {
             this.notification.create(

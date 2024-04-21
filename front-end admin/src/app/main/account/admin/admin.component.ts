@@ -55,31 +55,35 @@ export class AdminComponent implements OnInit {
       }
     ),
       (error: any) => {
-        this.notification.create(
-          TypeNotification.error,
-          'Thông báo',
-          `${error?.description}`
-        );
+        if (error?.message) {
+          this.notification.create(
+            TypeNotification.error,
+            'Thông báo',
+            `${error?.message}`
+          );
+        }
       }
   }
 
   opentCreateUpdateAdmin_Modal(item: any = undefined) {
     this.isVisible_CreateUpdateAdminModal = true;
     if (!!item) {
-      this.id = item.id;      
+      this.id = item.id;
       this._adminService.adminController().getItem(this.id).subscribe(
         (res: any) => {
           this.form.patchValue(res);
         }
       ),
         (error: any) => {
-          this.notification.create(
-            TypeNotification.error,
-            'Thông báo',
-            `${error?.description}`
-          );
+          if (error?.message) {
+            this.notification.create(
+              TypeNotification.error,
+              'Thông báo',
+              `${error?.message}`
+            );
+          }
         }
-        this.form.controls['password'].disable();
+      this.form.controls['password'].disable();
     }
   }
 
@@ -101,11 +105,13 @@ export class AdminComponent implements OnInit {
           }
         ),
           (error: any) => {
-            this.notification.create(
-              TypeNotification.error,
-              'Thông báo',
-              `${error?.description}`
-            );
+            if (error?.message) {
+              this.notification.create(
+                TypeNotification.error,
+                'Thông báo',
+                `${error?.message}`
+              );
+            }
           }
       },
     });
@@ -125,11 +131,13 @@ export class AdminComponent implements OnInit {
         }
       ),
         (error: any) => {
-          this.notification.create(
-            TypeNotification.error,
-            'Thông báo',
-            `${error?.description}`
-          );
+          if (error?.message) {
+            this.notification.create(
+              TypeNotification.error,
+              'Thông báo',
+              `${error?.message}`
+            );
+          }
         }
     }
     else {
@@ -145,11 +153,13 @@ export class AdminComponent implements OnInit {
         }
       ),
         (error: any) => {
-          this.notification.create(
-            TypeNotification.error,
-            'Thông báo',
-            `${error?.description}`
-          );
+          if (error?.message) {
+            this.notification.create(
+              TypeNotification.error,
+              'Thông báo',
+              `${error?.message}`
+            );
+          }
         }
     }
   }
