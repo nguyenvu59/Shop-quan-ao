@@ -13,9 +13,13 @@ export const create = async (req: Request, res: Response) => {
   try {
     // Lấy sản phẩm từ request body
     // @ts-ignore
-    const { product } = req.body;
+    const { name, category, description,size,sex,price,
+      quantity,import_price,sold,brand,supplier,
+      avata,image1,image2,image3,image4,image5,image6 } = req.body;
     const productRepository = getRepository(Product);
-    const newProduct = productRepository.create(product);
+    const newProduct = productRepository.create({name, category, description,size,sex,price,
+      quantity,import_price,sold,brand,supplier,
+      avata,image1,image2,image3,image4,image5,image6 });
     await productRepository.save(newProduct);
     // Gửi sản phẩm đã tạo về client
     // @ts-ignore
@@ -35,13 +39,17 @@ export const update = async (req: Request, res: Response) => {
   try {
     // Lấy sản phẩm từ request body
     // @ts-ignore
-    const { product } = req.body;
+    const { name, category, description,size,sex,price,
+      quantity,import_price,sold,brand,supplier,
+      avata,image1,image2,image3,image4,image5,image6  } = req.body;
     const productRepository = getRepository(Product);
     // Cập nhật sản phẩm trong cơ sở dữ liệu
     // @ts-ignore
-    await productRepository.update(product.id, product);
+    const response = await productRepository.update(product.id, {name, category, description,size,sex,price,
+      quantity,import_price,sold,brand,supplier,
+      avata,image1,image2,image3,image4,image5,image6 });
     // Gửi sản phẩm đã cập nhật về client
-    return res.send({ Status: 200, Data: product });
+    return res.send({ Status: 200, Data: response });
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
@@ -60,13 +68,18 @@ export const list = async (req: Request, res: Response) => {
     // Lấy tất cả sản phẩm từ cơ sở dữ liệu
     const products = await productRepository.find();
     // Lọc sản phẩm theo từ khóa và danh mục
-    // @ts-ignore
-    return res.status(500).send({
-      Status: 400, Data: products.filter(product =>
-        product.name.toLowerCase().includes(keyword.toLowerCase()) &&
-        product.category.toLowerCase().includes(category.toLowerCase())
-      )
+    if (keyword != null) {
+      return res.status(200).send({
+        Status: 200, Data: products.filter(product =>
+          product.name.toLowerCase().includes(keyword.toLowerCase()) &&
+          product.category.toLowerCase().includes(category.toLowerCase())
+        )
+      });
+  } else {
+    return res.status(200).send({
+      Status: 200, Data: products     
     });
+  }
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
