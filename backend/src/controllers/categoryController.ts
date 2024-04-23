@@ -12,9 +12,9 @@ dotenv.config();
 export const create = async (req: Request, res: Response) => {
   try {
     // @ts-ignore
-    const { category } = req.body;
+    const { name, parent_id } = req.body;
     const categoryRepository = getRepository(Category);
-    const newCategory = categoryRepository.create(category);
+    const newCategory = categoryRepository.create({name, parent_id });
     await categoryRepository.save(newCategory);
     // @ts-ignore
     return res.send({ Status: 200, Data: newCategory });
@@ -32,10 +32,10 @@ export const create = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
   try {
     // @ts-ignore
-    const { category } = req.body;
+    const { name, parent_id } = req.body;
     const categoryRepository = getRepository(Category);
-    await categoryRepository.update(category.id, category);
-    return res.send({ Status: 200, Data: category });
+    const response = await categoryRepository.update(Number(req.params.id), {name, parent_id});
+    return res.send({ Status: 200, Data: response });
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
