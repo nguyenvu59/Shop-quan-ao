@@ -29,44 +29,48 @@
             2
           </div>
         </a>
+        <div [hidden]="!token">
+          <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName"
+            class="flex items-center text-sm pe-1 font-medium text-gray-900 rounded-full hover:text-blue-600 dark:hover:text-blue-500 md:me-0 focus:ring-4 focus:ring-gray-100"
+            type="button">
+            <span class="sr-only">Open user menu</span>
+            <img class="w-8 h-8 me-2 rounded-full" src="/assets/images/avatar.png" alt="user photo">
+            {{user.name}}
+            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 10 6">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 1 4 4 4-4" />
+            </svg>
+          </button>
 
-        <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName"
-          class="flex items-center text-sm pe-1 font-medium text-gray-900 rounded-full hover:text-blue-600 dark:hover:text-blue-500 md:me-0 focus:ring-4 focus:ring-gray-100"
-          type="button">
-          <span class="sr-only">Open user menu</span>
-          <img class="w-8 h-8 me-2 rounded-full" src="/assets/images/avatar.png" alt="user photo">
-          Bonnie Green
-          <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-            viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="m1 1 4 4 4-4" />
-          </svg>
-        </button>
-
-        <!-- Dropdown menu -->
-        <div id="dropdownAvatarName"
-          class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
-            <li>
+          <!-- Dropdown menu -->
+          <div id="dropdownAvatarName"
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+              aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
+              <li>
+                <a href="javascript:void(0)"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  routerLink="detail-user">Tài khoản của tôi</a>
+              </li>
+            </ul>
+            <div class="py-2">
               <a href="javascript:void(0)"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                routerLink="detail-user">Tài khoản của tôi</a>
-            </li>
-          </ul>
-          <div class="py-2">
-            <a href="javascript:void(0)"
-              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Đăng
-              xuất</a>
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                (click)="logout()">Đăng
+                xuất</a>
+            </div>
           </div>
         </div>
 
-        <!-- <a href="javascript:void(0)" class="text-center text-gray-700 hover:text-primary transition relative">
-          <div class="text-2xl">
-            <fa-icon [icon]="faUser"></fa-icon>
-          </div>
-          <div class="text-xs leading-3">Account</div>
-        </a> -->
+        <div [hidden]="!!token">
+          <a href="javascript:void(0)" class="text-center text-gray-700 hover:text-primary transition relative">
+            <div class="text-2xl">
+              <fa-icon [icon]="faUser"></fa-icon>
+            </div>
+            <div class="text-xs leading-3">Tài khoản</div>
+          </a>
+        </div>
       </div>
     </div>
   </header>
@@ -116,12 +120,12 @@
           <!-- <a href="javascript:void(0)" class="text-gray-200 hover:text-white transition">Về chúng tôi</a>
           <a href="javascript:void(0)" class="text-gray-200 hover:text-white transition">Liên hệ chúng tôi</a> -->
         </div>
-        <p class="text-gray-200">
+        <p class="text-gray-200" [hidden]="!!token">
           <a href="javascript:void(0)" class="text-gray-200 hover:text-white transition" data-modal-target="login-modal"
             data-modal-toggle="login-modal">Đăng nhập</a>
           /
-          <a href="javascript:void(0)" class="text-gray-200 hover:text-white transition" data-modal-target="register-modal"
-            data-modal-toggle="register-modal">Đăng ký</a>
+          <a href="javascript:void(0)" class="text-gray-200 hover:text-white transition"
+            data-modal-target="register-modal" data-modal-toggle="register-modal">Đăng ký</a>
         </p>
       </div>
     </div>
@@ -140,8 +144,8 @@
           <p class="text-gray-500">
             Phong cách không giới hạn, chất lượng vượt trội – Nơi thời trang bắt đầu!
           </p>
-        </div>     
-      </div>     
+        </div>
+      </div>
     </div>
   </footer>
   <!-- ./footer -->
@@ -160,17 +164,17 @@
         <p class="text-gray-600 mb-6 text-sm">
           chào mừng khách hàng trở lại
         </p>
-        <form action="#" method="post" autocomplete="off">
+        <form [formGroup]="formLogin" autocomplete="off">
           <div class="space-y-2">
             <div>
               <label for="email" class="text-gray-600 mb-2 block">Email</label>
-              <input type="email" name="email" id="email"
+              <input type="email" name="email" id="email" formControlName="email"
                 class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                 placeholder="youremail.@domain.com">
             </div>
             <div>
               <label for="password" class="text-gray-600 mb-2 block">Mật khẩu</label>
-              <input type="password" name="password" id="password"
+              <input type="password" name="password" id="password" formControlName="password"
                 class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                 placeholder="*******">
             </div>
@@ -185,7 +189,8 @@
           </div> -->
           <div class="mt-4">
             <button type="submit"
-              class="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">Đăng
+              class="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
+              (click)="login()">Đăng
               nhập</button>
           </div>
         </form>
@@ -224,41 +229,41 @@
           <p class="text-gray-600 mb-6 text-sm">
             Đăng ký tài khoản shop
           </p>
-          <form action="#" method="post" autocomplete="off">
+          <form [formGroup]="formRegister" autocomplete="off">
             <div class="space-y-2">
               <div>
                 <label for="name" class="text-gray-600 mb-2 block">Họ và tên</label>
-                <input type="text" name="name" id="name"
+                <input type="text" name="name" id="name" formControlName="name"
                   class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                   placeholder="fulan fulana">
               </div>
               <div>
-                <label for="email" class="text-gray-600 mb-2 block">Email</label>
-                <input type="email" name="email" id="email"
+                <label for="emailRegister" class="text-gray-600 mb-2 block">Email</label>
+                <input type="text" name="emailRegister" id="emailRegister" formControlName="email"
                   class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                   placeholder="youremail.@domain.com">
               </div>
               <div>
-                <label for="password" class="text-gray-600 mb-2 block">Mật khẩu</label>
-                <input type="password" name="password" id="password"
+                <label for="passwordRegister" class="text-gray-600 mb-2 block">Mật khẩu</label>
+                <input type="password" name="passwordRegister" id="passwordRegister" formControlName="password"
                   class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                   placeholder="*******">
               </div>
               <div>
                 <label for="confirm" class="text-gray-600 mb-2 block">Nhập lại mật khẩu</label>
-                <input type="password" name="confirm" id="confirm"
+                <input type="password" name="confirm" id="confirm" formControlName="confirm"
                   class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                   placeholder="*******">
               </div>
               <div>
-                <label for="addres" class="text-gray-600 mb-2 block">Địa chỉ</label>
-                <input type="text" name="addres" id="addres"
+                <label for="address" class="text-gray-600 mb-2 block">Địa chỉ</label>
+                <input type="text" name="address" id="address" formControlName="address"
                   class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                   placeholder="125 Hà Đông">
               </div>
               <div>
                 <label for="phone_number" class="text-gray-600 mb-2 block">Số điện thoại</label>
-                <input type="text" name="phone_number" id="phone_number"
+                <input type="text" name="phone_number" id="phone_number" formControlName="phone_number"
                   class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                   placeholder="0988116739">
               </div>
@@ -273,7 +278,8 @@
             </div>
             <div class="mt-4">
               <button type="submit"
-                class="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">Tạo
+                class="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
+                (click)="register()">Tạo
                 tài khoản</button>
             </div>
           </form>

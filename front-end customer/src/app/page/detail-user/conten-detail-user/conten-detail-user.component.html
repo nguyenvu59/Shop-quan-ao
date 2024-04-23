@@ -1,27 +1,44 @@
 <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Hồ sơ</h3>
 <div class="w-full container">
-
-
-  <dl class="w-full text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700 px-6">
-    <div class="flex flex-col pb-3">
-      <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Tên đăng nhập</dt>
-      <dd class="text-lg font-semibold">nguyenvu0509</dd>
-    </div>
-    <div class="flex flex-col py-3">
-      <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Email</dt>
-      <dd class="text-lg font-semibold">nguyenvu@gamil.com</dd>
-    </div>
-    <div class="flex flex-col pt-3">
-      <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Số điện thoại</dt>
-      <dd class="text-lg font-semibold">+00 123 456 789 / +12 345 678</dd>
-    </div>
-    <div class="flex flex-col pt-3">
-      <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Giới tính</dt>
-      <dd class="text-lg font-semibold">Nam</dd>
-    </div>
-    <div class="flex flex-col pt-3">
-      <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Ngày sinh</dt>
-      <dd class="text-lg font-semibold">01/01/2008</dd>
-    </div>
-  </dl>
+  <form [formGroup]="formCustomer" autocomplete="off" class="mb-3">
+    <dl class="w-full text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700 px-6">
+      <div class="flex flex-col pb-3">
+        <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Tên đăng nhập</dt>
+        <dd class="text-lg font-semibold">
+          <input type="text" formControlName="name"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Nhập tên" />
+        </dd>
+      </div>
+      <div class="flex flex-col py-3">
+        <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Email</dt>
+        <dd class="text-lg font-semibold">
+          <input type="text" formControlName="email"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Nhập email" />
+        </dd>
+      </div>
+      <div class="flex flex-col pt-3">
+        <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Số điện thoại</dt>
+        <dd class="text-lg font-semibold">
+          <input type="text" formControlName="phone_number"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Nhập số điện thoại" />
+        </dd>
+      </div>
+      <div class="flex flex-col pt-3">
+        <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Địa chỉ</dt>
+        <dd class="text-lg font-semibold">
+          <input type="text" formControlName="address"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Nhập địa chỉ" />
+        </dd>
+      </div>
+    </dl>
+  </form>
+  <div class="flex justify-end px-6">
+    <button type="button"
+      class="text-white bg-success-500 hover:bg-success-600 focus:ring-4 focus:ring-success-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-success-600 dark:hover:bg-success-700 focus:outline-none dark:focus:ring-success-800" (click)="updateCustomers()">Cập
+      nhật</button>
+  </div>
 </div>

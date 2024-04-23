@@ -13,7 +13,7 @@ export class AuthService {
   ) { }
 
   authController() {
-    let url: string = `${this._configService.url}/admin`;
+    let url: string = `${this._configService.url}/customers`;
     return {
       login: (data: any) => {
         return this.http.post(`${url}/login`, data);

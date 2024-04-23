@@ -37,6 +37,7 @@ import { SupplierService } from './services/supplier.service';
 import { AdminService } from './services/admin.service';
 import { ConfigService } from './services/config.service';
 import { StorageService } from './services/storage.service';
+import { ToastrModule } from 'ngx-toastr';
 
 registerLocaleData(vi);
 
@@ -59,9 +60,8 @@ registerLocaleData(vi);
     BrowserModule,
     CommonModule,
     AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     IconsProviderModule,
     NzLayoutModule,
     NzMenuModule,
@@ -69,6 +69,7 @@ registerLocaleData(vi);
     IonicModule.forRoot({}),
     ReactiveFormsModule,
     FormsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     AuthService,

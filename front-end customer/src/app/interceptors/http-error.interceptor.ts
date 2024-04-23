@@ -11,14 +11,14 @@ import { Observable, throwError } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { TypeNotification } from '../common/enum';
 import { Router } from '@angular/router';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
   constructor(
     private router: Router,
-    private notification: NzNotificationService,
+    private toastr: ToastrService,
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -64,23 +64,21 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           // this.router.navigateByUrl('/home/no-permission');
           return throwError(error);
         } else if (error.status === HttpStatusCode.BadRequest) {
-          if (error.error?.message) {
-            this.notification.create(
-              TypeNotification.error,
-              'Thông báo',
-              `${error.error?.message}`
-            );
+          if (error.error?.Data) {
+            this.toastr.error(error.error?.Data,"Thông báo");
+          }
+          return throwError(error);
+        }
+        else if (error.status === HttpStatusCode.InternalServerError) {
+          if (error.error?.Data) {
+            this.toastr.error(error.error?.Data,"Thông báo");
           }
           return throwError(error);
         }
         else if (error.status === 0) {
           console.log('error :', error);
           if (error?.message) {
-            this.notification.create(
-              TypeNotification.error,
-              'Thông báo',
-              `${error?.message}`
-            );
+            this.toastr.error(error.error?.message,"Thông báo");
           }
           // this._tokenStorageService.signOut();
           // this.router.navigateByUrl('/auth/login');
