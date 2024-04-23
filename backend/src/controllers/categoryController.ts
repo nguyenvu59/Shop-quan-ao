@@ -49,13 +49,12 @@ export const update = async (req: Request, res: Response) => {
  */
 export const list = async (_: Request, res: Response) => {
   try {
-    const { keyword } = _.body;
     const categoryRepository = getRepository(Category);
     const categories = await categoryRepository.find();
     // @ts-ignore
     return res.status(200).send({
       Status: 200, Data: categories.filter(category =>
-        category.name.toLowerCase().includes(keyword.toLowerCase()))
+        category.name.toLowerCase())
     });
   } catch (error) {
     console.error(error);
