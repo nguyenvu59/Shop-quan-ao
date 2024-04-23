@@ -72,7 +72,7 @@ export class AdminComponent implements OnInit {
       this.id = item.id;
       this._adminService.adminController().getItem(this.id).subscribe(
         (res: any) => {
-          this.form.patchValue(res);
+          this.form.patchValue(res.Data);
         }
       ),
         (error: any) => {

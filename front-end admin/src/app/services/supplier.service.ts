@@ -15,8 +15,10 @@ export class SupplierService {
   supplierController() {
     let url: string = `${this._configService.url}/supplier`;
     return {
-      search: () => {
-        return this.http.get(`${url}`);
+      search: (params: any) => {
+        return this.http.get(`${url}`, {
+          params: params
+        });
       },
       getItem: (id: number) => {
         return this.http.get(`${url}/${id}`);

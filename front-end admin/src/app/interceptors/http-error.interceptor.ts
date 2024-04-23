@@ -64,11 +64,21 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           // this.router.navigateByUrl('/home/no-permission');
           return throwError(error);
         } else if (error.status === HttpStatusCode.BadRequest) {
-          if (error.error?.message) {
+          if (error.error?.Data) {
             this.notification.create(
               TypeNotification.error,
               'Thông báo',
-              `${error.error?.message}`
+              `${error.error?.Data}`
+            );
+          }
+          return throwError(error);
+        }
+        else if (error.status === HttpStatusCode.InternalServerError) {
+          if (error.error?.Data) {
+            this.notification.create(
+              TypeNotification.error,
+              'Thông báo',
+              `${error.error?.Data}`
             );
           }
           return throwError(error);

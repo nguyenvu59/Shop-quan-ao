@@ -33,6 +33,8 @@ import { SupplierComponent } from './supplier/supplier.component';
 import { ProductComponent } from './product/product.component';
 import { OrderComponent } from './order/order.component';
 import { CategoryComponent } from './category/category.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 @NgModule({
   declarations: [
     MainComponent,
@@ -59,7 +61,9 @@ import { CategoryComponent } from './category/category.component';
     ReactiveFormsModule,
     FormsModule,
     NzFormModule,
-    NzInputModule
+    NzInputModule,
+    NzSelectModule,
+    NzInputNumberModule
   ],
   providers: [
     AuthService,
