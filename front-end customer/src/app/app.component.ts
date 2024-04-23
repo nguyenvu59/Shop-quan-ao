@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { faBars, faHeart, faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 import { initFlowbite } from 'flowbite';
@@ -13,7 +13,7 @@ import { jwtDecode } from "jwt-decode";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit,DoCheck {
   faUser = faUser;
   faSearch = faSearch;
   faHeart = faHeart;
@@ -39,6 +39,10 @@ export class AppComponent implements OnInit {
     this.initFormLogin();
     this.initFormRegister();
     this.token = this._storageService.getToken();
+    this.user = this._storageService.getUser();
+  }
+
+  ngDoCheck() {
     this.user = this._storageService.getUser();
   }
 
