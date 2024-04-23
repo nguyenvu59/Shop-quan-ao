@@ -13,16 +13,15 @@ const SECRET_KEY = "krizpham123";
 export const create = async (req: Request, res: Response) => {
   try {
     const customerRepository = getRepository(Customer);
-    const request = req.body; // Tạo một instance của Customer từ request body
-    const existingCustomer = await customerRepository.findOne({ where: { email: request.email } });
+    const { name, email, password, phone_number, address } = req.body;
+    const existingCustomer = await customerRepository.findOne({ where: { email: email } });
     if (existingCustomer) {
       return res.status(400).send({
         Status: 400,
         Data: 'Email already taken'
       });
     } else {
-      // Tạo admin mới
-      const customer = customerRepository.create(request);
+      const customer = customerRepository.create({name, email, password, phone_number,address });
       await customerRepository.save(customer);
       return res.send({ Status: 200, Data: customer });
     }
@@ -30,6 +29,7 @@ export const create = async (req: Request, res: Response) => {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
+  
 };
 
 
