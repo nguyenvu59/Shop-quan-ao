@@ -53,7 +53,7 @@ export const list = async (_: Request, res: Response) => {
     const categoryRepository = getRepository(Category);
     const categories = await categoryRepository.find();
     // @ts-ignore
-    return res.status(500).send({
+    return res.status(200).send({
       Status: 200, Data: categories.filter(category =>
         category.name.toLowerCase().includes(keyword.toLowerCase()))
     });
