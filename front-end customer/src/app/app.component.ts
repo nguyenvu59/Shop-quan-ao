@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { faBars, faHeart, faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 import { initFlowbite } from 'flowbite';
@@ -40,6 +40,11 @@ export class AppComponent implements OnInit {
     this.initFormRegister();
     this.token = this._storageService.getToken();
     this.user = this._storageService.getUser();
+  }
+
+  @HostListener('window:storage')
+  onStorageChange() {
+    console.log('change...');
   }
 
   initFormRegister() {
