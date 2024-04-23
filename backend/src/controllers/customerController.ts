@@ -18,7 +18,7 @@ export const create = async (req: Request, res: Response) => {
     if (existingCustomer) {
       return res.status(400).send({
         Status: 400,
-        message: 'Email already taken'
+        Data: 'Email already taken'
       });
     } else {
       // Tạo admin mới

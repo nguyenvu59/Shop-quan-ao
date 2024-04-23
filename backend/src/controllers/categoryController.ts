@@ -99,7 +99,10 @@ export const detail = async (req: Request, res: Response) => {
       return res.status(404).send({ Status: 400, Data: 'Category not found' });
     }
     // @ts-ignore
-    return res.send(category);
+    return res.status(200).send({
+      Status: 200,
+      Data: category
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
