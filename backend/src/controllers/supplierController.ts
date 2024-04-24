@@ -56,10 +56,17 @@ export const list = async (_: Request, res: Response) => {
     const suppliers = await supplierRepository.find();
     // Lọc nhà cung cấp theo từ khóa
     // @ts-ignore
-    return res.status(500).send({
-      Status: 400, Data: suppliers.filter(supplier =>
-        supplier.name.toLowerCase().includes(keyword.toLowerCase()))
-    });
+    if(keyword==null)
+    {
+      return res.status(200).send({
+        Status: 200, Data: suppliers      });
+    }else{
+      return res.status(200).send({
+        Status: 200, Data: suppliers.filter(supplier =>
+          supplier.name.toLowerCase().includes(keyword.toLowerCase()))
+      });
+    }
+   
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
