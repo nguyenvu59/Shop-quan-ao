@@ -13,9 +13,9 @@ export const create = async (req: Request, res: Response) => {
   try {
     // @ts-ignore
     const { description, code,type_of_discount,discount} = req.body;
-    const soucherRepository = getRepository(Voucher);
-    const newSupplier = soucherRepository.create({ description, code,type_of_discount,discount});
-    await soucherRepository.save(newSupplier);
+    const voucherRepository = getRepository(Voucher);
+    const newSupplier = voucherRepository.create({ description, code,type_of_discount,discount});
+    await voucherRepository.save(newSupplier);
     // @ts-ignore
     return res.send({ Status: 200, Data: newSupplier });
   } catch (error) {
@@ -33,9 +33,9 @@ export const update = async (req: Request, res: Response) => {
   try {
     // @ts-ignore
     const { description, code,type_of_discount,discount} = req.body;
-    const soucherRepository = getRepository(Voucher);
+    const voucherRepository = getRepository(Voucher);
     // @ts-ignore
-    await soucherRepository.update(soucher.id, soucher);
+    await voucherRepository.update(Number(req.params.id), soucher);
     return res.send({ Status: 200, Data: { description, code,type_of_discount,discount} });
   } catch (error) {
     console.error(error);
@@ -51,9 +51,9 @@ export const update = async (req: Request, res: Response) => {
 export const list = async (_: Request, res: Response) => {
   try {
     const { keyword } = _.body;
-    const soucherRepository = getRepository(Voucher);
+    const voucherRepository = getRepository(Voucher);
     // Lấy tất cả nhà cung cấp từ cơ sở dữ liệu
-    const souchers = await soucherRepository.find();
+    const souchers = await voucherRepository.find();
     // Lọc nhà cung cấp theo từ khóa
     // @ts-ignore
     if(keyword==null)
@@ -80,15 +80,15 @@ export const list = async (_: Request, res: Response) => {
  */
 export const deleteById = async (req: Request, res: Response) => {
   try {
-    const soucherRepository = getRepository(Voucher);
+    const voucherRepository = getRepository(Voucher);
     const soucherId = Number(req.params.id);
     // Lấy nhà cung cấp cần xóa từ cơ sở dữ liệu
-    const soucher = await soucherRepository.findOne({ where: { id: soucherId } });
+    const soucher = await voucherRepository.findOne({ where: { id: soucherId } });
     if (!soucher) {
       return res.status(404).send({ Status: 400, Data: 'Voucher not found' });
     }
     // Xóa nhà cung cấp
-    await soucherRepository.remove(soucher);
+    await voucherRepository.remove(soucher);
     // Gửi thông báo về việc xóa nhà cung cấp thành công về client
     // @ts-ignore
     return res.send({ Status: 400, Data: `Voucher id ${soucherId} has been deleted.` });
@@ -106,9 +106,9 @@ export const deleteById = async (req: Request, res: Response) => {
 export const detail = async (req: Request, res: Response) => {
   try {
     const soucherId = Number(req.params.id);
-    const soucherRepository = getRepository(Voucher);
+    const voucherRepository = getRepository(Voucher);
     // Lấy thông tin chi tiết của nhà cung cấp từ cơ sở dữ liệu
-    const soucher = await soucherRepository.findOne({ where: { id: soucherId } });
+    const soucher = await voucherRepository.findOne({ where: { id: soucherId } });
     if (!soucher) {
       return res.status(404).send({ Status: 400, Data: 'Voucher not found' });
     }

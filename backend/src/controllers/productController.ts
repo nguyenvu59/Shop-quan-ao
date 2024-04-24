@@ -45,7 +45,7 @@ export const update = async (req: Request, res: Response) => {
     const productRepository = getRepository(Product);
     // Cập nhật sản phẩm trong cơ sở dữ liệu
     // @ts-ignore
-    const response = await productRepository.update(product.id, {name, category, description,size,sex,price,
+    const response = await productRepository.update(Number(req.params.id), {name, category, description,size,sex,price,
       quantity,import_price,sold,brand,supplier,
       avata,image1,image2,image3,image4,image5,image6 });
     // Gửi sản phẩm đã cập nhật về client

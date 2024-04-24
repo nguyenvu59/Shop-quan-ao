@@ -34,9 +34,9 @@ export const update = async (req: Request, res: Response) => {
     // @ts-ignore
     const { name, phone_number,email,address} = req.body;
     const supplierRepository = getRepository(Supplier);
-    // @ts-ignore
-    await supplierRepository.update(supplier.id, supplier);
-    return res.send({ Status: 200, Data: { name, phone_number,email,address} });
+    // @ts-ignore;
+    const response = await supplierRepository.update(Number(req.params.id),  { name, phone_number,email,address});
+    return res.send({ Status: 200, Data: response });
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
