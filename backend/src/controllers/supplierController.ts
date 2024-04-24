@@ -32,11 +32,11 @@ export const create = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
   try {
     // @ts-ignore
-    const { supplier } = req.body;
+    const { name, phone_number,email,address} = req.body;
     const supplierRepository = getRepository(Supplier);
     // @ts-ignore
     await supplierRepository.update(supplier.id, supplier);
-    return res.send({ Status: 200, Data: supplier });
+    return res.send({ Status: 200, Data: { name, phone_number,email,address} });
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
