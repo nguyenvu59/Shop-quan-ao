@@ -12,9 +12,9 @@ dotenv.config();
 export const create = async (req: Request, res: Response) => {
   try {
     // @ts-ignore
-    const { supplier } = req.body;
+    const { name, phone_number,email,address} = req.body;
     const supplierRepository = getRepository(Supplier);
-    const newSupplier = supplierRepository.create(supplier);
+    const newSupplier = supplierRepository.create({ name, phone_number,email,address});
     await supplierRepository.save(newSupplier);
     // @ts-ignore
     return res.send({ Status: 200, Data: newSupplier });
