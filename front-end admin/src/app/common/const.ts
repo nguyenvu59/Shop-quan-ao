@@ -146,3 +146,9 @@ export const Size = [
   { name: 'XL', id: 'XL' },
   { name: 'XXl', id: 'XXl' },
 ];
+
+export const Type_of_Discount = [
+  { name: 'Theo % ', id: '%' },
+  { name: 'Trừ thẳng', id: 'Trừ thẳng' },
+];
+

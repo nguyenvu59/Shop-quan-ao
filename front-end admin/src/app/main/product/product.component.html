@@ -6,9 +6,9 @@
     <thead>
         <tr>
             <th [nzWidth]="'60px'" nzAlign="center">STT</th>
-            <th>Tên</th>            
-            <th>Kích cỡ</th>            
-            <th>Giá</th>            
+            <th>Tên</th>
+            <th>Kích cỡ</th>
+            <th>Giá</th>
             <th [nzWidth]="'60px'" nzAlign="center">#</th>
         </tr>
     </thead>
@@ -59,7 +59,7 @@
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Kích cỡ</nz-form-label>
-                    <nz-form-control>                 
+                    <nz-form-control>
                         <nz-select formControlName="size" [nzAllowClear]="true" nzPlaceHolder="Chọn kích cỡ">
                             <ng-container *ngFor="let item of listSize">
                                 <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
@@ -69,7 +69,7 @@
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Giới tính</nz-form-label>
-                    <nz-form-control>                    
+                    <nz-form-control>
                         <nz-select formControlName="sex" [nzAllowClear]="true" nzPlaceHolder="Chọn giới tính">
                             <ng-container *ngFor="let item of sex">
                                 <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
@@ -80,25 +80,29 @@
                 <nz-form-item>
                     <nz-form-label>Giá</nz-form-label>
                     <nz-form-control>
-                        <nz-input-number formControlName="price" [nzMin]="0" [nzStep]="1" class="w-full"></nz-input-number>
+                        <nz-input-number formControlName="price" [nzMin]="0" [nzStep]="1"
+                            class="w-full"></nz-input-number>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Số lượng</nz-form-label>
                     <nz-form-control>
-                        <nz-input-number formControlName="quantity" [nzMin]="0" [nzStep]="1" class="w-full"></nz-input-number>
+                        <nz-input-number formControlName="quantity" [nzMin]="0" [nzStep]="1"
+                            class="w-full"></nz-input-number>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Giá nhập</nz-form-label>
                     <nz-form-control>
-                        <nz-input-number formControlName="import_price" [nzMin]="0" [nzStep]="1" class="w-full"></nz-input-number>
+                        <nz-input-number formControlName="import_price" [nzMin]="0" [nzStep]="1"
+                            class="w-full"></nz-input-number>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Đã bán</nz-form-label>
                     <nz-form-control>
-                        <nz-input-number formControlName="sold" [nzMin]="0" [nzStep]="1" class="w-full"></nz-input-number>
+                        <nz-input-number formControlName="sold" [nzMin]="0" [nzStep]="1"
+                            class="w-full"></nz-input-number>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
@@ -109,25 +113,51 @@
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Nhà cung cấp</nz-form-label>
-                    <nz-form-control>                 
+                    <nz-form-control>
                         <nz-select formControlName="supplier" [nzAllowClear]="true" nzPlaceHolder="Chọn nhà cung cấp">
                             <ng-container *ngFor="let item of listSupplier">
-                                <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+                                <nz-option [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
                             </ng-container>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Ảnh đại diện</nz-form-label>
-                    <nz-form-control>                 
-                        <nz-select formControlName="supplier" [nzAllowClear]="true" nzPlaceHolder="Chọn nhà cung cấp">
-                            <ng-container *ngFor="let item of listSupplier">
-                                <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-                            </ng-container>
-                        </nz-select>
+                    <nz-form-control>
+                        <input type="file" (change)="onFileChange($event,'avata')" accept="image/*">
                     </nz-form-control>
                 </nz-form-item>
-            </div>         
+                <nz-form-item>
+                    <nz-form-label>Ảnh sản phẩm 1</nz-form-label>
+                    <nz-form-control>
+                        <input type="file" (change)="onFileChange($event,'image1')" accept="image/*">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Ảnh sản phẩm 2</nz-form-label>
+                    <nz-form-control>
+                        <input type="file" (change)="onFileChange($event,'image2')" accept="image/*">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Ảnh sản phẩm 3</nz-form-label>
+                    <nz-form-control>
+                        <input type="file" (change)="onFileChange($event,'image3')" accept="image/*">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Ảnh sản phẩm 4</nz-form-label>
+                    <nz-form-control>
+                        <input type="file" (change)="onFileChange($event,'image4')" accept="image/*">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Ảnh sản phẩm 5</nz-form-label>
+                    <nz-form-control>
+                        <input type="file" (change)="onFileChange($event,'image5')" accept="image/*">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
         </form>
     </div>
     <div *nzModalFooter>

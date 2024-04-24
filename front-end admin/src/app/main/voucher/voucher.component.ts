@@ -2,98 +2,54 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
-import { Observable, ReplaySubject } from 'rxjs';
-import { Sex, Size, messageAddSuccess, messageDeleteSuccess, messageUpdateSuccess } from 'src/app/common/const';
+import { Type_of_Discount, messageAddSuccess, messageDeleteSuccess, messageUpdateSuccess } from 'src/app/common/const';
 import { TypeNotification } from 'src/app/common/enum';
-import { getObjectTruThy } from 'src/app/common/globalFC';
-import { CategoryService } from 'src/app/services/category.service';
 import { ConfigService } from 'src/app/services/config.service';
-import { ProductService } from 'src/app/services/product.service';
-import { SupplierService } from 'src/app/services/supplier.service';
+import { VoucherService } from 'src/app/services/voucher.service';
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  selector: 'app-voucher',
+  templateUrl: './voucher.component.html',
+  styleUrls: ['./voucher.component.css']
 })
-export class ProductComponent implements OnInit {
+export class VoucherComponent implements OnInit {
 
   listOfData: any[] = [];
-  listCategory: any[] = [];
-  listSupplier: any[] = [];
-  listSize: any[] = Size;
-
-  sex: any[] = Sex;
 
   page: any = this._configService.page();
 
-  isVisible_CreateUpdateProductModal: boolean = false;
+  isVisible_CreateUpdatevVoucherModal: boolean = false;
 
   id: number = 0;
 
   form!: FormGroup;
 
+  Type_of_Discount:any = Type_of_Discount;
+
   constructor(
     private fb: FormBuilder,
     private _configService: ConfigService,
-    private _productService: ProductService,
-    private _categoryService: CategoryService,
-    private _supplierService: SupplierService,
+    private _voucherService: VoucherService,
     private notification: NzNotificationService,
     private _modal: NzModalService
   ) { }
 
   ngOnInit(): void {
     this.initForm();
-    this.getCategory();
-    this.getSupplier();
-    this.getProduct();
+    this.getvVoucher();
   }
 
   initForm() {
     this.form = this.fb.group({
-      name: null,
-      parent_id: 0,
+      code: null,
       description: null,
-      size: null,
-      sex: null,
-      price: 0,
-      quantity: 0,
-      import_price: 0,
-      sold: 0,
-      brand: null,
-      supplier: null,
-      avata:null,
-      image1:null,
-      image2:null,
-      image3:null,
-      image4:null,
-      image5:null,
+      discount: 0,
+      type_of_discount: null,
     })
   }
 
-  getSupplier() {
-    let dataFilter: any = { keywork: '' }
-    this._supplierService.supplierController().search(dataFilter).subscribe(
-      (res: any) => {
-        this.listSupplier = res.Data;
-      }
-    ),
-      (error: any) => {
-        if (error?.Data) {
-          this.notification.create(
-            TypeNotification.error,
-            'Thông báo',
-            `${error?.Data}`
-          );
-        }
-      }
-  }
-
-  getProduct() {
-    let dataFilter: any = { keywork: '' }
-    this._productService.productController().search(dataFilter).subscribe(
+  getvVoucher() {
+    this._voucherService.voucherController().search().subscribe(
       (res: any) => {
         this.listOfData = res.Data;
         this.page.totalItem = res.Data.length;
@@ -110,28 +66,12 @@ export class ProductComponent implements OnInit {
       }
   }
 
-  getCategory() {
-    this._categoryService.categoryController().search().subscribe(
-      (res: any) => {
-        this.listCategory = res.Data;
-      }
-    ),
-      (error: any) => {
-        if (error?.Data) {
-          this.notification.create(
-            TypeNotification.error,
-            'Thông báo',
-            `${error?.Data}`
-          );
-        }
-      }
-  }
-
-  opentCreateUpdateProduct_Modal(item: any = undefined) {
-    this.isVisible_CreateUpdateProductModal = true;
+  opentCreateUpdatevVoucher_Modal(item: any = undefined) {
+    this.isVisible_CreateUpdatevVoucherModal = true;
+    this.id = 0;
     if (!!item) {
       this.id = item.id;
-      this._productService.productController().getItem(this.id).subscribe(
+      this._voucherService.voucherController().getItem(this.id).subscribe(
         (res: any) => {
           this.form.patchValue(res.Data);
         }
@@ -148,16 +88,16 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  deleteProduct(id: number) {
+  deletevVoucher(id: number) {
     this._modal.confirm({
       nzTitle: 'Thông báo',
       nzContent: 'Bạn có chắc chắn muốn xóa bản ghi này',
       nzCancelText: 'Thoát',
       nzOkText: 'Xác nhận',
       nzOnOk: (result) => {
-        this._productService.productController().delete(id).subscribe(
+        this._voucherService.voucherController().delete(id).subscribe(
           (res: any) => {
-            this.getProduct();
+            this.getvVoucher();
             this.notification.create(
               TypeNotification.success,
               'Thông báo',
@@ -180,10 +120,10 @@ export class ProductComponent implements OnInit {
 
   handleOk(): void {
     if (!!this.id) {
-      this._productService.productController().update(this.id, this.form?.value).subscribe(
+      this._voucherService.voucherController().update(this.id, this.form?.value).subscribe(
         (res: any) => {
           this.handleCancel();
-          this.getProduct();
+          this.getvVoucher();
           this.notification.create(
             TypeNotification.success,
             'Thông báo',
@@ -202,10 +142,10 @@ export class ProductComponent implements OnInit {
         }
     }
     else {
-      this._productService.productController().create(this.form?.value).subscribe(
+      this._voucherService.voucherController().create(this.form?.value).subscribe(
         (res: any) => {
           this.handleCancel();
-          this.getProduct();
+          this.getvVoucher();
           this.notification.create(
             TypeNotification.success,
             'Thông báo',
@@ -226,25 +166,12 @@ export class ProductComponent implements OnInit {
   }
 
   handleCancel(): void {
-    this.isVisible_CreateUpdateProductModal = false;
+    this.isVisible_CreateUpdatevVoucherModal = false;
     this.form?.reset();
   }
 
   onChangePageIndex(index: number) {
     this.page.page = index;
   }
-
-  onFileChange(event: any,type:string) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-  
-    reader.onloadend = () => {
-      const base64String = reader.result as string;      
-      this.form.controls[type].setValue(base64String);
-    };
-  
-    reader.readAsDataURL(file);   
-  }
-  
 
 }

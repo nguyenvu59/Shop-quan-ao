@@ -1,1 +1,69 @@
-<p>supplier works!</p>
+<div class="flex justify-end mb-2">
+    <button nz-button nzType="primary" (click)="opentCreateUpdateSupplier_Modal()">Thêm mới</button>
+</div>
+<nz-table #categoryTable (nzPageIndexChange)="onChangePageIndex($event)" [nzData]="listOfData" [nzPageSize]="page.size"
+    [nzTotal]="page.totalItem">
+    <thead>
+        <tr>
+            <th [nzWidth]="'60px'" nzAlign="center">STT</th>
+            <th>Tên</th>
+            <th>Mail</th>
+            <th>Số điện thoại</th>
+            <th>Địa chỉ</th>
+            <th [nzWidth]="'60px'" nzAlign="center">#</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of categoryTable.data;let i=index">
+            <td class="text-center">{{(page.page - 1) * page.size + i + 1}}</td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.email }}</td>
+            <td>{{ data.phone_number }}</td>
+            <td>{{ data.address }}</td>
+            <td>
+                <div class="flex space-x-2">
+                    <i nz-icon nzType="delete" nzTheme="outline" (click)="deleteSupplier(data.id)"
+                        class="cursor-pointer"></i>
+                    <i nz-icon nzType="edit" nzTheme="outline" (click)="opentCreateUpdateSupplier_Modal(data)"
+                        class="cursor-pointer"></i>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+
+<nz-modal [(nzVisible)]="isVisible_CreateUpdateSupplierModal" [nzTitle]="!!id?'Cập nhật':'Tạo mới'"
+    (nzOnCancel)="handleCancel()">
+    <div *nzModalContent>
+        <form nz-form nzLayout="vertical" [formGroup]="form">
+            <nz-form-item>
+                <nz-form-label>Tên</nz-form-label>
+                <nz-form-control>
+                    <input nz-input placeholder="Nhập tên" formControlName="name" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label>Email</nz-form-label>
+                <nz-form-control>
+                    <input nz-input placeholder="Nhập email" formControlName="email" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label>Số điện thoại</nz-form-label>
+                <nz-form-control>
+                    <input nz-input placeholder="Nhập số điện thoại" formControlName="phone_number" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label>Địa chỉ</nz-form-label>
+                <nz-form-control>
+                    <input nz-input placeholder="Nhập địa chỉ" formControlName="address" />
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </div>
+    <div *nzModalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">Thoát</button>
+        <button nz-button nzType="primary" (click)="handleOk()">Lưu</button>
+    </div>
+</nz-modal>

@@ -35,6 +35,8 @@ import { OrderComponent } from './order/order.component';
 import { CategoryComponent } from './category/category.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { VoucherComponent } from './voucher/voucher.component';
 @NgModule({
   declarations: [
     MainComponent,
@@ -43,7 +45,8 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
     SupplierComponent,
     ProductComponent,
     OrderComponent,
-    CategoryComponent
+    CategoryComponent,
+    VoucherComponent
   ],
   imports: [    
     CommonModule,    
@@ -63,7 +66,8 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
     NzFormModule,
     NzInputModule,
     NzSelectModule,
-    NzInputNumberModule
+    NzInputNumberModule,
+    NzUploadModule
   ],
   providers: [
     AuthService,

@@ -7,6 +7,7 @@ import { SupplierComponent } from './supplier/supplier.component';
 import { ProductComponent } from './product/product.component';
 import { OrderComponent } from './order/order.component';
 import { CategoryComponent } from './category/category.component';
+import { VoucherComponent } from './voucher/voucher.component';
 
 const routes: Routes = [
   {
@@ -14,40 +15,25 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       {
-        path: "category", component: CategoryComponent,
-        data: {
-          title: 'Danh mục'
-        }
+        path: "category", component: CategoryComponent,      
       },
       {
-        path: "order", component: OrderComponent,
-        data: {
-          title: 'Đơn hàng'
-        }
+        path: "order", component: OrderComponent,     
       },
       {
-        path: "product", component: ProductComponent,
-        data: {
-          title: 'Sản phẩm'
-        }
+        path: "product", component: ProductComponent,       
       },
       {
-        path: "supplier", component: SupplierComponent,
-        data: {
-          title: 'Nhà cung cấp'
-        }
+        path: "supplier", component: SupplierComponent,      
       },
       {
-        path: "account-admin", component: AdminComponent,
-        data: {
-          title: 'Tài khoản Admin'
-        }
+        path: "voucher", component: VoucherComponent,    
       },
       {
-        path: "account-customer", component: CustomerComponent,
-        data: {
-          title: 'Tài khoản khách hàng'
-        }
+        path: "account-admin", component: AdminComponent,        
+      },
+      {
+        path: "account-customer", component: CustomerComponent,       
       },      
     ]
   }
