@@ -152,3 +152,22 @@ export const Type_of_Discount = [
   { name: 'Trừ thẳng', id: 'Trừ thẳng' },
 ];
 
+export const listStatusOrder = [
+  {
+    name: 'Chưa Thanh Toán',
+    id: 'ChuaThanhToan',
+  },
+  {
+    name: 'Đã Thanh Toán',
+    id: 'DaThanhToan',
+  },
+  {
+    name: 'Đã gửi hàng',
+    id: 'DaGuiHang',
+  },
+  {
+    name: 'Đã hoàn tất',
+    id: 'DaHoanTat',
+  },
+]
+

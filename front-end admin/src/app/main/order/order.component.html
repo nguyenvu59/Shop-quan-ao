@@ -1,1 +1,111 @@
-<p>order works!</p>
+<nz-table #categoryTable (nzPageIndexChange)="onChangePageIndex($event)" [nzData]="listOfData" [nzPageSize]="page.size"
+    [nzTotal]="page.totalItem">
+    <thead>
+        <tr>
+            <th [nzWidth]="'60px'" nzAlign="center">STT</th>
+            <th>Mã đơn</th>
+            <th>Số điện thoại khách hàng</th>
+            <th>Trạng thái</th>
+            <th [nzWidth]="'60px'" nzAlign="center">#</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of categoryTable.data;let i=index">
+            <td class="text-center">{{(page.page - 1) * page.size + i + 1}}</td>
+            <td>{{ data.code }}</td>
+            <td>{{ data.customer_phone_number }}</td>
+            <td>{{ data.status }}</td>            
+            <td>
+                <div class="text-center">
+                    <i nz-icon nzType="edit" nzTheme="outline" (click)="opentCreateUpdateOrder_Modal(data)"
+                        class="cursor-pointer"></i>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+
+<nz-modal [(nzVisible)]="isVisible_CreateUpdateOrderModal" [nzTitle]="!!id?'Cập nhật':'Tạo mới'"
+    (nzOnCancel)="handleCancel()" [nzWidth]="1500">
+    <div *nzModalContent>
+        <form nz-form nzLayout="vertical" [formGroup]="form">
+            <div class="grid grid-cols-4 gap-4">
+                <nz-form-item>
+                    <nz-form-label>Mã</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input placeholder="Nhập mã" formControlName="code" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Địa chỉ</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input placeholder="Nhập địa chỉ" formControlName="address" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Số điện thoại khách hàng</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input placeholder="Nhập số điện thoại khách"
+                            formControlName="customer_phone_number" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Ghi chú</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input placeholder="Nhập Ghi chú" formControlName="note" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Tên khách hàng</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input placeholder="Nhập Tên khách hàng" formControlName="customer_name" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Ghi chú</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input placeholder="Nhập Ghi chú" formControlName="note" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Tổng giá trị</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input placeholder="Nhập tổng giá trị" formControlName="total_product_value" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Voucher</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input placeholder="Nhập Voucher" formControlName="voucher_discount_value" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Tổng thanh toán</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input placeholder="Nhập tổng thanh toán" formControlName="total_amount" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Phương thức thanh toán</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input placeholder="Nhập phương thức thanh toán" formControlName="payment_method" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Trạng thái đơn hàng</nz-form-label>
+                    <nz-form-control>
+                        <nz-select formControlName="status" [nzAllowClear]="true" nzPlaceHolder="Chọn đơn hàng">
+                            <ng-container *ngFor="let item of listStatusOrder">
+                                <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+                            </ng-container>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </form>
+    </div>
+    <div *nzModalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">Thoát</button>
+        <button nz-button nzType="primary" (click)="handleOk()">Lưu</button>
+    </div>
+</nz-modal>
