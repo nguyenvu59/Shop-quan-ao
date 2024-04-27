@@ -24,9 +24,9 @@
             <fa-icon [icon]="faShoppingCart"></fa-icon>
           </div>
           <div class="text-xs leading-3">Cart</div>
-          <div
+          <div *ngIf="!!quantityCart"
             class="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-red-500 text-white text-xs">
-            2
+            {{quantityCart}}
           </div>
         </a>
         <div [hidden]="!token">
@@ -121,11 +121,10 @@
           <a href="javascript:void(0)" class="text-gray-200 hover:text-white transition">Liên hệ chúng tôi</a> -->
         </div>
         <p class="text-gray-200" [hidden]="!!token">
-          <a href="javascript:void(0)" class="text-gray-200 hover:text-white transition" data-modal-target="login-modal"
-            data-modal-toggle="login-modal">Đăng nhập</a>
+          <a [routerLink]="" class="text-gray-200 hover:text-white transition" (click)="handerModalLogin()">Đăng nhập</a>
           /
-          <a href="javascript:void(0)" class="text-gray-200 hover:text-white transition"
-            data-modal-target="register-modal" data-modal-toggle="register-modal">Đăng ký</a>
+          <a [routerLink]="" class="text-gray-200 hover:text-white transition" (click)="handerModalRegister()">Đăng
+            ký</a>
         </p>
       </div>
     </div>
@@ -154,13 +153,16 @@
 
 
 <!-- modal login-->
-<div id="login-modal" tabindex="-1" aria-hidden="true"
-  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+<div *ngIf="openModalLogin"
+class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex pt-10">
   <div class="relative w-full max-w-2xl max-h-full">
     <!-- Modal content -->
     <div class="relative bg-white rounded-lg dark:bg-gray-700">
       <div class="max-w-lg mx-auto py-7 rounded overflow-hidden">
-        <h2 class="text-2xl uppercase font-medium mb-1">Đăng nhập</h2>
+        <div class="flex items-center justify-between">
+          <h2 class="text-2xl uppercase font-medium mb-1">Đăng nhập</h2>
+          <fa-icon [icon]="faTimes" class="cursor-pointer" (click)="closeModalLogin()"></fa-icon>
+        </div>
         <p class="text-gray-600 mb-6 text-sm">
           chào mừng khách hàng trở lại
         </p>
@@ -218,14 +220,18 @@
 </div>
 
 <!-- modal register-->
-<div id="register-modal" tabindex="-1" aria-hidden="true"
-  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+
+<div *ngIf="openModalRegister"
+  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex pt-10" >
   <div class="relative w-full max-w-2xl max-h-full">
     <!-- Modal content -->
     <div class="relative bg-white rounded-lg dark:bg-gray-700">
-      <div class="contain py-16">
+      <div class="contain py-9">
         <div class="max-w-lg mx-auto rounded overflow-hidden">
-          <h2 class="text-2xl uppercase font-medium mb-1">Tạo tài khoản</h2>
+          <div class="flex items-center justify-between">
+            <h2 class="text-2xl uppercase font-medium mb-1">Tạo tài khoản</h2>
+            <fa-icon [icon]="faTimes" class="cursor-pointer" (click)="closeModalRegister()"></fa-icon>
+          </div>
           <p class="text-gray-600 mb-6 text-sm">
             Đăng ký tài khoản shop
           </p>
@@ -286,22 +292,25 @@
 
           <!-- login with -->
           <!-- <div class="mt-6 flex justify-center relative">
-                <div class="text-gray-600 uppercase px-3 bg-white z-10 relative">Or signup with</div>
-                <div class="absolute left-0 top-3 w-full border-b-2 border-gray-200"></div>
-            </div>
-            <div class="mt-4 flex gap-4">
-                <a href="#"
-                    class="w-1/2 py-2 text-center text-white bg-blue-800 rounded uppercase font-roboto font-medium text-sm hover:bg-blue-700">facebook</a>
-                <a href="#"
-                    class="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500">google</a>
-            </div> -->
+            <div class="text-gray-600 uppercase px-3 bg-white z-10 relative">Or signup with</div>
+            <div class="absolute left-0 top-3 w-full border-b-2 border-gray-200"></div>
+        </div>
+        <div class="mt-4 flex gap-4">
+            <a href="#"
+                class="w-1/2 py-2 text-center text-white bg-blue-800 rounded uppercase font-roboto font-medium text-sm hover:bg-blue-700">facebook</a>
+            <a href="#"
+                class="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500">google</a>
+        </div> -->
           <!-- ./login with -->
 
           <p class="mt-4 text-center text-gray-600">Đã có tài khoản? <a href="javascript:void(0)" class="text-primary"
-              data-modal-target="login-modal" data-modal-toggle="login-modal" data-modal-hide="register-modal">Đăng nhập
+              data-modal-target="login-modal" data-modal-toggle="login-modal" data-modal-hide="register-modal">Đăng
+              nhập
               ngay</a></p>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<div *ngIf="openModalRegister" class="opacity-25 fixed inset-0 z-40 bg-black"></div>

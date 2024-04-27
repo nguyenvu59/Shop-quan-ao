@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 const keyToken = 'token';
 const keyUser = 'user';
+const keyQuantityCart = 'quantityCart';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,13 @@ export class StorageService {
 
   saveUser(user: any) {
     localStorage.setItem(keyUser, JSON.stringify(user));
+  }
+
+  getQuantityCart() {    
+    return localStorage.getItem(keyQuantityCart);
+  }
+
+  saveQuantityCart(quantity: number=0) {
+    localStorage.setItem(keyQuantityCart, `${quantity}`);
   }
 }

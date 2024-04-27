@@ -1,6 +1,6 @@
 import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { faBars, faHeart, faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faClosedCaptioning, faHeart, faSearch, faShoppingCart, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
 import { initFlowbite } from 'flowbite';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from './services/auth.service';
@@ -13,18 +13,22 @@ import { jwtDecode } from "jwt-decode";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit,DoCheck {
+export class AppComponent implements OnInit, DoCheck {
   faUser = faUser;
   faSearch = faSearch;
   faHeart = faHeart;
   faShoppingCart = faShoppingCart;
   faBars = faBars;
+  faTimes = faTimes;
 
   formRegister!: FormGroup;
   formLogin!: FormGroup;
 
-  token: string|null = '';
-  user:any = {};
+  token: string | null = '';
+  user: any = {};
+  quantityCart: number = 0;
+  openModalRegister: boolean = false;
+  openModalLogin: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -39,11 +43,12 @@ export class AppComponent implements OnInit,DoCheck {
     this.initFormLogin();
     this.initFormRegister();
     this.token = this._storageService.getToken();
-    this.user = this._storageService.getUser();
+    this.user = this._storageService.getUser();    
   }
 
   ngDoCheck() {
     this.user = this._storageService.getUser();
+    this.quantityCart = +`${this._storageService.getQuantityCart()}`;
   }
 
   @HostListener('window:storage')
@@ -73,6 +78,25 @@ export class AppComponent implements OnInit,DoCheck {
     document.getElementsByClassName('overflow-y-auto')[0].scrollTo(0, 0);
   }
 
+  handerModalRegister() {   
+    this.formRegister.reset(); 
+    this.openModalRegister = true;
+  }
+
+  closeModalRegister() {     
+    this.openModalRegister = false;
+  }
+
+  handerModalLogin() {   
+    this.formLogin.reset(); 
+    this.openModalLogin = true;
+  }
+
+  closeModalLogin() {     
+    this.openModalLogin = false;
+  }
+
+
   register() {
     if (this.formRegister.value.password !== this.formRegister.value.confirm) {
       this.toastr.error("mật khẩu và Nhập lại mật khẩu không giống nhau", "Thông báo");
@@ -83,6 +107,8 @@ export class AppComponent implements OnInit,DoCheck {
     this._customersService.customerController().create(formRegister).subscribe(
       (res: any) => {
         this.toastr.success("Đăng ký thành công", "Thông báo");
+        this.handerModalLogin();
+        this.closeModalRegister();
       }
     ),
       (error: any) => {
@@ -99,8 +125,10 @@ export class AppComponent implements OnInit,DoCheck {
         let decodedToken: any = jwtDecode(res.Data);
         this._storageService.saveToken(res.Data);
         this._storageService.saveUser(decodedToken);
+        this._storageService.saveQuantityCart();
         this.token = this._storageService.getToken();
         this.user = this._storageService.getUser();
+        this.closeModalLogin();        
       }
     ),
       (error: any) => {

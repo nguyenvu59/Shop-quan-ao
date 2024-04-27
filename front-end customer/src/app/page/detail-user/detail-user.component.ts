@@ -12,7 +12,7 @@ export class DetailUserComponent  implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.selectTab('conten-detail-user');
+    this.selectTab('user');
   }
 
   selectTab(type:string) {
