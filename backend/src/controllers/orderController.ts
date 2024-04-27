@@ -54,7 +54,7 @@ export const update = async (req: Request, res: Response) => {
       const orderDetail = orderDetailRepository.create(item);
       await orderDetailRepository.save(orderDetail);
     }
-    return res.send({ Status: 400, Data: order });
+    return res.send({ Status: 200, Data: order });
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });

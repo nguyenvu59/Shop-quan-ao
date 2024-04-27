@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Cart_Detail } from './Cart_Detail';
 
 @Entity()
 export class Cart {
@@ -13,5 +14,6 @@ export class Cart {
 
   @CreateDateColumn({ type: 'timestamp' })
   create_time: Date;
+  details: Cart_Detail[]
 
 }
