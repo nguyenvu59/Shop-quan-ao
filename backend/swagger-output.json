@@ -632,6 +632,56 @@
       },
       "post": {
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "category": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "size": {
+                  "example": "any"
+                },
+                "sex": {
+                  "example": "any"
+                },
+                "price": {
+                  "example": "any"
+                },
+                "quantity": {
+                  "example": "any"
+                },
+                "import_price": {
+                  "example": "any"
+                },
+                "sold": {
+                  "example": "any"
+                },
+                "brand": {
+                  "example": "any"
+                },
+                "supplier": {
+                  "example": "any"
+                },
+                "avata": {
+                  "example": "any"
+                },
+                "images": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -642,12 +692,12 @@
         }
       }
     },
-    "/product/{id}": {
+    "/product/{productId}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "productId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -669,10 +719,22 @@
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "productId",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "where": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -691,7 +753,7 @@
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "productId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -1072,6 +1134,37 @@
         "responses": {
           "default": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/file/upload": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/file/image/{imageName}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "imageName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
