@@ -604,6 +604,23 @@
     "/product/": {
       "get": {
         "description": "",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -615,74 +632,9 @@
       },
       "post": {
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "category": {
-                  "example": "any"
-                },
-                "description": {
-                  "example": "any"
-                },
-                "size": {
-                  "example": "any"
-                },
-                "sex": {
-                  "example": "any"
-                },
-                "price": {
-                  "example": "any"
-                },
-                "quantity": {
-                  "example": "any"
-                },
-                "import_price": {
-                  "example": "any"
-                },
-                "sold": {
-                  "example": "any"
-                },
-                "brand": {
-                  "example": "any"
-                },
-                "supplier": {
-                  "example": "any"
-                },
-                "avata": {
-                  "example": "any"
-                },
-                "image1": {
-                  "example": "any"
-                },
-                "image2": {
-                  "example": "any"
-                },
-                "image3": {
-                  "example": "any"
-                },
-                "image4": {
-                  "example": "any"
-                },
-                "image5": {
-                  "example": "any"
-                },
-                "image6": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created"
           },
           "500": {
             "description": "Internal Server Error"
@@ -721,74 +673,14 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "category": {
-                  "example": "any"
-                },
-                "description": {
-                  "example": "any"
-                },
-                "size": {
-                  "example": "any"
-                },
-                "sex": {
-                  "example": "any"
-                },
-                "price": {
-                  "example": "any"
-                },
-                "quantity": {
-                  "example": "any"
-                },
-                "import_price": {
-                  "example": "any"
-                },
-                "sold": {
-                  "example": "any"
-                },
-                "brand": {
-                  "example": "any"
-                },
-                "supplier": {
-                  "example": "any"
-                },
-                "avata": {
-                  "example": "any"
-                },
-                "image1": {
-                  "example": "any"
-                },
-                "image2": {
-                  "example": "any"
-                },
-                "image3": {
-                  "example": "any"
-                },
-                "image4": {
-                  "example": "any"
-                },
-                "image5": {
-                  "example": "any"
-                },
-                "image6": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"

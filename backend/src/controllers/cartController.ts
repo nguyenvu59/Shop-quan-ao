@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 import { Request, Response } from 'express';
 import { Cart } from '../entity/Cart';
 import { Cart_Detail } from '../entity/Cart_Detail';
-import { Product } from 'src/entity/Product';
+import { Product } from '../entity/Product';
 
 /**
  * Thêm sản phẩm vào giỏ hàng.

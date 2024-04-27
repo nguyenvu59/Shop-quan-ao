@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
+import { ProductImage } from './ProductImage';
 
 @Entity()
 export class Product {
@@ -41,31 +42,9 @@ export class Product {
   @Column()
   avata: string;
 
-  @Column()
-  image1: string;
+  @OneToMany(() => ProductImage, productImage => productImage.product)
+  images: ProductImage[];
 
-  @Column()
-  image2: string;
-
-  @Column()
-  image3: string;
-
-  @Column()
-  image4: string;
-
-  @Column()
-  image5: string;
-  
-  @Column()
-  image6: string;
-
-  // @Column()
-  // images: string[];
-
-  // @Column()
-  // tags: string[];
-  
   @CreateDateColumn({ type: 'timestamp' })
   create_time: Date;
-
 }
