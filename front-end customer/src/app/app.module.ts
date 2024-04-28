@@ -38,6 +38,8 @@ import { AdminService } from './services/admin.service';
 import { ConfigService } from './services/config.service';
 import { StorageService } from './services/storage.service';
 import { ToastrModule } from 'ngx-toastr';
+import { CartService } from './services/cart.service';
+import { UploadService } from './services/upload.service';
 
 registerLocaleData(vi);
 
@@ -80,7 +82,9 @@ registerLocaleData(vi);
     SupplierService,
     AdminService,
     ConfigService,
-    StorageService,
+    StorageService, 
+    CartService,   
+    UploadService,
     { provide: NZ_I18N, useValue: vi_VN },
     {
       provide: HTTP_INTERCEPTORS,

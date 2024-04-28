@@ -37,6 +37,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { VoucherComponent } from './voucher/voucher.component';
+import { UploadService } from '../services/upload.service';
+import { CartService } from '../services/cart.service';
 @NgModule({
   declarations: [
     MainComponent,
@@ -79,6 +81,8 @@ import { VoucherComponent } from './voucher/voucher.component';
     AdminService,
     ConfigService,
     StorageService,
+    UploadService,
+    CartService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
