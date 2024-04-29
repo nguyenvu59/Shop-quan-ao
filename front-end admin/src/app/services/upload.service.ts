@@ -19,7 +19,7 @@ export class UploadService {
         return this.http.get(`${url}/image/${imgaeName}`);
       },
       upload: (data: any) => {
-        return this.http.post(`${url}`, data);
+        return this.http.post(`${url}/upload`, data);
       },
     };
   }

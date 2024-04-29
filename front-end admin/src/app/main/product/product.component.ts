@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
-import { Observable, ReplaySubject } from 'rxjs';
+import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
+import { Observable, Observer, ReplaySubject } from 'rxjs';
 import { Sex, Size, messageAddSuccess, messageDeleteSuccess, messageUpdateSuccess } from 'src/app/common/const';
 import { TypeNotification } from 'src/app/common/enum';
 import { getObjectTruThy } from 'src/app/common/globalFC';
@@ -11,6 +12,8 @@ import { CategoryService } from 'src/app/services/category.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { ProductService } from 'src/app/services/product.service';
 import { SupplierService } from 'src/app/services/supplier.service';
+import { UploadService } from 'src/app/services/upload.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-product',
@@ -34,14 +37,23 @@ export class ProductComponent implements OnInit {
 
   form!: FormGroup;
 
+  loading = false;
+
+  urlUpload: string = environment.API.urlUPload;
+
+  imageAvata: any = '';
+  imageProduct: any = [];
+
   constructor(
     private fb: FormBuilder,
     private _configService: ConfigService,
     private _productService: ProductService,
     private _categoryService: CategoryService,
     private _supplierService: SupplierService,
+    private _uploadService: UploadService,
     private notification: NzNotificationService,
-    private _modal: NzModalService
+    private _modal: NzModalService,
+    private msg: NzMessageService,
   ) { }
 
   ngOnInit(): void {
@@ -64,12 +76,8 @@ export class ProductComponent implements OnInit {
       sold: 0,
       brand: null,
       supplier: null,
-      avata:null,
-      image1:null,
-      image2:null,
-      image3:null,
-      image4:null,
-      image5:null,
+      avata: null,
+      images: [],
     })
   }
 
@@ -234,17 +242,67 @@ export class ProductComponent implements OnInit {
     this.page.page = index;
   }
 
-  onFileChange(event: any,type:string) {
+  onFileChange(event: any, type: string) {
     const file = event.target.files[0];
     const reader = new FileReader();
-  
+
     reader.onloadend = () => {
-      const base64String = reader.result as string;      
+      const base64String = reader.result as string;
       this.form.controls[type].setValue(base64String);
     };
-  
-    reader.readAsDataURL(file);   
+
+    reader.readAsDataURL(file);
   }
-  
+
+  // test upload ảnh
+
+  handleChange(info: any): void {
+  console.log('info :', info);
+    switch (info.file.status) {
+      case 'uploading':
+        this.loading = true;
+        break;
+      case 'done':
+        // Get this url from response in real world.
+        this.loading = false;
+        const formData = new FormData();
+        let datapush:any = info.file;
+        formData.append('image', info.file);
+        break;
+      case 'error':
+        this.msg.error('Network error');
+        this.loading = false;
+        break;
+    }
+  }
+
+  selectedFile: File | null = null;
+
+  onFileSelected(event: any) {
+    let file : File = event.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file,file.name);
+    this._uploadService.fileController().upload(formData).subscribe(
+      (res: any) => {
+      console.log('res :', res);
+        // this.handleCancel();
+        // this.getProduct();
+        // this.notification.create(
+        //   TypeNotification.success,
+        //   'Thông báo',
+        //   messageAddSuccess
+        // );
+      }
+    ),
+      (error: any) => {
+        if (error?.Data) {
+          this.notification.create(
+            TypeNotification.error,
+            'Thông báo',
+            `${error?.Data}`
+          );
+        }
+      }
+  }
 
 }

@@ -124,39 +124,29 @@
                 <nz-form-item>
                     <nz-form-label>Ảnh đại diện</nz-form-label>
                     <nz-form-control>
-                        <input type="file" (change)="onFileChange($event,'avata')" accept="image/*">
+                        <input type="file" (change)="onFileSelected($event)"  name="image"/>
+                        <!-- <nz-upload
+                        class="avatar-uploader"
+                        [nzAction]="urlUpload"
+                        nzName="image"
+                        nzListType="picture-card"
+                        [nzShowUploadList]="false"                  
+                        (nzChange)="handleChange($event)"
+                      >
+                        <ng-container *ngIf="!imageAvata">
+                          <span class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></span>
+                          <div class="ant-upload-text">Upload</div>
+                        </ng-container>
+                        <img *ngIf="imageAvata" [src]="imageAvata" style="width: 100%" />
+                      </nz-upload> -->
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                    <nz-form-label>Ảnh sản phẩm 1</nz-form-label>
+                    <nz-form-label>Ảnh sản phẩm</nz-form-label>
                     <nz-form-control>
-                        <input type="file" (change)="onFileChange($event,'image1')" accept="image/*">
+                        <!-- <input type="file" (change)="onFileChange($event,'image1')" accept="image/*"> -->
                     </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                    <nz-form-label>Ảnh sản phẩm 2</nz-form-label>
-                    <nz-form-control>
-                        <input type="file" (change)="onFileChange($event,'image2')" accept="image/*">
-                    </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                    <nz-form-label>Ảnh sản phẩm 3</nz-form-label>
-                    <nz-form-control>
-                        <input type="file" (change)="onFileChange($event,'image3')" accept="image/*">
-                    </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                    <nz-form-label>Ảnh sản phẩm 4</nz-form-label>
-                    <nz-form-control>
-                        <input type="file" (change)="onFileChange($event,'image4')" accept="image/*">
-                    </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                    <nz-form-label>Ảnh sản phẩm 5</nz-form-label>
-                    <nz-form-control>
-                        <input type="file" (change)="onFileChange($event,'image5')" accept="image/*">
-                    </nz-form-control>
-                </nz-form-item>
+                </nz-form-item>     
             </div>
         </form>
     </div>

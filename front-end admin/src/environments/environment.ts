@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   API:{   
     url: 'http://localhost:8280/api/v1',    
+    urlUPload: 'http://localhost:8280/api/v1/file/upload',    
   },
   path:{
     assets:''

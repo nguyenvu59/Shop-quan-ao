@@ -25,7 +25,7 @@ router.post('/upload', upload.single('image'), (req, res) => {
         return res.status(400).json({ message: 'No file uploaded' });
     }
     const fileName = req.file.filename;
-    return res.status(200).json({ imageUrl: `D:/KrizPham/2.%20Work/3.%20DoAn/Shop-quan-ao/backend/images/${fileName}` }); // Thay bằng đường dẫn trên máy anh
+    return res.status(200).json({ imageUrl: `D:/imageDoAn-shop-quan-ao/${fileName}` }); // Thay bằng đường dẫn trên máy anh
 });
 
 // API lấy file ảnh
