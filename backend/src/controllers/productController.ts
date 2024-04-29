@@ -167,17 +167,24 @@ export const getProductById = async (req: Request, res: Response): Promise<Respo
 };
 
 /**
- * Xoá sản phẩm theo product_id.
+ * Xoá sản phẩm theo product_id. trước tiên, xoá toàn bộ ảnh của sản phẩm
  */
 export const deleteProductById = async (req: Request, res: Response): Promise<Response> => {
   try {
     const productId: number = +req.params.productId;
     const productRepository = getRepository(Product);
-    const deletedProduct = await productRepository.delete({ id: productId });
+    const productToDelete = await productRepository.findOne({ where: { id: productId } });
 
-    if (deletedProduct.affected === 0) {
+    if (!productToDelete) {
       return res.status(404).json({ Status: 404, Data: 'Product not found' });
     }
+
+    // Xóa tất cả các hình ảnh của sản phẩm
+    const productImageRepository = getRepository(ProductImage);
+    await productImageRepository.delete({ product: productToDelete });
+
+    // Xóa sản phẩm
+    await productRepository.delete(productToDelete);
 
     return res.status(200).json({ Status: 200, Data: 'Product deleted successfully' });
   } catch (error) {
