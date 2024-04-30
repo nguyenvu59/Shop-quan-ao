@@ -9,28 +9,24 @@ import { Order_Detail } from '../entity/Order_Detail';
  * @param res Response object để gửi kết quả về client.
  */
 export const create = async (req: Request, res: Response) => {
-  try {
-    const { order } = req.body;
-    const orderRepository = getRepository(Order);
-    const orderdetailRepository = getRepository(Order_Detail);
 
-    // Tạo đơn hàng
-    const newOrder = orderRepository.create(order);
+  try {
+    const orderRepository = getRepository(Order);
+    const orderDetailRepository = getRepository(Order_Detail);
+
+    const newOrder = orderRepository.create(req.body);
     await orderRepository.save(newOrder);
 
-    // Tạo các chi tiết đơn hàng
-    for (const item of order.details) {
-      item.order_id = newOrder[0].id;
-      const orderDetail = orderdetailRepository.create(item);
-      await orderdetailRepository.save(orderDetail);
+    for (const detail of req.body.details) {
+      const newOrderDetail = orderDetailRepository.create({ ...detail, order: newOrder });
+      await orderDetailRepository.save(newOrderDetail);
     }
-    return res.send({ Status: 200, Data: newOrder });
+    return res.status(201).send({ Status: 200, Data: newOrder });
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
-
 /**
  * Cập nhật thông tin của một đơn hàng cùng với các chi tiết đơn hàng.
  * @param req Request object từ client.
@@ -38,21 +34,26 @@ export const create = async (req: Request, res: Response) => {
  */
 export const update = async (req: Request, res: Response) => {
   try {
-    const { order } = req.body;
     const orderRepository = getRepository(Order);
     const orderDetailRepository = getRepository(Order_Detail);
+    const orderId = Number(req.params.id);
+    console.log(orderId)
+    const order = await orderRepository.findOne({ where: { id: orderId } });
+    if (!order) return res.status(404).json({ message: 'Order not found' });
 
-    // Cập nhật đơn hàng
-    await orderRepository.update(order.id, order);
+    // Delete old Order_Detail entities
+    const details = await orderDetailRepository.find({ where: { order: { id: orderId } } });
+    for (const detail of details) {
+      await orderDetailRepository.remove(detail);
+    }
+    // Update Order
+    orderRepository.merge(order, req.body);
+    await orderRepository.save(order);
 
-    // Xóa tất cả các chi tiết đơn hàng cũ
-    await orderDetailRepository.delete({ order_id: order.id });
-
-    // Tạo lại các chi tiết đơn hàng mới
-    for (const item of order.details) {
-      item.order_id = order.id;
-      const orderDetail = orderDetailRepository.create(item);
-      await orderDetailRepository.save(orderDetail);
+    // Create new Order_Detail entities
+    for (const detail of req.body.details) {
+      const newOrderDetail = orderDetailRepository.create({ ...detail, order });
+      await orderDetailRepository.save(newOrderDetail);
     }
     return res.send({ Status: 200, Data: order });
   } catch (error) {
@@ -105,6 +106,12 @@ export const deleteById = async (req: Request, res: Response) => {
     if (!order) {
       return res.status(404).send({ Status: 400, Data: 'Order not found' });
     }
+    // remove order_detail
+    const orderDetailRepository = getRepository(Order_Detail);
+    const details = await orderDetailRepository.find({ where: { order: { id: orderId } } });
+    for (const detail of details) {
+      await orderDetailRepository.remove(detail);
+    }
     await orderRepository.remove(order);
     return res.send({ Status: 200, Data: `Order id ${orderId} has been deleted.` });
   } catch (error) {
@@ -120,18 +127,18 @@ export const deleteById = async (req: Request, res: Response) => {
  */
 export const detail = async (req: Request, res: Response) => {
   try {
-    const orderId = Number(req.params.id);
+    const orderId: number = +req.params.id;
     const orderRepository = getRepository(Order);
     const orderDetailRepository = getRepository(Order_Detail);
-
     const order = await orderRepository.findOne({ where: { id: orderId } });
-
     if (!order) {
       return res.status(404).json({ Status: 400, Data: 'Order not found' });
     }
-
-    order.details = await orderDetailRepository.find({ where: { order_id: order.id } });
-    return res.send({ Status: 200, Data: order });
+    // Lấy danh sách hình ảnh của sản phẩm từ bảng Product_Image
+    const details = await orderDetailRepository.find({ where: { order: { id: orderId } } });
+    // Kết hợp danh sách hình ảnh vào thông tin sản phẩm
+    const full_order = { ...order, details };
+    return res.send({ Status: 200, Data: full_order });
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
 import { Order_Detail } from './Order_Detail';
 
 @Entity()
@@ -17,7 +17,7 @@ export class Order {
 
   @Column()
   note: string;
-  
+
   @Column()
   customer_name: string;
 
@@ -45,5 +45,7 @@ export class Order {
   @CreateDateColumn({ type: 'timestamp' })
   create_time: Date;
 
-  details: Order_Detail[]
+  // set relationship with Order_Detail
+  @OneToMany(() => Order_Detail, orderDetail => orderDetail.order)
+  details: Order_Detail[];
 }

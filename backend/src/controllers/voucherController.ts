@@ -12,9 +12,9 @@ dotenv.config();
 export const create = async (req: Request, res: Response) => {
   try {
     // @ts-ignore
-    const { description, code,type_of_discount,discount} = req.body;
+    const { description, code, type_of_discount, discount } = req.body;
     const voucherRepository = getRepository(Voucher);
-    const newSupplier = voucherRepository.create({ description, code,type_of_discount,discount});
+    const newSupplier = voucherRepository.create({ description, code, type_of_discount, discount });
     await voucherRepository.save(newSupplier);
     // @ts-ignore
     return res.send({ Status: 200, Data: newSupplier });
@@ -32,11 +32,11 @@ export const create = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
   try {
     // @ts-ignore
-    const { description, code,type_of_discount,discount} = req.body;
+    const { description, code, type_of_discount, discount } = req.body;
     const voucherRepository = getRepository(Voucher);
     // @ts-ignore
-    await voucherRepository.update(Number(req.params.id), soucher);
-    return res.send({ Status: 200, Data: { description, code,type_of_discount,discount} });
+    await voucherRepository.update(Number(req.params.id), { description, code, type_of_discount, discount });
+    return res.send({ Status: 200, Data: { description, code, type_of_discount, discount } });
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
@@ -56,17 +56,17 @@ export const list = async (_: Request, res: Response) => {
     const souchers = await voucherRepository.find();
     // Lọc nhà cung cấp theo từ khóa
     // @ts-ignore
-    if(keyword==null)
-    {
+    if (keyword == null) {
       return res.status(200).send({
-        Status: 200, Data: souchers      });
-    }else{
+        Status: 200, Data: souchers
+      });
+    } else {
       return res.status(200).send({
         Status: 200, Data: souchers.filter(soucher =>
           soucher.code.toLowerCase().includes(keyword.toLowerCase()))
       });
     }
-   
+
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });

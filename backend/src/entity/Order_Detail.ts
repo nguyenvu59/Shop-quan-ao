@@ -1,12 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { join } from 'path';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Order } from './Order';
 
 @Entity()
 export class Order_Detail {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  order_id: number;
 
   @Column()
   product_id: number;
@@ -40,5 +39,10 @@ export class Order_Detail {
 
   @CreateDateColumn({ type: 'timestamp' })
   create_time: Date;
-  
+
+  // set relationship with Order
+  @ManyToOne(() => Order, order => order.details)
+  @JoinColumn({ name: 'orderId' })
+  order: Order;
+
 }
