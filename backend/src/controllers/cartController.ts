@@ -116,7 +116,10 @@ export const findOrCreateCart = async (req: Request, res: Response): Promise<Res
     if (!cart) {
       cart = await cartRepository.save({ customer_id: customerId, total_product_value: 0 });
     }
-
+    // bổ sung thêm chi tiết giỏ hàng cart_detail
+    const cartDetailRepository = getRepository(Cart_Detail);
+    const cartDetail = await cartDetailRepository.find({ where: { cart_id: cart.id } });
+    cart.details = cartDetail;
     return res.status(200).json({ Status: 200, Data: cart });
   } catch (error) {
     console.error(error);
