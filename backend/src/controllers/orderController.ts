@@ -2,6 +2,7 @@ import { getRepository } from 'typeorm';
 import { Request, Response } from 'express';
 import { Order } from '../entity/Order';
 import { Order_Detail } from '../entity/Order_Detail';
+import { Product } from 'src/entity/Product';
 
 /**
  * Tạo một đơn hàng mới cùng với các chi tiết đơn hàng.
@@ -16,9 +17,15 @@ export const create = async (req: Request, res: Response) => {
 
     const newOrder = orderRepository.create(req.body);
     await orderRepository.save(newOrder);
-
+    const productRepository = getRepository(Product);
     for (const detail of req.body.details) {
       const newOrderDetail = orderDetailRepository.create({ ...detail, order: newOrder });
+      const product = await productRepository.findOne({ where: { id: detail.product_id } });
+      if (product) {
+        product.quantity -= detail.quantity;
+        product.sold += detail.quantity;
+        await productRepository.save(product);
+      }
       await orderDetailRepository.save(newOrderDetail);
     }
     return res.status(201).send({ Status: 200, Data: newOrder });
@@ -37,22 +44,35 @@ export const update = async (req: Request, res: Response) => {
     const orderRepository = getRepository(Order);
     const orderDetailRepository = getRepository(Order_Detail);
     const orderId = Number(req.params.id);
-    console.log(orderId)
+    const productRepository = getRepository(Product);
     const order = await orderRepository.findOne({ where: { id: orderId } });
     if (!order) return res.status(404).json({ message: 'Order not found' });
-
     // Delete old Order_Detail entities
     const details = await orderDetailRepository.find({ where: { order: { id: orderId } } });
     for (const detail of details) {
+      // Update product quantity, refund quantity to product, and reduce sold quantity
+      const product = await productRepository.findOne({ where: { id: detail.product_id } });
+      if (product) {
+        product.quantity += detail.quantity;
+        product.sold -= detail.quantity;
+        await productRepository.save(product);
+      }
       await orderDetailRepository.remove(detail);
     }
     // Update Order
     orderRepository.merge(order, req.body);
     await orderRepository.save(order);
-
     // Create new Order_Detail entities
     for (const detail of req.body.details) {
       const newOrderDetail = orderDetailRepository.create({ ...detail, order });
+      //update sold quantity and quantity of product
+      const product = await productRepository.findOne({ where: { id: detail.product_id } });
+      if (product) {
+        product.quantity -= detail.quantity;
+        product.sold += detail.quantity;
+        await productRepository.save(product);
+      }
+      
       await orderDetailRepository.save(newOrderDetail);
     }
     return res.send({ Status: 200, Data: order });

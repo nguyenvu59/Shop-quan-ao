@@ -21,16 +21,16 @@ export class Product {
   @Column()
   sex: string;
 
-  @Column()
+  @Column({ default: 0 })
   price: number;
 
-  @Column()
+  @Column({ default: 0 })
   quantity: number;
 
-  @Column()
+  @Column({ default: 0 })
   import_price: number;
 
-  @Column()
+  @Column({ default: 0 })
   sold: number;
 
   @Column()
