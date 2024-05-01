@@ -110,7 +110,7 @@ export class PaymentComponent implements OnInit {
       (res: any) => {
         if (this.detailCart.length == 0) {
           localStorage.removeItem('detailCart');
-          localStorage.removeItem('cartItemId');   
+          localStorage.removeItem('cartItemId');
           this.router.navigate(["/"]);
           this.toastr.success("Thanh toán thành công", "Thông báo");
           return;
@@ -126,23 +126,24 @@ export class PaymentComponent implements OnInit {
                 this.toastr.error(error.error?.Data, "Thông báo");
               }
             }
+          this._cartService.cartController().updateQuantity({ cartItemId: data.id, quantity: data.quantity||0 }).subscribe(
+            (res: any) => {
+
+            }
+          ),
+            (error: any) => {
+              if (error?.Data) {
+                this.toastr.error(error?.Data, "Thông báo");
+              }
+            }
           if (index == this.detailCart.length - 1) {
-            this._cartService.cartController().updateQuantity({ cartItemId: this.cartItemId, quantity: 0 }).subscribe(
+            this._cartService.cartController().getCartForCustomer(this.user.id).subscribe(
               (res: any) => {
-                this._cartService.cartController().getCartForCustomer(this.user.id).subscribe(
-                  (res: any) => {
-                    this._storageService.saveQuantityCart(res.Data.total_product_value);
-                    localStorage.removeItem('detailCart');
-                    localStorage.removeItem('cartItemId');
-                    this.router.navigate(["/"]);
-                    this.toastr.success("Thanh toán thành công", "Thông báo");
-                  }
-                ),
-                  (error: any) => {
-                    if (error?.Data) {
-                      this.toastr.error(error?.Data, "Thông báo");
-                    }
-                  }
+                this._storageService.saveQuantityCart(res.Data.total_product_value);
+                localStorage.removeItem('detailCart');
+                localStorage.removeItem('cartItemId');
+                this.router.navigate(["/"]);
+                this.toastr.success("Thanh toán thành công", "Thông báo");
               }
             ),
               (error: any) => {
