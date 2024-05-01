@@ -27,7 +27,7 @@
       <li nz-menu-item routerLink="voucher">
         <i nz-icon nzType="tag" nzTheme="outline"></i>
         <span>Voucher</span>
-      </li>      
+      </li>
       <li nz-submenu nzOpen nzTitle="Tài khoản" nzIcon="user">
         <ul>
           <li nz-menu-item nzMatchRouter routerLink="account-customer">
@@ -43,9 +43,23 @@
   <nz-layout>
     <nz-header>
       <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
-        </span>
+        <div class="flex items-center justify-between px-4">
+          <i class="trigger mb-2" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="isCollapsed = !isCollapsed"></i>
+          <!-- <span class="header-trigger" >
+          </span> -->
+          <div class="flex items-center">
+            <img class="w-8 h-8 me-2 rounded-full" src="/assets/img/avatar.png" alt="user photo">
+            <a nz-dropdown [nzDropdownMenu]="menu">
+              {{user.name}}
+              <span nz-icon nzType="down"></span>
+            </a>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu nzSelectable>
+                <li nz-menu-item (click)="logout()">Đăng xuất</li>
+              </ul>
+            </nz-dropdown-menu>
+          </div>
+        </div>
       </div>
     </nz-header>
     <nz-content>

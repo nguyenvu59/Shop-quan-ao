@@ -14,6 +14,7 @@ const routes: Routes = [
     path: '',
     component: MainComponent,
     children: [
+      { path: '', redirectTo: 'supplier', pathMatch: 'full' },
       {
         path: "category", component: CategoryComponent,      
       },

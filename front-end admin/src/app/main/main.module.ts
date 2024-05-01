@@ -40,6 +40,7 @@ import { VoucherComponent } from './voucher/voucher.component';
 import { UploadService } from '../services/upload.service';
 import { CartService } from '../services/cart.service';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 @NgModule({
   declarations: [
     MainComponent,
@@ -51,8 +52,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     CategoryComponent,
     VoucherComponent
   ],
-  imports: [    
-    CommonModule,    
+  imports: [
+    CommonModule,
     MainRoutingModule,
     NzLayoutModule,
     IconsProviderModule,
@@ -71,7 +72,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     NzSelectModule,
     NzInputNumberModule,
     NzUploadModule,
-    NzMessageModule
+    NzMessageModule,
+    NzDropDownModule
   ],
   providers: [
     AuthService,
