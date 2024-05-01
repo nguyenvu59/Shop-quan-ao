@@ -12,22 +12,22 @@ export const addToCart = async (req: Request, res: Response): Promise<Response> 
     const { customerId, productId, quantity } = req.body;
     const cartRepository = getRepository(Cart);
     const cartDetailRepository = getRepository(Cart_Detail);
-
-    // Tìm hoặc tạo giỏ hàng cho customerId
+    console.log(customerId, productId, quantity)
+    // // Tìm hoặc tạo giỏ hàng cho customerId
     let cart = await cartRepository.findOne({ where: { customer_id: customerId } });
     if (!cart) {
       cart = await cartRepository.save({ customer_id: customerId, total_product_value: 0 });
     }
 
-    // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng chưa
+    // // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng chưa
     const existingItem = await cartDetailRepository.findOne({ where: { cart_id: cart.id, product_id: productId } });
 
-    // Nếu sản phẩm đã tồn tại, cập nhật số lượng
+    // // Nếu sản phẩm đã tồn tại, cập nhật số lượng
     if (existingItem) {
       existingItem.quantity += quantity;
       await cartDetailRepository.save(existingItem);
     } else {
-      // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
+    //   // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
       const product = await getProductById(productId); // Hàm này phải được thay thế bằng cách lấy sản phẩm từ cơ sở dữ liệu
       const newCartItem = cartDetailRepository.create({
         cart_id: cart.id,
@@ -81,9 +81,9 @@ export const changeQuantityInCart = async (req: Request, res: Response): Promise
   try {
     const { cartItemId, quantity } = req.body;
     const cartDetailRepository = getRepository(Cart_Detail);
-
+    console.log(cartItemId, quantity)
     // Lấy chi tiết giỏ hàng dựa trên cartItemId
-    const cartItem = await cartDetailRepository.findOne(cartItemId);
+    const cartItem = await cartDetailRepository.findOne({ where: { id: cartItemId }});
 
     // Nếu cartItem không tồn tại, trả về lỗi
     if (!cartItem) {
