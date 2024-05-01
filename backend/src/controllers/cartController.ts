@@ -19,16 +19,16 @@ export const addToCart = async (req: Request, res: Response): Promise<Response> 
       cart = await cartRepository.save({ customer_id: customerId, total_product_value: 0 });
     }
 
-    // // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng chưa
+    // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng chưa
     const existingItem = await cartDetailRepository.findOne({ where: { cart_id: cart.id, product_id: productId } });
 
-    // // Nếu sản phẩm đã tồn tại, cập nhật số lượng
+    // Nếu sản phẩm đã tồn tại, cập nhật số lượng
     if (existingItem) {
       existingItem.quantity += quantity;
       await cartDetailRepository.save(existingItem);
     } else {
-    //   // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
-      const product = await getProductById(productId); // Hàm này phải được thay thế bằng cách lấy sản phẩm từ cơ sở dữ liệu
+      // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
+      const product = await getProductById(productId); 
       const newCartItem = cartDetailRepository.create({
         cart_id: cart.id,
         product_id: product.id,
@@ -45,7 +45,6 @@ export const addToCart = async (req: Request, res: Response): Promise<Response> 
       await cartDetailRepository.save(newCartItem);
     }
 
-    // Cập nhật tổng giá trị sản phẩm trong giỏ hàng
     cart.total_product_value += quantity;
     await cartRepository.save(cart);
 
@@ -84,12 +83,10 @@ export const changeQuantityInCart = async (req: Request, res: Response): Promise
     console.log(cartItemId, quantity)
     // Lấy chi tiết giỏ hàng dựa trên cartItemId
     const cartItem = await cartDetailRepository.findOne({ where: { id: cartItemId }});
-
     // Nếu cartItem không tồn tại, trả về lỗi
     if (!cartItem) {
       return res.status(404).json({ Status: 404, Data: 'CartItem not found' });
     }
-
     // Cập nhật số lượng sản phẩm
     cartItem.quantity = quantity;
     await cartDetailRepository.save(cartItem);
@@ -119,6 +116,8 @@ export const findOrCreateCart = async (req: Request, res: Response): Promise<Res
     // bổ sung thêm chi tiết giỏ hàng cart_detail
     const cartDetailRepository = getRepository(Cart_Detail);
     const cartDetail = await cartDetailRepository.find({ where: { cart_id: cart.id } });
+    // cộng toàn bộ giá trị sản phẩm trong giỏ hàng
+    cart.total_product_value = cartDetail.reduce((total, item) => total + item.price * item.quantity, 0);
     cart.details = cartDetail;
     return res.status(200).json({ Status: 200, Data: cart });
   } catch (error) {
