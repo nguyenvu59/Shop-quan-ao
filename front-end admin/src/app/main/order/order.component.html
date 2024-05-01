@@ -14,7 +14,7 @@
             <td class="text-center">{{(page.page - 1) * page.size + i + 1}}</td>
             <td>{{ data.code }}</td>
             <td>{{ data.customer_phone_number }}</td>
-            <td>{{ data.status }}</td>            
+            <td>{{ data.status_name }}</td>            
             <td>
                 <div class="text-center">
                     <i nz-icon nzType="edit" nzTheme="outline" (click)="opentCreateUpdateOrder_Modal(data)"
@@ -48,13 +48,7 @@
                         <input nz-input placeholder="Nhập số điện thoại khách"
                             formControlName="customer_phone_number" />
                     </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                    <nz-form-label>Ghi chú</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input placeholder="Nhập Ghi chú" formControlName="note" />
-                    </nz-form-control>
-                </nz-form-item>
+                </nz-form-item>               
                 <nz-form-item>
                     <nz-form-label>Tên khách hàng</nz-form-label>
                     <nz-form-control>
@@ -70,25 +64,33 @@
                 <nz-form-item>
                     <nz-form-label>Tổng giá trị</nz-form-label>
                     <nz-form-control>
-                        <input nz-input placeholder="Nhập tổng giá trị" formControlName="total_product_value" />
+                        <nz-input-number formControlName="total_product_value" placeholder="Nhập tổng giá trị" [nzMin]="0" [nzStep]="1" class="w-full"></nz-input-number>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Voucher</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input placeholder="Nhập Voucher" formControlName="voucher_discount_value" />
+                    <nz-form-control>                        
+                        <nz-select formControlName="voucher_id" [nzAllowClear]="true" nzPlaceHolder="Chọn Voucher">
+                            <ng-container *ngFor="let item of listVoucher">
+                                <nz-option [nzValue]="item.id" [nzLabel]="item.code"></nz-option>
+                            </ng-container>
+                        </nz-select>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Tổng thanh toán</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input placeholder="Nhập tổng thanh toán" formControlName="total_amount" />
+                    <nz-form-control>                        
+                        <nz-input-number formControlName="total_amount" placeholder="Nhập tổng thanh toán" [nzMin]="0" [nzStep]="1" class="w-full"></nz-input-number>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Phương thức thanh toán</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input placeholder="Nhập phương thức thanh toán" formControlName="payment_method" />
+                    <nz-form-control>                        
+                        <nz-select formControlName="payment_method" [nzAllowClear]="true" nzPlaceHolder="Chọn phương thức thanh toán">
+                            <ng-container *ngFor="let item of listPaymentMethod">
+                                <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+                            </ng-container>
+                        </nz-select>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>

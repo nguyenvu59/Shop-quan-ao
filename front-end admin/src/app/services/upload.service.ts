@@ -21,6 +21,12 @@ export class UploadService {
       upload: (data: any) => {
         return this.http.post(`${url}/upload`, data);
       },
+      search2: (imgaeName: string) => {
+        return this.http.get(`${this._configService.urlUPload}/image/${imgaeName}`);
+      },
+      upload2: (data: any) => {
+        return this.http.post(`${this._configService.urlUPload}`, data);
+      },
     };
   }
 }

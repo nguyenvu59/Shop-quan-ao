@@ -74,3 +74,25 @@ export function getObjectTruThy(param: any) {
   });
   return obj;
 }
+
+export function getRandomArray(arr: any[], count: number) {
+  // Copy the original array to avoid modifying it
+  const copyArr = arr.slice();
+
+  // Array to store randomly selected items
+  const randomArray = [];
+
+  // Loop to select random items
+  while (randomArray.length < count && copyArr.length > 0) {
+    // Generate a random index within the range of the copyArr length
+    const randomIndex = Math.floor(Math.random() * copyArr.length);
+
+    // Add the randomly selected item to the randomArray array
+    randomArray.push(copyArr[randomIndex]);
+
+    // Remove the selected item from the copyArr to avoid duplicate selection
+    copyArr.splice(randomIndex, 1);
+  }
+
+  return randomArray;
+}

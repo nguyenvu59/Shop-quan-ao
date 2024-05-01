@@ -6,8 +6,8 @@ export const messageErroDateTime =
   'Thời gian bắt đầu không được lớn hơn thời gian kết thúc';
 
 export const defineValidate = {
-  required:"Không được để trống",
-  maxLength:"Không được nhập quá ",
+  required: "Không được để trống",
+  maxLength: "Không được nhập quá ",
 };
 
 export const page = {
@@ -132,6 +132,25 @@ export const pageConfig = {
     screenReaderCurrentLabel: `You're on page`,
   },
 };
+
+export const listStatusOrder = [
+  {
+    name: 'Chưa Thanh Toán',
+    id: 'ChuaThanhToan',
+  },
+  {
+    name: 'Đã Thanh Toán',
+    id: 'DaThanhToan',
+  },
+  {
+    name: 'Đã gửi hàng',
+    id: 'DaGuiHang',
+  },
+  {
+    name: 'Đã hoàn tất',
+    id: 'DaHoanTat',
+  },
+]
 
 import {
   AccountBookTwoTone,

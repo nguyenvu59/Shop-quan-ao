@@ -24,9 +24,9 @@ export class AuthInterceptor implements HttpInterceptor {
         // Authorization: `Bearer ${this._storageService.getToken()}`,
       },
     });
-    if (request.url?.includes('/file/upload')) {      
-      request = request.clone({ headers: request.headers.delete('Accept','*/*') });   
-      request = request.clone({ headers: request.headers.delete('Content-Type','application/json') });   
+    if (request.url?.includes('/file/upload') || request.url?.includes('/storage/upload')) {
+      request = request.clone({ headers: request.headers.delete('Accept', '*/*') });
+      request = request.clone({ headers: request.headers.delete('Content-Type', 'application/json') });
     }
     // Clone the request with updated headers   
     console.log('request :', request);

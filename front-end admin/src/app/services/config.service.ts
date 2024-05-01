@@ -10,6 +10,7 @@ export class ConfigService {
   constructor(private sanitizer: DomSanitizer) {}
   
   url: string = environment.API.url;
+  urlUPload: string = environment.API.urlUPload;
 
   page() {
     return {

@@ -7,8 +7,10 @@
         <tr>
             <th [nzWidth]="'60px'" nzAlign="center">STT</th>
             <th>Tên</th>
-            <th>Kích cỡ</th>
+            <th>Danh mục</th>
+            <th>Thương hiệu</th>
             <th>Giá</th>
+            <th>Số lượng</th>
             <th [nzWidth]="'60px'" nzAlign="center">#</th>
         </tr>
     </thead>
@@ -16,8 +18,10 @@
         <tr *ngFor="let data of categoryTable.data;let i=index">
             <td class="text-center">{{(page.page - 1) * page.size + i + 1}}</td>
             <td>{{ data.name }}</td>
-            <td>{{ data.email }}</td>
-            <td>{{ data.phone_number }}</td>
+            <td>{{ data.category }}</td>
+            <td>{{ data.brand }}</td>
+            <td>{{ data.price|number }}</td>
+            <td>{{ data.quantity|number }}</td>
             <td>
                 <div class="flex space-x-2">
                     <i nz-icon nzType="delete" nzTheme="outline" (click)="deleteProduct(data.id)"
@@ -36,7 +40,7 @@
         <form nz-form nzLayout="vertical" [formGroup]="form">
             <div class="grid grid-cols-4 gap-4">
                 <nz-form-item>
-                    <nz-form-label>Tên danh mục</nz-form-label>
+                    <nz-form-label>Tên sản phẩm</nz-form-label>
                     <nz-form-control>
                         <input nz-input placeholder="Nhập tên" formControlName="name" />
                     </nz-form-control>
@@ -44,9 +48,9 @@
                 <nz-form-item>
                     <nz-form-label>Danh mục</nz-form-label>
                     <nz-form-control>
-                        <nz-select formControlName="parent_id" [nzAllowClear]="true" nzPlaceHolder="Chọn danh mục">
+                        <nz-select formControlName="category" [nzAllowClear]="true" nzPlaceHolder="Chọn danh mục">
                             <ng-container *ngFor="let item of listCategory">
-                                <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+                                <nz-option [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
                             </ng-container>
                         </nz-select>
                     </nz-form-control>
@@ -57,7 +61,7 @@
                         <input nz-input placeholder="Nhập mô tả" formControlName="description" />
                     </nz-form-control>
                 </nz-form-item>
-                <nz-form-item>
+                <!-- <nz-form-item>
                     <nz-form-label>Kích cỡ</nz-form-label>
                     <nz-form-control>
                         <nz-select formControlName="size" [nzAllowClear]="true" nzPlaceHolder="Chọn kích cỡ">
@@ -76,7 +80,7 @@
                             </ng-container>
                         </nz-select>
                     </nz-form-control>
-                </nz-form-item>
+                </nz-form-item> -->
                 <nz-form-item>
                     <nz-form-label>Giá</nz-form-label>
                     <nz-form-control>
@@ -121,32 +125,24 @@
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
+            </div>
+            <div class="flex space-x-4">
                 <nz-form-item>
                     <nz-form-label>Ảnh đại diện</nz-form-label>
                     <nz-form-control>
-                        <input type="file" (change)="onFileSelected($event)"  name="image"/>
-                        <!-- <nz-upload
-                        class="avatar-uploader"
-                        [nzAction]="urlUpload"
-                        nzName="image"
-                        nzListType="picture-card"
-                        [nzShowUploadList]="false"                  
-                        (nzChange)="handleChange($event)"
-                      >
-                        <ng-container *ngIf="!imageAvata">
-                          <span class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></span>
-                          <div class="ant-upload-text">Upload</div>
-                        </ng-container>
-                        <img *ngIf="imageAvata" [src]="imageAvata" style="width: 100%" />
-                      </nz-upload> -->
+                        <img [src]="environment.API.urlViewImage + imageAvata" alt="avata" width="90" height="90" *ngIf="!!imageAvata">
+                        <input type="file" (change)="onFileSelectedOne($event)" name="image" />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Ảnh sản phẩm</nz-form-label>
                     <nz-form-control>
-                        <!-- <input type="file" (change)="onFileChange($event,'image1')" accept="image/*"> -->
+                        <ng-container *ngFor="let item of imageProduct">
+                            <img [src]="environment.API.urlViewImage + item" alt="avata" width="90" height="90">
+                        </ng-container>
+                        <input type="file" (change)="onFileSelectedMulti($event)" name="image" />
                     </nz-form-control>
-                </nz-form-item>     
+                </nz-form-item>
             </div>
         </form>
     </div>

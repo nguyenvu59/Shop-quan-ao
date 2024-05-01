@@ -4,8 +4,10 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { listStatusOrder, messageUpdateSuccess } from 'src/app/common/const';
 import { TypeNotification } from 'src/app/common/enum';
+import { deepCopy } from 'src/app/common/globalFC';
 import { ConfigService } from 'src/app/services/config.service';
 import { OrderService } from 'src/app/services/order.service';
+import { VoucherService } from 'src/app/services/voucher.service';
 
 @Component({
   selector: 'app-order',
@@ -24,19 +26,46 @@ export class OrderComponent implements OnInit {
 
   form!: FormGroup;
 
-  listStatusOrder:any[] = listStatusOrder;
+  listStatusOrder: any[] = listStatusOrder;
+  listPaymentMethod: any[] = [
+    {
+      name: "Thanh toán khi nhận hàng",
+      id: "ThanhToanKhiNhanHang",
+    },
+    {
+      name: "Creat Card",
+      id: "creatcard",
+    },
+  ];
+  listVoucher: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private _configService: ConfigService,
     private _orderService: OrderService,
+    private _voucherService: VoucherService,
     private notification: NzNotificationService,
     private _modal: NzModalService
   ) { }
 
   ngOnInit(): void {
     this.initForm();
-    this.getOrder();
+    this._voucherService.voucherController().search().subscribe(
+      (res: any) => {
+        this.listVoucher = res.Data;
+        this.getOrder();
+      }
+    ),
+      (error: any) => {
+        if (error?.Data) {
+          this.notification.create(
+            TypeNotification.error,
+            'Thông báo',
+            `${error?.Data}`
+          );
+        }
+      }
+
   }
 
   initForm() {
@@ -59,6 +88,10 @@ export class OrderComponent implements OnInit {
     this._orderService.orderController().search().subscribe(
       (res: any) => {
         this.listOfData = res.Data;
+        this.listOfData.map((item: any) => {
+          item.status_name = listStatusOrder.find((obj: any) => obj.id == item.status)?.name;
+          item.payment_method_name = item.payment_method == 'ThanhToanKhiNhanHang' ? "Thanh toán khi nhận hàng" : "Creat Card";
+        })
         this.page.totalItem = res.Data.length;
       }
     ),
@@ -72,7 +105,7 @@ export class OrderComponent implements OnInit {
         }
       }
   }
-
+  copy_form = {};
   opentCreateUpdateOrder_Modal(item: any = undefined) {
     this.isVisible_CreateUpdateOrderModal = true;
     this.id = 0;
@@ -80,7 +113,9 @@ export class OrderComponent implements OnInit {
       this.id = item.id;
       this._orderService.orderController().getItem(this.id).subscribe(
         (res: any) => {
+          this.copy_form = deepCopy(res.Data);
           this.form.patchValue(res.Data);
+          console.log('this.form :', this.form);
         }
       ),
         (error: any) => {
@@ -96,8 +131,22 @@ export class OrderComponent implements OnInit {
   }
 
   handleOk(): void {
+    console.log('this.copy_form :', this.copy_form);
+    console.log('this.form.value :', this.form.value);
+    let dataPush:any = deepCopy(this.copy_form);
+    dataPush.code=this.form.value.code;
+    dataPush.address=this.form.value.address;
+    dataPush.customer_phone_number=this.form.value.customer_phone_number;
+    dataPush.note=this.form.value.note;
+    dataPush.customer_name=this.form.value.customer_name;
+    dataPush.total_product_value=this.form.value.total_product_value;
+    dataPush.voucher_id=this.form.value.voucher_id;
+    dataPush.total_amount=this.form.value.total_amount;
+    dataPush.payment_method=this.form.value.payment_method;
+    dataPush.status=this.form.value.status;    
+    dataPush.voucher_discount_value = this.listVoucher.find(obj => obj.id == dataPush.voucher_id)?.discount;
     if (!!this.id) {
-      this._orderService.orderController().update(this.id, this.form?.value).subscribe(
+      this._orderService.orderController().update(this.id, dataPush).subscribe(
         (res: any) => {
           this.handleCancel();
           this.getOrder();
@@ -117,7 +166,7 @@ export class OrderComponent implements OnInit {
             );
           }
         }
-    }    
+    }
   }
 
   handleCancel(): void {

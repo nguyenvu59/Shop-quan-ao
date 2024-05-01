@@ -1,10 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
-import { Observable, Observer, ReplaySubject } from 'rxjs';
+import { NzUploadChangeParam, NzUploadFile, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
+import { Observable, Observer, ReplaySubject, Subscription } from 'rxjs';
 import { Sex, Size, messageAddSuccess, messageDeleteSuccess, messageUpdateSuccess } from 'src/app/common/const';
 import { TypeNotification } from 'src/app/common/enum';
 import { getObjectTruThy } from 'src/app/common/globalFC';
@@ -14,6 +15,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { SupplierService } from 'src/app/services/supplier.service';
 import { UploadService } from 'src/app/services/upload.service';
 import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-product',
@@ -41,6 +43,8 @@ export class ProductComponent implements OnInit {
 
   urlUpload: string = environment.API.urlUPload;
 
+  environment = environment;
+
   imageAvata: any = '';
   imageProduct: any = [];
 
@@ -54,6 +58,7 @@ export class ProductComponent implements OnInit {
     private notification: NzNotificationService,
     private _modal: NzModalService,
     private msg: NzMessageService,
+    private http: HttpClient,
   ) { }
 
   ngOnInit(): void {
@@ -66,10 +71,10 @@ export class ProductComponent implements OnInit {
   initForm() {
     this.form = this.fb.group({
       name: null,
-      parent_id: 0,
+      category: null,
       description: null,
-      size: null,
-      sex: null,
+      size: ['xl'],
+      sex: ["Nam"],
       price: 0,
       quantity: 0,
       import_price: 0,
@@ -136,12 +141,16 @@ export class ProductComponent implements OnInit {
   }
 
   opentCreateUpdateProduct_Modal(item: any = undefined) {
+    this.initForm();
+    console.log('this.form :', this.form.value);
     this.isVisible_CreateUpdateProductModal = true;
     if (!!item) {
       this.id = item.id;
       this._productService.productController().getItem(this.id).subscribe(
         (res: any) => {
           this.form.patchValue(res.Data);
+          this.imageAvata = this.form.value.avata;
+          this.imageProduct = this.form.value.images.map((obj: any) => obj.imageUrl);
         }
       ),
         (error: any) => {
@@ -187,6 +196,16 @@ export class ProductComponent implements OnInit {
   }
 
   handleOk(): void {
+    if (!!this.imageAvata) {
+      this.form.patchValue({
+        avata: this.imageAvata,
+      })
+    }
+    if (this.imageProduct.length > 0) {
+      this.form.patchValue({
+        images: this.imageProduct,
+      })
+    }
     if (!!this.id) {
       this._productService.productController().update(this.id, this.form?.value).subscribe(
         (res: any) => {
@@ -235,63 +254,21 @@ export class ProductComponent implements OnInit {
 
   handleCancel(): void {
     this.isVisible_CreateUpdateProductModal = false;
-    this.form?.reset();
+    this.initForm();
   }
 
   onChangePageIndex(index: number) {
     this.page.page = index;
   }
-
-  onFileChange(event: any, type: string) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      const base64String = reader.result as string;
-      this.form.controls[type].setValue(base64String);
-    };
-
-    reader.readAsDataURL(file);
-  }
-
   // test upload ảnh
 
-  handleChange(info: any): void {
-  console.log('info :', info);
-    switch (info.file.status) {
-      case 'uploading':
-        this.loading = true;
-        break;
-      case 'done':
-        // Get this url from response in real world.
-        this.loading = false;
-        const formData = new FormData();
-        let datapush:any = info.file;
-        formData.append('image', info.file);
-        break;
-      case 'error':
-        this.msg.error('Network error');
-        this.loading = false;
-        break;
-    }
-  }
-
-  selectedFile: File | null = null;
-
-  onFileSelected(event: any) {
-    let file : File = event.target.files[0];
+  onFileSelectedOne(event: any) {
+    let file: File = event.target.files[0];
     const formData = new FormData();
-    formData.append('image', file,file.name);
-    this._uploadService.fileController().upload(formData).subscribe(
+    formData.append('file', file, file.name);
+    this._uploadService.fileController().upload2(formData).subscribe(
       (res: any) => {
-      console.log('res :', res);
-        // this.handleCancel();
-        // this.getProduct();
-        // this.notification.create(
-        //   TypeNotification.success,
-        //   'Thông báo',
-        //   messageAddSuccess
-        // );
+        this.imageAvata = res.name;
       }
     ),
       (error: any) => {
@@ -304,5 +281,26 @@ export class ProductComponent implements OnInit {
         }
       }
   }
+
+  onFileSelectedMulti(event: any) {
+    let file: File = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    this._uploadService.fileController().upload2(formData).subscribe(
+      (res: any) => {
+        this.imageProduct.push(res.name)
+      }
+    ),
+      (error: any) => {
+        if (error?.Data) {
+          this.notification.create(
+            TypeNotification.error,
+            'Thông báo',
+            `${error?.Data}`
+          );
+        }
+      }
+  }
+
 
 }

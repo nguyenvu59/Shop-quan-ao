@@ -16,7 +16,7 @@ export class OrderService {
     let url: string = `${this._configService.url}/order`;
     return {
       search: () => {
-        return this.http.get(`${url}`);
+        return this.http.get(`${url}/list`);
       },
       getItem: (id: number) => {
         return this.http.get(`${url}/${id}`);

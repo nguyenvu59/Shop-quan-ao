@@ -40,6 +40,8 @@ import { StorageService } from './services/storage.service';
 import { ToastrModule } from 'ngx-toastr';
 import { CartService } from './services/cart.service';
 import { UploadService } from './services/upload.service';
+import { PaymentComponent } from './page/payment/payment.component';
+import { VoucherService } from './services/voucher.service';
 
 registerLocaleData(vi);
 
@@ -57,6 +59,7 @@ registerLocaleData(vi);
     OrderComponent,
     ContenDetailUserComponent,
     DetailUserComponent,
+    PaymentComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,9 +85,10 @@ registerLocaleData(vi);
     SupplierService,
     AdminService,
     ConfigService,
-    StorageService, 
-    CartService,   
+    StorageService,
+    CartService,
     UploadService,
+    VoucherService,
     { provide: NZ_I18N, useValue: vi_VN },
     {
       provide: HTTP_INTERCEPTORS,

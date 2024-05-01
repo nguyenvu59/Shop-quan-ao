@@ -1,3 +1,4 @@
+import { CartService } from './services/cart.service';
 import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { faBars, faClosedCaptioning, faHeart, faSearch, faShoppingCart, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -35,6 +36,7 @@ export class AppComponent implements OnInit, DoCheck {
     private toastr: ToastrService,
     private _authService: AuthService,
     private _customersService: CustomersService,
+    private _cartService: CartService,
     private _storageService: StorageService,
   ) { }
 
@@ -43,7 +45,18 @@ export class AppComponent implements OnInit, DoCheck {
     this.initFormLogin();
     this.initFormRegister();
     this.token = this._storageService.getToken();
-    this.user = this._storageService.getUser();    
+    this.user = this._storageService.getUser();
+    this._cartService.cartController().getCartForCustomer(this.user.id).subscribe(
+      (res: any) => {
+        this._storageService.saveQuantityCart(res.Data.total_product_value);
+        this.quantityCart = res.Data.total_product_value;
+      }
+    ),
+      (error: any) => {
+        if (error?.Data) {
+          this.toastr.error(error?.Data, "Thông báo");
+        }
+      }
   }
 
   ngDoCheck() {
@@ -78,21 +91,21 @@ export class AppComponent implements OnInit, DoCheck {
     document.getElementsByClassName('overflow-y-auto')[0].scrollTo(0, 0);
   }
 
-  handerModalRegister() {   
-    this.formRegister.reset(); 
+  handerModalRegister() {
+    this.formRegister.reset();
     this.openModalRegister = true;
   }
 
-  closeModalRegister() {     
+  closeModalRegister() {
     this.openModalRegister = false;
   }
 
-  handerModalLogin() {   
-    this.formLogin.reset(); 
+  handerModalLogin() {
+    this.formLogin.reset();
     this.openModalLogin = true;
   }
 
-  closeModalLogin() {     
+  closeModalLogin() {
     this.openModalLogin = false;
   }
 
@@ -125,10 +138,21 @@ export class AppComponent implements OnInit, DoCheck {
         let decodedToken: any = jwtDecode(res.Data);
         this._storageService.saveToken(res.Data);
         this._storageService.saveUser(decodedToken);
-        this._storageService.saveQuantityCart();
+        // this._storageService.saveQuantityCart();
         this.token = this._storageService.getToken();
         this.user = this._storageService.getUser();
-        this.closeModalLogin();        
+        this._cartService.cartController().getCartForCustomer(this.user.id).subscribe(
+          (res: any) => {
+            this._storageService.saveQuantityCart(res.Data.total_product_value);
+            this.quantityCart = res.Data.total_product_value;
+          }
+        ),
+          (error: any) => {
+            if (error?.Data) {
+              this.toastr.error(error?.Data, "Thông báo");
+            }
+          }
+        this.closeModalLogin();
       }
     ),
       (error: any) => {

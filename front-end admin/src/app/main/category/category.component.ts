@@ -40,7 +40,7 @@ export class CategoryComponent implements OnInit {
   initForm() {
     this.form = this.fb.group({
       name: null,
-      parent_id: 0,     
+      parent_id: 0,
     })
   }
 
@@ -80,7 +80,7 @@ export class CategoryComponent implements OnInit {
               `${error?.Data}`
             );
           }
-        }      
+        }
     }
   }
 
@@ -115,6 +115,11 @@ export class CategoryComponent implements OnInit {
   }
 
   handleOk(): void {
+    if (!this.form.value?.parent_id) {
+      this.form.patchValue({
+        parent_id: 0,
+      });
+    }
     if (!!this.id) {
       this._categoryService.categoryController().update(this.id, this.form?.value).subscribe(
         (res: any) => {

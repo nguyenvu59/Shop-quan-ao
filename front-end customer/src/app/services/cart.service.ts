@@ -26,7 +26,7 @@ export class CartService {
       create: (data: any) => {
         return this.http.post(`${url}`, data);
       },
-      update: (data: any) => {
+      updateQuantity: (data: any) => {
         return this.http.put(`${url}/update-quantity`, data);
       },
       delete: (id: number) => {

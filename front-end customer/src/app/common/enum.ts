@@ -84,3 +84,10 @@ export enum configMode {
   KEYWORD = 0,
   SENTIMENT = 1,
 }
+
+export enum StatusOrder {
+  UNPAID = 'ChuaThanhToan',
+  PAID = 'DaThanhToan',
+  SHIPPED = 'DaGuiHang',
+  FINISHED = 'DaHoanTat',
+}
