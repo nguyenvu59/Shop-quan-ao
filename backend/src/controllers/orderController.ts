@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 import { Request, Response } from 'express';
 import { Order } from '../entity/Order';
 import { Order_Detail } from '../entity/Order_Detail';
-import { Product } from 'src/entity/Product';
+import { Product } from '../entity/Product';
 
 /**
  * Tạo một đơn hàng mới cùng với các chi tiết đơn hàng.
