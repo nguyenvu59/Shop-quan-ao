@@ -119,6 +119,7 @@ export const findOrCreateCart = async (req: Request, res: Response): Promise<Res
     // cộng toàn bộ giá trị sản phẩm trong giỏ hàng
     cart.total_product_value = cartDetail.reduce((total, item) => total + item.price * item.quantity, 0);
     cart.details = cartDetail;
+    cart.count_product = cartDetail.length;
     return res.status(200).json({ Status: 200, Data: cart });
   } catch (error) {
     console.error(error);

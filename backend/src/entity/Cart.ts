@@ -12,6 +12,9 @@ export class Cart {
   @Column()
   total_product_value: number;
 
+  @Column({ default: 0 })
+  count_product: number;
+
   @CreateDateColumn({ type: 'timestamp' })
   create_time: Date;
   details: Cart_Detail[]
