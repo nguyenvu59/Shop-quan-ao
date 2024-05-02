@@ -48,12 +48,12 @@ export class OrderComponent implements OnInit {
       }
   }
   showModal:boolean = false;
-  dataDetail:any[]=[];
+  dataDetail:any={};
   itemOrder(item:any) {
     this.showModal = !this.showModal;
     this._orderService.orderController().getItem(item.id).subscribe(
       (res: any) => {
-        this.dataDetail = res.Data.details;
+        this.dataDetail = res.Data;
       }
     ),
       (error: any) => {

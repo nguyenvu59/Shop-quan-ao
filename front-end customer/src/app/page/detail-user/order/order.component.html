@@ -62,6 +62,32 @@
       </div>
       <!--body-->
       <div class="relative p-6 flex-auto">
+        <!-- [4:38 PM] nguyenvu8 (Khách) -->
+        <div class="pl-6 mb-3 space-y-3" style="width: 272px;">
+          <div class="flex justify-between w-full">
+            <span class="font-bold">Tên người nhận :</span>
+            <span>{{dataDetail.customer_name}}</span>
+          </div>
+          <div class="flex justify-between w-full">
+            <span class="font-bold">Số điện thoại :</span>
+            <span>{{dataDetail.customer_phone_number}}</span>
+          </div>
+          <div class="flex justify-between w-full">
+            <span class="font-bold">Địa chỉ :</span>
+            <span>{{dataDetail.address
+            }}</span>
+          </div>
+          <div class="flex justify-between w-full">
+            <span class="font-bold">Tổng tiền :</span>
+            <span>{{dataDetail.total_product_value|number
+            }} VNĐ</span>
+          </div>
+          <div class="flex justify-between w-full">
+            <span class="font-bold">Ghi chú :</span>
+            <span>{{dataDetail.note
+            }}</span>
+          </div>
+        </div>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -81,7 +107,7 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let item of dataDetail">
+            <ng-container *ngFor="let item of dataDetail.details">
               <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   <div class="flex items-center">
@@ -98,7 +124,7 @@
                 <td class="px-6 py-4">
                   {{item.quantity}}
                 </td>
-              
+
               </tr>
             </ng-container>
           </tbody>
