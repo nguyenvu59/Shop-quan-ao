@@ -142,8 +142,10 @@ export class ProductComponent implements OnInit {
 
   opentCreateUpdateProduct_Modal(item: any = undefined) {
     this.initForm();
-    console.log('this.form :', this.form.value);
+    this.imageAvata = '';
+    this.imageProduct = [];
     this.isVisible_CreateUpdateProductModal = true;
+    this.id = 0;
     if (!!item) {
       this.id = item.id;
       this._productService.productController().getItem(this.id).subscribe(

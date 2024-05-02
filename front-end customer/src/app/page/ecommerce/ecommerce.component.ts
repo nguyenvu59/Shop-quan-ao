@@ -74,7 +74,7 @@ export class EcommerceComponent implements OnInit,DoCheck {
       (res: any) => {
         this._cartService.cartController().getCartForCustomer(this.user.id).subscribe(
           (res: any) => {
-            this._storageService.saveQuantityCart(res.Data.total_product_value);
+            this._storageService.saveQuantityCart(res.Data.count_product);
           }
         ),
           (error: any) => {

@@ -48,8 +48,8 @@ export class AppComponent implements OnInit, DoCheck {
     this.user = this._storageService.getUser();
     this._cartService.cartController().getCartForCustomer(this.user.id).subscribe(
       (res: any) => {
-        this._storageService.saveQuantityCart(res.Data.total_product_value);
-        this.quantityCart = res.Data.total_product_value;
+        this._storageService.saveQuantityCart(res.Data.count_product);
+        this.quantityCart = res.Data.count_product;
       }
     ),
       (error: any) => {
@@ -143,8 +143,8 @@ export class AppComponent implements OnInit, DoCheck {
         this.user = this._storageService.getUser();
         this._cartService.cartController().getCartForCustomer(this.user.id).subscribe(
           (res: any) => {
-            this._storageService.saveQuantityCart(res.Data.total_product_value);
-            this.quantityCart = res.Data.total_product_value;
+            this._storageService.saveQuantityCart(res.Data.count_product);
+            this.quantityCart = res.Data.count_product;
           }
         ),
           (error: any) => {
