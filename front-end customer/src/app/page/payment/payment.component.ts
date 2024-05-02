@@ -73,8 +73,9 @@ export class PaymentComponent implements OnInit {
 
   callApiThanhToan() {
     let voucher_discount_value: number = 0;
-    if (!!this.voucher) {
-      voucher_discount_value = this.listVoucher.find(obj => obj.id == this.voucher).discount;
+    console.log('this.voucher :', this.voucher);
+    if (!!this.voucher && this.voucher != '0') {
+      voucher_discount_value = this.listVoucher.find(obj => obj.id == this.voucher)?.discount;
     }
     let dataPush: any = {
       code: "code123",
@@ -83,8 +84,8 @@ export class PaymentComponent implements OnInit {
       note: 'Không có thông tin gì',
       customer_name: this.user.name,
       customer_id: this.user.id,
-      voucher_id: this.voucher,
-      voucher_discount_value: voucher_discount_value,
+      voucher_id: +`${this.voucher}` || 0,
+      voucher_discount_value: voucher_discount_value || 0,
       total_product_value: this.total_amount,
       total_amount: this.total_amount_voucher,
       status: this.paymentmethods == 'ThanhToanKhiNhanHang' ? StatusOrder.UNPAID : StatusOrder.PAID,
@@ -125,7 +126,7 @@ export class PaymentComponent implements OnInit {
               if (error?.Data) {
                 this.toastr.error(error.error?.Data, "Thông báo");
               }
-            }     
+            }
           if (index == this.detailCart.length - 1) {
             this._cartService.cartController().getCartForCustomer(this.user.id).subscribe(
               (res: any) => {

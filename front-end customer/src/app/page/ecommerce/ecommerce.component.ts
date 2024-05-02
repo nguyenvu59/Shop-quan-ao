@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './ecommerce.component.html',
   styleUrls: ['./ecommerce.component.css']
 })
-export class EcommerceComponent implements OnInit,DoCheck {
+export class EcommerceComponent implements OnInit, DoCheck {
 
   listCategory: any[] = [];
 
@@ -56,8 +56,8 @@ export class EcommerceComponent implements OnInit,DoCheck {
       }
   }
 
-  changePageProduct(id:number) {
-    this.router.navigate(["product",id]);
+  changePageProduct(id: number) {
+    this.router.navigate(["product", id]);
   }
 
   addCart(idProduct: number) {
@@ -90,5 +90,14 @@ export class EcommerceComponent implements OnInit,DoCheck {
           this.toastr.error(error.error?.Data, "Thông báo");
         }
       }
+  }
+
+  buyNow(item: any) {
+    item.quantity = 1;
+    item.product_id = item.id;
+    item.product_name = item.name;    
+    this._storageService.saveDetailCart([item]);
+    this._storageService.saveCartItemId(0);
+    this.router.navigate(["payment"]);
   }
 }

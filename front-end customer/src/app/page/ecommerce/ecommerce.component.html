@@ -98,9 +98,18 @@
                         <p class="text-xl text-primary font-semibold">{{item.price|number}} VNĐ</p>
                     </div>
                 </div>
-                <a href="javascript:void(0)"
-                    class="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition" (click)="addCart(item.id)">Thêm
-                    vào giỏ hàng</a>
+                <div class="flex flex-row">
+                    <div class="basis-1/2">
+                        <a href="javascript:void(0)" class="block w-full py-1 text-center text-white bg-green-400 border border-green-400 rounded-b hover:bg-transparent 
+                        hover:text-green-400 transition" (click)="buyNow(item)">Mua ngay</a>
+                    </div>
+                    <div class="basis-1/2">
+                        <a href="javascript:void(0)"
+                            class="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+                            (click)="addCart(item.id)">Thêm
+                            vào giỏ hàng</a>
+                    </div>
+                </div>
             </div>
         </ng-container>
     </div>
@@ -132,9 +141,18 @@
                         <p class="text-xl text-primary font-semibold">{{item.price|number}} VNĐ</p>
                     </div>
                 </div>
-                <a href="javascript:void(0)"
-                    class="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition" (click)="addCart(item.id)">Thêm
-                    vào giỏ hàng</a>
+                <div class="flex flex-row">
+                    <div class="basis-1/2">
+                        <a href="javascript:void(0)" class="block w-full py-1 text-center text-white bg-green-400 border border-green-400 rounded-b hover:bg-transparent 
+                            hover:text-green-400 transition" (click)="buyNow(item)">Mua ngay</a>
+                    </div>
+                    <div class="basis-1/2">
+                        <a href="javascript:void(0)"
+                            class="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+                            (click)="addCart(item.id)">Thêm
+                            vào giỏ hàng</a>
+                    </div>
+                </div>
             </div>
         </ng-container>
     </div>

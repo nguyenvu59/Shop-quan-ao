@@ -141,4 +141,13 @@ export class ShopPageComponent implements OnInit,DoCheck {
       }
   }
 
+  buyNow(item: any) {
+    item.quantity = 1;
+    item.product_id = item.id;
+    item.product_name = item.name;    
+    this._storageService.saveDetailCart([item]);
+    this._storageService.saveCartItemId(0);
+    this.router.navigate(["payment"]);
+  }
+
 }
