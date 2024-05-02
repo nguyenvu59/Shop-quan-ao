@@ -9,7 +9,7 @@
         <img [src]="environment.API.urlViewImage + imageShow" alt="product" style="width: 542px; height: 401px;">
         <div class="grid grid-cols-5 gap-4 mt-4">
             <ng-container *ngFor="let item of item.images">
-                <img [src]="environment.API.urlViewImage + item.imageUrl" alt="product2"             
+                <img [src]="environment.API.urlViewImage + item.imageUrl" alt="product2"
                     [ngClass]="{'w-full cursor-pointer border-2': true,'border-sky-800':imageShow == item.imageUrl}"
                     style="width: 95px; height: 70px;" (click)="selectImage(item.imageUrl)">
             </ng-container>
@@ -49,10 +49,16 @@
 
         <div class="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5">
             <a href="javascript:void(0)"
-                class="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition" (click)="addCart()">
+                class="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition"
+                (click)="buyNow(item)">
+                <i class="fa-solid fa-bag-shopping"></i> Mua ngay
+            </a>
+            <a href="javascript:void(0)"
+                class="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition"
+                (click)="addCart()">
                 <i class="fa-solid fa-bag-shopping"></i> Thêm vào giỏ hàng
-            </a>           
-        </div>       
+            </a>
+        </div>
     </div>
 </div>
 <!-- ./product-detail -->
@@ -64,7 +70,7 @@
         <div class="text-gray-600">
             {{item.description}}
         </div>
-      
+
     </div>
 </div>
 <!-- ./description -->
@@ -86,9 +92,18 @@
                         <p class="text-xl text-primary font-semibold">{{item.price|number}} VNĐ</p>
                     </div>
                 </div>
-                <a href="javascript:void(0)"
-                    class="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition" (click)="addCart2()">Thêm
-                    vào giỏ hàng</a>
+                <div class="flex flex-row">
+                    <div class="basis-1/2">
+                        <a href="javascript:void(0)" class="block w-full py-1 text-center text-white bg-green-400 border border-green-400 rounded-b hover:bg-transparent 
+                        hover:text-green-400 transition" (click)="buyNow(item)">Mua ngay</a>
+                    </div>
+                    <div class="basis-1/2">
+                        <a href="javascript:void(0)"
+                            class="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+                            (click)="addCart2()">Thêm
+                            vào giỏ hàng</a>
+                    </div>
+                </div>
             </div>
         </ng-container>
     </div>
