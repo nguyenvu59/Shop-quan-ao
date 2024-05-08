@@ -135,20 +135,31 @@ export const pageConfig = {
 
 export const listStatusOrder = [
   {
+    name: 'Khởi tạo',
+    id: 'KhoiTao',
+  },
+  {
+    name: 'Xác nhận',
+    id: 'XacNhan',
+  },
+  {
+    name: 'Đang vận chuyển',
+    id: 'DangVanChuyen',
+  },
+  {
+    name: 'Đã hoàn tất',
+    id: 'DaHoanTat',
+  },
+]
+
+export const listStatusPay = [
+  {
     name: 'Chưa Thanh Toán',
     id: 'ChuaThanhToan',
   },
   {
     name: 'Đã Thanh Toán',
     id: 'DaThanhToan',
-  },
-  {
-    name: 'Đã gửi hàng',
-    id: 'DaGuiHang',
-  },
-  {
-    name: 'Đã hoàn tất',
-    id: 'DaHoanTat',
   },
 ]
 
