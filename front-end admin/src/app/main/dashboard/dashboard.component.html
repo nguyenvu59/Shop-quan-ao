@@ -1,8 +1,8 @@
 <div class="grid grid-cols-2 gap-4">
-    <div>
-        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
-            [title]="chartOptions.title"></apx-chart>
+    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [title]="chartOptions.title" [xaxis]="chartOptions.xaxis"></apx-chart>
+    <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart" [title]="chartOptions2.title" [xaxis]="chartOptions2.xaxis"></apx-chart>
+    
+    <div class="col-span-2">
+        <apx-chart [series]="chartOptions3.series" [chart]="chartOptions3.chart" [title]="chartOptions3.title" [xaxis]="chartOptions3.xaxis"></apx-chart>
     </div>
-    <div>02</div>
-    <div class="col-span-2">04</div>
 </div>

@@ -22,8 +22,9 @@ export type ChartOptions = {
 })
 export class DashboardComponent implements OnInit {
 
-  @ViewChild("chart") chart: ChartComponent | undefined;
-  public chartOptions: Partial<ChartOptions>;
+  chartOptions: any = {};  
+  chartOptions2: any = {};  
+  chartOptions3: any = {};  
 
   constructor() {
     this.chartOptions = {
@@ -38,11 +39,50 @@ export class DashboardComponent implements OnInit {
         type: "bar"
       },
       title: {
-        text: "My First Angular Chart"
+        text: "đơn hàng"
       },
       xaxis: {
         categories: ["Jan", "Feb",  "Mar",  "Apr",  "May",  "Jun",  "Jul",  "Aug", "Sep"]
       }
+    };
+    this.chartOptions2 = {
+      series: [
+        {
+          name: "My-series",
+          data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+        }
+      ],
+      chart: {
+        height: 350,
+        type: "bar"
+      },
+      title: {
+        text: "đơn hàng"
+      },
+      xaxis: {
+        categories: ["Jan", "Feb",  "Mar",  "Apr",  "May",  "Jun",  "Jul",  "Aug", "Sep"]
+      }
+    };
+    this.chartOptions3 = {
+      series: [44, 55, 13, 43, 22],
+      chart: {
+        width: 380,
+        type: "pie"
+      },
+      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
     };
   }
 
