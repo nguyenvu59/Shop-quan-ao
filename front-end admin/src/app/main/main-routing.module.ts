@@ -8,6 +8,7 @@ import { ProductComponent } from './product/product.component';
 import { OrderComponent } from './order/order.component';
 import { CategoryComponent } from './category/category.component';
 import { VoucherComponent } from './voucher/voucher.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,9 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       { path: '', redirectTo: 'supplier', pathMatch: 'full' },
+      {
+        path: "dashboard", component: DashboardComponent,      
+      },
       {
         path: "category", component: CategoryComponent,      
       },

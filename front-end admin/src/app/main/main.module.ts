@@ -41,6 +41,8 @@ import { UploadService } from '../services/upload.service';
 import { CartService } from '../services/cart.service';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 @NgModule({
   declarations: [
     MainComponent,
@@ -50,7 +52,8 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     ProductComponent,
     OrderComponent,
     CategoryComponent,
-    VoucherComponent
+    VoucherComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,
@@ -67,6 +70,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     NzButtonModule,
     ReactiveFormsModule,
     FormsModule,
+    NgApexchartsModule,
     NzFormModule,
     NzInputModule,
     NzSelectModule,
