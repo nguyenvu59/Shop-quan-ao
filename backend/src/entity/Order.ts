@@ -40,6 +40,9 @@ export class Order {
   status: string;
 
   @Column()
+  payment_status: string;
+
+  @Column()
   payment_method: string;
 
   @CreateDateColumn({ type: 'timestamp' })
