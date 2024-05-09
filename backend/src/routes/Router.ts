@@ -8,7 +8,7 @@ import orderRouter from "./order.route"
 import voucherRouter from "./voucher.router"
 import cartRouter from "./cart.route"
 import fileRouter from "./file.route"
-
+import reportRouter from "./report.route"
 const router = Router();
 
 router.use("/customers", customerRouter)
@@ -20,5 +20,6 @@ router.use("/order", orderRouter)
 router.use("/voucher", voucherRouter)
 router.use("/cart", cartRouter)
 router.use("/file", fileRouter)
+router.use("/report", reportRouter)
 
 export default router;
