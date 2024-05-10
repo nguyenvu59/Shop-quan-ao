@@ -154,16 +154,16 @@ export const Type_of_Discount = [
 
 export const listStatusOrder = [
   {
-    name: 'Chưa Thanh Toán',
-    id: 'ChuaThanhToan',
+    name: 'Khởi tạo',
+    id: 'KhoiTao',
   },
   {
-    name: 'Đã Thanh Toán',
-    id: 'DaThanhToan',
+    name: 'Xác nhận',
+    id: 'XacNhan',
   },
   {
-    name: 'Đã gửi hàng',
-    id: 'DaGuiHang',
+    name: 'Đang vận chuyển',
+    id: 'DangVanChuyen',
   },
   {
     name: 'Đã hoàn tất',
@@ -171,3 +171,13 @@ export const listStatusOrder = [
   },
 ]
 
+export const listStatusPay = [
+  {
+    name: 'Chưa Thanh Toán',
+    id: 'ChuaThanhToan',
+  },
+  {
+    name: 'Đã Thanh Toán',
+    id: 'DaThanhToan',
+  },
+]

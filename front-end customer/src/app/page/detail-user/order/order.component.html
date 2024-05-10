@@ -11,10 +11,10 @@
             Phương thức thanh toán
           </th>
           <th scope="col" class="px-6 py-3">
-            Trạng thái thanh toán
+            Trạng thái đơn hàng
           </th>
           <th scope="col" class="px-6 py-3">
-            Trạng thái đơn hàng
+            Trạng thái thanh toán
           </th>
           <th scope="col" class="px-6 py-3">
             Giá
@@ -37,13 +37,16 @@
               {{item.status_name}}
             </td>
             <td class="px-6 py-4">
-              {{item.status_name}}
+              {{item.payment_status_name}}
             </td>
             <td class="px-6 py-4">
               {{item.total_amount|number}}
             </td>
             <td class="px-6 py-4">
-              <fa-icon [icon]="faEye" class="cursor-pointer" (click)="itemOrder(item)"></fa-icon>
+              <div class="flex items-center space-x-2">
+                <i nz-icon nzType="delete" nzTheme="outline" class="cursor-pointer" *ngIf="item.status == StatusOrder.INITIALIZATION"></i>
+                <fa-icon [icon]="faEye" class="cursor-pointer" (click)="itemOrder(item)"></fa-icon>
+              </div>
             </td>
           </tr>
         </ng-container>

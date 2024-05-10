@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { StatusOrder } from 'src/app/common/enum';
+import { StatusOrder, StatusPay } from 'src/app/common/enum';
 import { deepCopy } from 'src/app/common/globalFC';
 import { CartService } from 'src/app/services/cart.service';
 import { CustomersService } from 'src/app/services/customers.service';
@@ -88,7 +88,8 @@ export class PaymentComponent implements OnInit {
       voucher_discount_value: voucher_discount_value || 0,
       total_product_value: this.total_amount,
       total_amount: this.total_amount_voucher,
-      status: this.paymentmethods == 'ThanhToanKhiNhanHang' ? StatusOrder.UNPAID : StatusOrder.PAID,
+      status: StatusOrder.INITIALIZATION,
+      payment_status: this.paymentmethods == 'ThanhToanKhiNhanHang' ? StatusPay.UNPAID : StatusPay.PAID,
       payment_method: this.paymentmethods,
       details: [],
     };

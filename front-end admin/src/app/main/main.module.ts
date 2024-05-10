@@ -43,6 +43,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { ReportService } from '../services/report.service';
 @NgModule({
   declarations: [
     MainComponent,
@@ -91,6 +92,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     StorageService,
     UploadService,
     CartService,
+    ReportService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

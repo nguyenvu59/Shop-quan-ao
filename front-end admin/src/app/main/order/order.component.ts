@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { listStatusOrder, messageUpdateSuccess } from 'src/app/common/const';
+import { listStatusOrder, listStatusPay, messageUpdateSuccess } from 'src/app/common/const';
 import { TypeNotification } from 'src/app/common/enum';
 import { deepCopy } from 'src/app/common/globalFC';
 import { ConfigService } from 'src/app/services/config.service';
@@ -27,6 +27,7 @@ export class OrderComponent implements OnInit {
   form!: FormGroup;
 
   listStatusOrder: any[] = listStatusOrder;
+  listStatusPay: any[] = listStatusPay;
   listPaymentMethod: any[] = [
     {
       name: "Thanh toán khi nhận hàng",
@@ -79,8 +80,9 @@ export class OrderComponent implements OnInit {
       total_product_value: 0,
       voucher_id: 0,
       total_amount: 0,
-      status: 0,
-      payment_method: 0,
+      status: null,
+      payment_status: null,
+      payment_method: null,
     })
   }
 
@@ -90,6 +92,7 @@ export class OrderComponent implements OnInit {
         this.listOfData = res.Data;
         this.listOfData.map((item: any) => {
           item.status_name = listStatusOrder.find((obj: any) => obj.id == item.status)?.name;
+          item.payment_status_name = listStatusPay.find((obj: any) => obj.id == item.payment_status)?.name;
           item.payment_method_name = item.payment_method == 'ThanhToanKhiNhanHang' ? "Thanh toán khi nhận hàng" : "Creat Card";
         })
         this.page.totalItem = res.Data.length;
@@ -133,17 +136,18 @@ export class OrderComponent implements OnInit {
   handleOk(): void {
     console.log('this.copy_form :', this.copy_form);
     console.log('this.form.value :', this.form.value);
-    let dataPush:any = deepCopy(this.copy_form);
-    dataPush.code=this.form.value.code;
-    dataPush.address=this.form.value.address;
-    dataPush.customer_phone_number=this.form.value.customer_phone_number;
-    dataPush.note=this.form.value.note;
-    dataPush.customer_name=this.form.value.customer_name;
-    dataPush.total_product_value=this.form.value.total_product_value;
-    dataPush.voucher_id=this.form.value.voucher_id;
-    dataPush.total_amount=this.form.value.total_amount;
-    dataPush.payment_method=this.form.value.payment_method;
-    dataPush.status=this.form.value.status;    
+    let dataPush: any = deepCopy(this.copy_form);
+    dataPush.code = this.form.value.code;
+    dataPush.address = this.form.value.address;
+    dataPush.customer_phone_number = this.form.value.customer_phone_number;
+    dataPush.note = this.form.value.note;
+    dataPush.customer_name = this.form.value.customer_name;
+    dataPush.total_product_value = this.form.value.total_product_value;
+    dataPush.voucher_id = this.form.value.voucher_id;
+    dataPush.total_amount = this.form.value.total_amount;
+    dataPush.payment_method = this.form.value.payment_method;
+    dataPush.status = this.form.value.status;
+    dataPush.payment_status = this.form.value.payment_status;
     dataPush.voucher_discount_value = this.listVoucher.find(obj => obj.id == dataPush.voucher_id)?.discount;
     if (!!this.id) {
       this._orderService.orderController().update(this.id, dataPush).subscribe(

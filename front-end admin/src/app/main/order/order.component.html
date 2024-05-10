@@ -5,7 +5,8 @@
             <th [nzWidth]="'60px'" nzAlign="center">STT</th>
             <th>Mã đơn</th>
             <th>Số điện thoại khách hàng</th>
-            <th>Trạng thái</th>
+            <th>Trạng thái đơn hàng</th>
+            <th>Trạng thái thanh toán</th>
             <th [nzWidth]="'60px'" nzAlign="center">#</th>
         </tr>
     </thead>
@@ -15,6 +16,7 @@
             <td>{{ data.code }}</td>
             <td>{{ data.customer_phone_number }}</td>
             <td>{{ data.status_name }}</td>            
+            <td>{{ data.payment_status_name }}</td>            
             <td>
                 <div class="text-center">
                     <i nz-icon nzType="edit" nzTheme="outline" (click)="opentCreateUpdateOrder_Modal(data)"
@@ -96,8 +98,18 @@
                 <nz-form-item>
                     <nz-form-label>Trạng thái đơn hàng</nz-form-label>
                     <nz-form-control>
-                        <nz-select formControlName="status" [nzAllowClear]="true" nzPlaceHolder="Chọn đơn hàng">
+                        <nz-select formControlName="status" [nzAllowClear]="true" nzPlaceHolder="Chọn trạng thái đơn hàng">
                             <ng-container *ngFor="let item of listStatusOrder">
+                                <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+                            </ng-container>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Trạng thái thanh toán</nz-form-label>
+                    <nz-form-control>
+                        <nz-select formControlName="payment_status" [nzAllowClear]="true" nzPlaceHolder="Chọn trạng thái Thanh toán">
+                            <ng-container *ngFor="let item of listStatusPay">
                                 <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
                             </ng-container>
                         </nz-select>

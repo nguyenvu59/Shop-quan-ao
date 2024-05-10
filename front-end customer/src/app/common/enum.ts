@@ -85,9 +85,14 @@ export enum configMode {
   SENTIMENT = 1,
 }
 
-export enum StatusOrder {
-  UNPAID = 'ChuaThanhToan',
-  PAID = 'DaThanhToan',
+export enum StatusOrder {  
+  INITIALIZATION = 'KhoiTao',
+  CONFIRM = 'XacNhan',  
   SHIPPED = 'DaGuiHang',
   FINISHED = 'DaHoanTat',
+}
+
+export enum StatusPay {
+  UNPAID = 'ChuaThanhToan',
+  PAID = 'DaThanhToan', 
 }

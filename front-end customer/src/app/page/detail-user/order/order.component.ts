@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { faEye, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { listStatusOrder, listStatusPay } from 'src/app/common/const';
+import { StatusOrder } from 'src/app/common/enum';
 import { OrderService } from 'src/app/services/order.service';
 import { ProductService } from 'src/app/services/product.service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -19,6 +20,7 @@ export class OrderComponent implements OnInit {
 
 
   listOrder: any[] = [];
+  StatusOrder=StatusOrder;
 
   constructor(
     private _productService: ProductService,
@@ -36,7 +38,8 @@ export class OrderComponent implements OnInit {
       (res: any) => {
         this.listOrder = res.Data;
         this.listOrder.map((item: any) => {
-          item.status_name = listStatusPay.find((obj: any) => obj.id == item.status)?.name;
+          item.status_name = listStatusOrder.find((obj: any) => obj.id == item.status)?.name;
+          item.payment_status_name = listStatusPay.find((obj: any) => obj.id == item.payment_status)?.name;
           item.payment_method_name = item.payment_method == 'ThanhToanKhiNhanHang' ? "Thanh toán khi nhận hàng" : "Creat Card";
         })
       }
