@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faEye, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
-import { listStatusOrder, listStatusPay } from 'src/app/common/const';
+import { listStatusOrder, listStatusPay, messageUpdateSuccess } from 'src/app/common/const';
 import { StatusOrder } from 'src/app/common/enum';
 import { OrderService } from 'src/app/services/order.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -20,7 +20,7 @@ export class OrderComponent implements OnInit {
 
 
   listOrder: any[] = [];
-  StatusOrder=StatusOrder;
+  StatusOrder = StatusOrder;
 
   constructor(
     private _productService: ProductService,
@@ -50,9 +50,9 @@ export class OrderComponent implements OnInit {
         }
       }
   }
-  showModal:boolean = false;
-  dataDetail:any={};
-  itemOrder(item:any) {
+  showModal: boolean = false;
+  dataDetail: any = {};
+  itemOrder(item: any) {
     this.showModal = !this.showModal;
     this._orderService.orderController().getItem(item.id).subscribe(
       (res: any) => {
@@ -64,6 +64,20 @@ export class OrderComponent implements OnInit {
           this.toastr.error(error?.Data, "Thông báo");
         }
       }
+  }
+
+  cancelOrder(id: number) {
+    this._orderService.orderController().delete(id).subscribe(
+      (res: any) => {
+        this.getOrder();
+        this.toastr.success(messageUpdateSuccess, "Thông báo");
+      },
+      (error: any) => {
+        if (error?.Data) {
+          this.toastr.error(error?.Data, "Thông báo");
+        }
+      }
+    )
   }
 
 }

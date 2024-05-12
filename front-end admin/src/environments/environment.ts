@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   API:{   
     url: 'http://localhost:8280/api/v1',    
     // urlUPload: 'http://localhost:8280/api/v1/file/upload',  

@@ -108,6 +108,24 @@ export class OrderComponent implements OnInit {
         }
       }
   }
+
+  cancelOrder() {
+    this._orderService.orderController().search().subscribe(
+      (res: any) => {
+
+      },
+      (error: any) => {
+        if (error?.Data) {
+          this.notification.create(
+            TypeNotification.error,
+            'Thông báo',
+            `${error?.Data}`
+          );
+        }
+      }
+    )
+  }
+
   copy_form = {};
   opentCreateUpdateOrder_Modal(item: any = undefined) {
     this.isVisible_CreateUpdateOrderModal = true;

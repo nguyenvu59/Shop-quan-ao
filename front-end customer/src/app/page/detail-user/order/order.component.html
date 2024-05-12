@@ -44,7 +44,8 @@
             </td>
             <td class="px-6 py-4">
               <div class="flex items-center space-x-2">
-                <i nz-icon nzType="delete" nzTheme="outline" class="cursor-pointer" *ngIf="item.status == StatusOrder.INITIALIZATION"></i>
+                <i nz-icon nzType="delete" nzTheme="outline" class="cursor-pointer"
+                  *ngIf="item.status == StatusOrder.INITIALIZATION" (click)="cancelOrder(item.id)"></i>
                 <fa-icon [icon]="faEye" class="cursor-pointer" (click)="itemOrder(item)"></fa-icon>
               </div>
             </td>
@@ -84,17 +85,17 @@
           <div class="flex justify-between w-full">
             <span class="font-bold">Địa chỉ :</span>
             <span>{{dataDetail.address
-            }}</span>
+              }}</span>
           </div>
           <div class="flex justify-between w-full">
             <span class="font-bold">Tổng tiền :</span>
             <span>{{dataDetail.total_product_value|number
-            }} VNĐ</span>
+              }} VNĐ</span>
           </div>
           <div class="flex justify-between w-full">
             <span class="font-bold">Ghi chú :</span>
             <span>{{dataDetail.note
-            }}</span>
+              }}</span>
           </div>
         </div>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
