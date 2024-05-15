@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -23,7 +24,19 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-
+  Editor = ClassicEditor;
+  configEditor = {
+    toolbar: {
+      items: [
+        'undo', 'redo',
+        '|', 'heading',
+        '|', 'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
+        '|', 'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',        
+        '|', 'bulletedList', 'numberedList'
+      ],
+      shouldNotGroupWhenFull: true      
+    }
+  };
   listOfData: any[] = [];
   listCategory: any[] = [];
   listSupplier: any[] = [];

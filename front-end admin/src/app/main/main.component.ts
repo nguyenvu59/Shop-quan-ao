@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
   selector: 'app-main',
@@ -8,6 +9,7 @@ import { StorageService } from '../services/storage.service';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  public Editor = ClassicEditor;
   isCollapsed = false;
   user: any = {};
   token: string | null = '';

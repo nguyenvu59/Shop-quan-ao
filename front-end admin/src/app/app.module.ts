@@ -29,6 +29,7 @@ import { ConfigService } from './services/config.service';
 import { StorageService } from './services/storage.service';
 import { UploadService } from './services/upload.service';
 import { CartService } from './services/cart.service';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 registerLocaleData(vi);
 
@@ -50,6 +51,7 @@ registerLocaleData(vi);
     NzNotificationModule,
     ReactiveFormsModule,
     FormsModule,
+    CKEditorModule
   ],
   providers: [
     AuthService,

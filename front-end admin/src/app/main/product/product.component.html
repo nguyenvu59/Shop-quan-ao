@@ -54,13 +54,7 @@
                             </ng-container>
                         </nz-select>
                     </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                    <nz-form-label>Mô tả</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input placeholder="Nhập mô tả" formControlName="description" />
-                    </nz-form-control>
-                </nz-form-item>
+                </nz-form-item>              
                 <!-- <nz-form-item>
                     <nz-form-label>Kích cỡ</nz-form-label>
                     <nz-form-control>
@@ -126,6 +120,13 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
+            <nz-form-item>
+                <nz-form-label>Mô tả</nz-form-label>
+                <nz-form-control>
+                    <!-- <input nz-input placeholder="Nhập mô tả" formControlName="description" /> -->
+                    <ckeditor [editor]="Editor" [config]="configEditor" formControlName="description"></ckeditor>
+                </nz-form-control>
+            </nz-form-item>
             <div class="flex space-x-4">
                 <nz-form-item>
                     <nz-form-label>Ảnh đại diện</nz-form-label>

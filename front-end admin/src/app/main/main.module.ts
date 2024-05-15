@@ -44,6 +44,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ReportService } from '../services/report.service';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 @NgModule({
   declarations: [
     MainComponent,
@@ -78,7 +79,8 @@ import { ReportService } from '../services/report.service';
     NzInputNumberModule,
     NzUploadModule,
     NzMessageModule,
-    NzDropDownModule
+    NzDropDownModule,
+    CKEditorModule
   ],
   providers: [
     AuthService,
