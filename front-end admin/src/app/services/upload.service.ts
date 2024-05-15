@@ -25,7 +25,11 @@ export class UploadService {
         return this.http.get(`${this._configService.urlUPload}/image/${imgaeName}`);
       },
       upload2: (data: any) => {
-        return this.http.post(`${this._configService.urlUPload}`, data);
+        return this.http.post(`${this._configService.urlUPload}`, data,{
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBRE1JTl9hYzFhODU0Mi0xNTM3LTRhYzAtODRmMi1kMGY5ZmRiZWIzNzgiLCJleHAiOjE3MTcwODAwOTh9.PA5-eQyHt6Xp2EYG8A3MbzX6GrtfqvTdX126qs-CM94`,
+          }
+        });
       },
     };
   }
