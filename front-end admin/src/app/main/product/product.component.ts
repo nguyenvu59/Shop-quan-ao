@@ -29,9 +29,8 @@ export class ProductComponent implements OnInit {
     toolbar: {
       items: [
         'undo', 'redo',
-        '|', 'heading',
-        '|', 'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
-        '|', 'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',        
+        '|', 'heading',       
+        '|', 'bold', 'italic',
         '|', 'bulletedList', 'numberedList'
       ],
       shouldNotGroupWhenFull: true      

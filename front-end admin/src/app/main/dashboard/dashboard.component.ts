@@ -80,38 +80,39 @@ export class DashboardComponent implements OnInit {
         }
       };
       this.chartOptions3 = {
-        series: [44, 55, 13, 43, 22],
+        series: [
+          {
+            name: "VNĐ",
+            data: []
+          }
+        ],
         chart: {
-          width: 380,
-          type: "pie"
+          height: 350,
+          type: "bar"
         },
         title: {
           text: "Sản phẩm"
         },
-        labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200
-              },
-              legend: {
-                position: "bottom"
-              }
-            }
-          }
-        ]
+        xaxis: {
+          categories: []
+        }
       };
       this.chartOptions.xaxis.categories = res[0].Data.map((obj:any)=>dayjs(obj.date).format('DD/MM/YYYY'));
       this.chartOptions.series[0].data = res[0].Data.map((obj:any)=> +obj.count);   
       this.chartOptions2.xaxis.categories = res[1].Data.map((obj:any)=>dayjs(obj.date).format('DD/MM/YYYY'));
-      this.chartOptions2.series[0].data = res[1].Data.map((obj:any)=> +obj.total);     
+      this.chartOptions2.series[0].data = res[1].Data.map((obj:any)=> +obj.benefit);     
+      this.chartOptions3.xaxis.categories = res[2].Data.map((obj:any)=>obj.productName);
+      this.chartOptions3.series[0].data = res[2].Data.map((obj:any)=> this.percentage(+obj.quantitySold,+obj.total));     
+      console.log('this.chartOptions3 :', this.chartOptions3);
     }) 
     .catch((err) => {
 
     })
       
   }
+
+  percentage(partialValue:number, totalValue:number) {
+    return (100 * partialValue) / totalValue;
+ } 
 
 }
