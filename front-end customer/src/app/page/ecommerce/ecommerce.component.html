@@ -84,28 +84,28 @@
 <!-- new arrival -->
 <div class="container pb-16">
     <h2 class="text-2xl font-medium text-gray-800 uppercase mb-6">HÀNG MỚI VỀ</h2>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
         <ng-container *ngFor="let item of listProductTop">
             <div class="bg-white shadow rounded overflow-hidden group">
                 <img [src]="environment.API.urlViewImage + item.avata" alt="product 1" class="w-full"
-                    style="height: 191px;">
-                <div class="pt-4 pb-3 px-4">
+                    style="height: 330px;">
+                <div class="pt-4 pb-3 px-2">
                     <a href="javascript:void(0)" (click)="changePageProduct(item.id)">
-                        <h4 class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">
-                            {{item.name}}</h4>
+                        <p class="uppercase font-bold text-base mb-2 text-gray-800 hover:text-primary transition truncate" [title]="item.name">
+                            {{item.name}}</p>                                                       
                     </a>
                     <div class="flex items-baseline mb-1 space-x-2">
-                        <p class="text-xl text-primary font-semibold">{{item.price|number}} VNĐ</p>
+                        <p class="text-base text-primary font-semibold">{{item.price|number}} VNĐ</p>
                     </div>
                 </div>
                 <div class="flex flex-row">
                     <div class="basis-1/2">
-                        <a href="javascript:void(0)" class="block w-full py-1 text-center text-white bg-green-400 border border-green-400 rounded-b hover:bg-transparent 
+                        <a href="javascript:void(0)" class="block text-xs w-full py-1 text-center text-white bg-green-400 border border-green-400 rounded-b hover:bg-transparent 
                         hover:text-green-400 transition" (click)="buyNow(item)">Mua ngay</a>
                     </div>
                     <div class="basis-1/2">
                         <a href="javascript:void(0)"
-                            class="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+                            class="block text-xs w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
                             (click)="addCart(item.id)">Thêm
                             vào giỏ hàng</a>
                     </div>
@@ -127,28 +127,28 @@
 <!-- product -->
 <div class="container pb-16">
     <h2 class="text-2xl font-medium text-gray-800 uppercase mb-6">Đề xuất cho bạn</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
         <ng-container *ngFor="let item of listProductRamdom8">
             <div class="bg-white shadow rounded overflow-hidden group">
                 <img [src]="environment.API.urlViewImage + item.avata" alt="product 1" class="w-full"
-                    style="height: 191px;">
+                    style="height: 330px;">
                 <div class="pt-4 pb-3 px-4">
                     <a href="javascript:void(0)" (click)="changePageProduct(item.id)">
-                        <h4 class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">
-                            {{item.name}}</h4>
+                        <p class="uppercase font-bold text-base mb-2 text-gray-800 hover:text-primary transition" [title]="item.name">
+                            {{item.name}}</p>                                                    
                     </a>
                     <div class="flex items-baseline mb-1 space-x-2">
-                        <p class="text-xl text-primary font-semibold">{{item.price|number}} VNĐ</p>
+                        <p class="text-base text-primary font-semibold">{{item.price|number}} VNĐ</p>
                     </div>
                 </div>
                 <div class="flex flex-row">
                     <div class="basis-1/2">
-                        <a href="javascript:void(0)" class="block w-full py-1 text-center text-white bg-green-400 border border-green-400 rounded-b hover:bg-transparent 
+                        <a href="javascript:void(0)" class="block text-xs w-full py-1 text-center text-white bg-green-400 border border-green-400 rounded-b hover:bg-transparent 
                             hover:text-green-400 transition" (click)="buyNow(item)">Mua ngay</a>
                     </div>
                     <div class="basis-1/2">
                         <a href="javascript:void(0)"
-                            class="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+                            class="block text-xs w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
                             (click)="addCart(item.id)">Thêm
                             vào giỏ hàng</a>
                     </div>

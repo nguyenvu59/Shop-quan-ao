@@ -45,7 +45,7 @@ export class EcommerceComponent implements OnInit, DoCheck {
     this._productService.productController().search(getObjectTruThy(this.filter)).subscribe(
       (res: any) => {
         this.listProduct = res.Data;
-        this.listProductTop = this.listProduct.slice(0, 3);
+        this.listProductTop = this.listProduct.slice(0, 4);
         this.listProductRamdom8 = getRandomArray(this.listProduct, 8);
       }
     ),
