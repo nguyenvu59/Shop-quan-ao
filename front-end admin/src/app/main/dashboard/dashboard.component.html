@@ -1,8 +1,15 @@
 <div class="grid grid-cols-2 gap-4">
-    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [title]="chartOptions.title" [xaxis]="chartOptions.xaxis"></apx-chart>
-    <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart" [title]="chartOptions2.title" [xaxis]="chartOptions2.xaxis"></apx-chart>
+    <div>
+        <p class="font-bold text-center">Đơn hàng</p>
+        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [title]="chartOptions.title" [xaxis]="chartOptions.xaxis"></apx-chart>
+    </div>
+    <div>
+        <p class="font-bold text-center">Doanh thu</p>
+        <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart" [title]="chartOptions2.title" [xaxis]="chartOptions2.xaxis"></apx-chart>
+    </div>
     
     <div class="col-span-2">
+        <p class="font-bold text-center">Sản phẩm</p>
         <apx-chart [series]="chartOptions3.series" [chart]="chartOptions3.chart" [title]="chartOptions3.title" [xaxis]="chartOptions3.xaxis"></apx-chart>
     </div>
 </div>

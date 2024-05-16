@@ -55,7 +55,7 @@ export class DashboardComponent implements OnInit {
           type: "bar"
         },
         title: {
-          text: "Đơn hàng"
+          text: "Số lượng"
         },
         xaxis: {
           categories: []
@@ -64,7 +64,15 @@ export class DashboardComponent implements OnInit {
       this.chartOptions2 = {
         series: [
           {
-            name: "VNĐ",
+            name: "Doanh thu",
+            data: []
+          },
+          {
+            name: "Tiền nhập",
+            data: []
+          },
+          {
+            name: "Tiền bán",
             data: []
           }
         ],
@@ -73,7 +81,7 @@ export class DashboardComponent implements OnInit {
           type: "bar"
         },
         title: {
-          text: "Doanh thu"
+          text: "VNĐ"
         },
         xaxis: {
           categories: []
@@ -91,7 +99,7 @@ export class DashboardComponent implements OnInit {
           type: "bar"
         },
         title: {
-          text: "Sản phẩm"
+          text: "Số lượng"
         },
         xaxis: {
           categories: []
@@ -100,10 +108,11 @@ export class DashboardComponent implements OnInit {
       this.chartOptions.xaxis.categories = res[0].Data.map((obj:any)=>dayjs(obj.date).format('DD/MM/YYYY'));
       this.chartOptions.series[0].data = res[0].Data.map((obj:any)=> +obj.count);   
       this.chartOptions2.xaxis.categories = res[1].Data.map((obj:any)=>dayjs(obj.date).format('DD/MM/YYYY'));
-      this.chartOptions2.series[0].data = res[1].Data.map((obj:any)=> +obj.benefit);     
+      this.chartOptions2.series[0].data = res[1].Data.map((obj:any)=> +obj.benefit);
+      this.chartOptions2.series[1].data = res[1].Data.map((obj:any)=> +obj.totalImportValue);
+      this.chartOptions2.series[2].data = res[1].Data.map((obj:any)=> +obj.totalSold);     
       this.chartOptions3.xaxis.categories = res[2].Data.map((obj:any)=>obj.productName);
-      this.chartOptions3.series[0].data = res[2].Data.map((obj:any)=> this.percentage(+obj.quantitySold,+obj.total));     
-      console.log('this.chartOptions3 :', this.chartOptions3);
+      this.chartOptions3.series[0].data = res[2].Data.map((obj:any)=> +obj.quantitySold);           
     }) 
     .catch((err) => {
 
