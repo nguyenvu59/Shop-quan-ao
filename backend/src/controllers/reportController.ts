@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getConnection, getRepository } from 'typeorm';
 import { Order } from '../entity/Order';
+import { Product } from '../entity/Product';
 
 export const getOrdersByDate = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -17,21 +18,16 @@ export const getOrdersByDate = async (req: Request, res: Response): Promise<Resp
     return res.status(500).send({ Status: 200, Data: 'Internal Server Error' });
   }
 };
-// get product sold by date
 export const getProductsSoldByDate = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const orderRepository = getRepository(Order);
-    const products = await orderRepository
-      .createQueryBuilder('order')
-      .innerJoin('order.details', 'orderDetail')
-      .innerJoin('orderDetail.product', 'product') // assuming 'product' is a relation in your Order_Detail entity
-      .select('DATE(order.create_time)', 'date')
-      .addSelect('product.name', 'productName')
-      .addSelect('SUM(orderDetail.quantity)', 'quantitySold') // 'quantity' is a field in your Order_Detail entity
-      .addSelect('SUM(orderDetail.quantity * product.price)', 'total')
-      .groupBy('date')
-      .addGroupBy('product.name')
-      .getRawMany();
+    const connection = getConnection();
+    const products = await connection.query(`
+      SELECT DATE(\`order\`.create_time) as date, product.name as productName, SUM(orderDetail.quantity) as quantitySold, SUM(orderDetail.quantity * product.price) as total
+      FROM \`order\`
+      INNER JOIN order_detail as orderDetail ON \`order\`.id = orderDetail.orderId
+      INNER JOIN product ON product.id = orderDetail.product_id
+      GROUP BY date, product.name
+    `);
     return res.status(200).send({ Status: 200, Data: products });
   } catch (error) {
     console.error(error);
@@ -39,19 +35,20 @@ export const getProductsSoldByDate = async (req: Request, res: Response): Promis
   }
 };
 // get total revenue, import value and benefit by date
+// get total revenue, import value and benefit by date
 export const getTotalRevenueByDate = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const orderRepository = getRepository(Order);
-    const revenues = await orderRepository
-      .createQueryBuilder('order')
-      .innerJoin('order.details', 'orderDetail')
-      .innerJoin('orderDetail.product', 'product') // assuming 'product' is a relation in your Order_Detail entity
-      .select('DATE(order.create_time)', 'date')
-      .addSelect('SUM(orderDetail.quantity * product.price)', 'totalSold')
-      .addSelect('SUM(orderDetail.quantity * product.import_price)', 'totalImportValue') // 'quantity' is a field in your Order_Detail entity
-      .addSelect('SUM(orderDetail.quantity * product.price) - SUM(orderDetail.quantity * product.import_price)', 'benefit')
-      .groupBy('date')
-      .getRawMany();
+    const connection = getConnection();
+    const revenues = await connection.query(`
+      SELECT DATE(\`order\`.create_time) as date, 
+             SUM(orderDetail.quantity * product.price) as totalSold,
+             SUM(orderDetail.quantity * product.import_price) as totalImportValue,
+             SUM(orderDetail.quantity * product.price) - SUM(orderDetail.quantity * product.import_price) as benefit
+      FROM \`order\`
+      INNER JOIN order_detail as orderDetail ON \`order\`.id = orderDetail.orderId
+      INNER JOIN product ON product.id = orderDetail.product_id
+      GROUP BY date
+    `);
     return res.status(200).send({ Status: 200, Data: revenues });
   } catch (error) {
     console.error(error);
