@@ -21,7 +21,13 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = this._storageService.getUser();
+    let token = this._storageService.getToken();
+    if(!token){
+      this.router.navigate(["login"]);
+    }
+    else{
+      this.user = this._storageService.getUser();
+    }
   }
 
   logout() {  

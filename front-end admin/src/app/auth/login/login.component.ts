@@ -27,7 +27,13 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.initFormLogin();
+    let token = this._storageService.getToken();
+    if(!!token){
+      this.router.navigate(["dashboard"]);      
+    }
+    else{
+      this.initFormLogin();
+    }
   }
 
   initFormLogin() {
