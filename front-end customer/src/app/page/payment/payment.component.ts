@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { StatusOrder, StatusPay } from 'src/app/common/enum';
-import { deepCopy } from 'src/app/common/globalFC';
+import { deepCopy, getObjectTruThy } from 'src/app/common/globalFC';
 import { CartService } from 'src/app/services/cart.service';
 import { CustomersService } from 'src/app/services/customers.service';
 import { OrderService } from 'src/app/services/order.service';
@@ -12,7 +12,7 @@ import { VoucherService } from 'src/app/services/voucher.service';
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.scss'],
+  styleUrls: ['./payment.component.css'],
 })
 export class PaymentComponent implements OnInit {
 
@@ -73,7 +73,6 @@ export class PaymentComponent implements OnInit {
 
   callApiThanhToan() {
     let voucher_discount_value: number = 0;
-    console.log('this.voucher :', this.voucher);
     if (!!this.voucher && this.voucher != '0') {
       voucher_discount_value = this.listVoucher.find(obj => obj.id == this.voucher)?.discount;
     }
@@ -121,13 +120,13 @@ export class PaymentComponent implements OnInit {
           this._cartService.cartController().delete(data.id).subscribe(
             (res: any) => {
 
-            }
-          ),
+            },
             (error: any) => {
               if (error?.Data) {
                 this.toastr.error(error.error?.Data, "Thông báo");
               }
             }
+          )
           if (index == this.detailCart.length - 1) {
             this._cartService.cartController().getCartForCustomer(this.user.id).subscribe(
               (res: any) => {
@@ -136,22 +135,21 @@ export class PaymentComponent implements OnInit {
                 localStorage.removeItem('cartItemId');
                 this.router.navigate(["/"]);
                 this.toastr.success("Thanh toán thành công", "Thông báo");
-              }
-            ),
+              },
               (error: any) => {
                 if (error?.Data) {
                   this.toastr.error(error?.Data, "Thông báo");
                 }
               }
+            )
           }
         })
-      }
-    ),
-      (error: any) => {
+      }, (error: any) => {
         if (error?.Data) {
           this.toastr.error(error.error?.Data, "Thông báo");
         }
       }
+    )
   }
 
   thanhtoan() {
@@ -162,6 +160,58 @@ export class PaymentComponent implements OnInit {
       else {
         this.toastr.error("Thông tin thẻ không đúng", "Thông báo");
       }
+    }
+    else if (this.paymentmethods == 'VNPAY') {
+      let dataPush: any = {
+        amount: this.total_amount_voucher
+      }
+      this._orderService.orderController().craeteVNPAY(getObjectTruThy(dataPush)).subscribe(
+        (res: any) => {  
+          let voucher_discount_value: number = 0;
+          if (!!this.voucher && this.voucher != '0') {
+            voucher_discount_value = this.listVoucher.find(obj => obj.id == this.voucher)?.discount;
+          }
+          let dataPush: any = {
+            code: "code123",
+            address: this.user.address,
+            customer_phone_number: this.user.phone_number,
+            note: 'Không có thông tin gì',
+            customer_name: this.user.name,
+            customer_id: this.user.id,
+            voucher_id: +`${this.voucher}` || 0,
+            voucher_discount_value: voucher_discount_value || 0,
+            total_product_value: this.total_amount,
+            total_amount: this.total_amount_voucher,
+            status: StatusOrder.INITIALIZATION,
+            payment_status: this.paymentmethods == 'ThanhToanKhiNhanHang' ? StatusPay.UNPAID : StatusPay.PAID,
+            payment_method: this.paymentmethods,
+            details: [],
+          };
+          this.detailCart.forEach(data => {
+            dataPush.details.push({
+              address: data.address,
+              product_id: data.product_id,
+              product_name: data.product_name,
+              description: data.description,
+              size: data.size,
+              sex: data.sex,
+              price: data.price,
+              quantity: data.quantity,
+              brand: data.brand,
+              supplier: data.supplier,
+              avata: data.avata,
+            })
+          });    
+          this._storageService.saveDataPushOrder(dataPush);   
+          window.location.href = res?.Data
+          // this.router.navigateByUrl(res?.Data);        
+        },
+        (error: any) => {
+          if (error?.Data) {
+            this.toastr.error(error.error?.Data, "Thông báo");
+          }
+        }
+      )
     }
     else {
       this.callApiThanhToan();

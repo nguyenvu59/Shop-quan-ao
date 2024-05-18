@@ -11,6 +11,12 @@
 						type="radio">
 					<label class="text-sm font-medium ml-4">Thanh toán khi nhận hàng</label>
 				</div>
+				<div class="flex items-center px-8 py-5">
+					<input name="options" value="VNPAY" id="options1" [(ngModel)]="paymentmethods"
+						class="appearance-none w-4 h-4 rounded-full border-2 border-white ring-2 ring-blue-600 ring-opacity-100"
+						type="radio">
+					<label class="text-sm font-medium ml-4">VNPAY</label>
+				</div>
 				<div class="border-t">
 					<div class="flex items-center px-8 py-5">
 						<input name="options" value="creatcard" id="options2" [(ngModel)]="paymentmethods"

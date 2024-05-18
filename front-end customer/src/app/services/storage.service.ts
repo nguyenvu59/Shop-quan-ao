@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 const keyToken = 'token';
 const keyFilterProduct = 'filterproduct';
+const keyDataPushOrder = 'datapushorder';
 const keyUser = 'user';
 const keyQuantityCart = 'quantityCart';
 const keyDetailCart = 'detailCart';
@@ -38,6 +39,18 @@ export class StorageService {
     const user = localStorage.getItem(keyUser);
     if (user) {
       return JSON.parse(user);
+    }
+    return {};
+  }
+
+  saveDataPushOrder(datapush: any) {
+    localStorage.setItem(keyDataPushOrder, JSON.stringify(datapush));
+  }
+
+  getDataPushOrder() {
+    const datapush = localStorage.getItem(keyDataPushOrder);
+    if (datapush) {
+      return JSON.parse(datapush);
     }
     return {};
   }

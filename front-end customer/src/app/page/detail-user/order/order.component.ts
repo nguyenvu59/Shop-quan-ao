@@ -41,6 +41,17 @@ export class OrderComponent implements OnInit {
           item.status_name = listStatusOrder.find((obj: any) => obj.id == item.status)?.name;
           item.payment_status_name = listStatusPay.find((obj: any) => obj.id == item.payment_status)?.name;
           item.payment_method_name = item.payment_method == 'ThanhToanKhiNhanHang' ? "Thanh toán khi nhận hàng" : "Creat Card";
+          switch (item.payment_method) {
+            case "ThanhToanKhiNhanHang":
+              item.payment_method_name = "Thanh toán khi nhận hàng";
+              break;
+            case "creatcard":
+              item.payment_method_name = "Creat Card";
+              break;
+            default:
+              item.payment_method_name = item.payment_method;
+              break;
+          }
         })
       }
     ),

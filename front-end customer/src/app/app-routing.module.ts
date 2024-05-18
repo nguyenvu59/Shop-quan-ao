@@ -7,6 +7,7 @@ import { ShopPageComponent } from './page/shop-page/shop-page.component';
 import { ProductComponent } from './page/product/product.component';
 import { DetailUserComponent } from './page/detail-user/detail-user.component';
 import { PaymentComponent } from './page/payment/payment.component';
+import { PaymentSuccessComponent } from './page/payment-success/payment-success.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -33,6 +34,10 @@ const routes: Routes = [
   {
     path: 'payment',
     component: PaymentComponent
+  },
+  {
+    path: 'paymentsuccess',
+    component: PaymentSuccessComponent
   }
 ];
 

@@ -177,7 +177,7 @@ export const createPaymentUrl = async (req: Request, res: Response) => {
   const tmnCode = "60R8OTG7";
   const secretKey = "V93ZLJYS20REXPLISS3XAF1IWI8K5NOQ";
   let vnpUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-  const returnUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+  const returnUrl = "http://localhost:4300/paymentsuccess";
 
   process.env.TZ = 'Asia/Ho_Chi_Minh';
     
