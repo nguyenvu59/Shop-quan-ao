@@ -42,7 +42,8 @@ import { CartService } from './services/cart.service';
 import { UploadService } from './services/upload.service';
 import { PaymentComponent } from './page/payment/payment.component';
 import { VoucherService } from './services/voucher.service';
-
+import { NzTreeModule } from 'ng-zorro-antd/tree';
+import { NzInputModule } from 'ng-zorro-antd/input';
 registerLocaleData(vi);
 
 @NgModule({
@@ -75,6 +76,8 @@ registerLocaleData(vi);
     ReactiveFormsModule,
     FormsModule,
     ToastrModule.forRoot(),
+    NzTreeModule,
+    NzInputModule,
   ],
   providers: [
     AuthService,

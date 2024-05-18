@@ -2,8 +2,9 @@ import { page } from './../../common/const';
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faGripVertical, faList } from '@fortawesome/free-solid-svg-icons';
+import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
 import { ToastrService } from 'ngx-toastr';
-import { getObjectTruThy } from 'src/app/common/globalFC';
+import { deepCopy, getObjectTruThy } from 'src/app/common/globalFC';
 import { CartService } from 'src/app/services/cart.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { ConfigService } from 'src/app/services/config.service';
@@ -16,13 +17,16 @@ import { environment } from 'src/environments/environment';
   templateUrl: './shop-page.component.html',
   styleUrls: ['./shop-page.component.css']
 })
-export class ShopPageComponent implements OnInit,DoCheck {
+export class ShopPageComponent implements OnInit, DoCheck {
   faGripVertical = faGripVertical;
   faList = faList;
   environment = environment;
   listCategory: any[] = [];
+  listTreeOfData: any[] = [];
 
-  filter: any = {};
+  filter: any = {
+    name: null,
+  };
 
   listBrand: any[] = [
     { name: 'Cooking Color', isBrand: false },
@@ -54,16 +58,42 @@ export class ShopPageComponent implements OnInit,DoCheck {
   }
 
   ngDoCheck(): void {
-    this.user = this._storageService.getUser();
+    this.user = this._storageService.getUser(); 
+    if(!this.filter.name&&!this._storageService.getFilterProduct()){
+      return
+    }   
+    if (this.filter.name!=this._storageService.getFilterProduct()) {
+      this.filter.name = this._storageService.getFilterProduct();
+      this.getProduct();      
+    }
   }
 
   getCategory() {
     this._categoryService.categoryController().search().subscribe(
       (res: any) => {
-        this.listCategory = res.Data;
-        this.listCategory.map((item: any) => {
-          item.isCategory = false;
+        this.listCategory = deepCopy(res.Data);
+        let listTreeOfData: any = [];
+        this.listCategory = this.listCategory.map((data: any) => {
+          data.isChildren = this.listCategory.some((child: any) => child.parent_id === data.id);
+          data.title = data.name;
+          data.key = data.name;
+          if (data.isChildren) {
+            data.expand = false;
+          } else {
+            data.isLeaf = true;
+          }
+          return data;
         })
+        this.listCategory.forEach((data: any, index: number) => {
+          if (data.isChildren) {
+            data.children = this.listCategory.filter((child: any) => child.parent_id == data.id);
+            listTreeOfData.push(data);
+          }
+          if ((!data.parent_id) && (!data.isChildren)) {
+            listTreeOfData.push(data);
+          }
+        })
+        this.listTreeOfData = listTreeOfData;
       }
     ),
       (error: any) => {
@@ -144,10 +174,28 @@ export class ShopPageComponent implements OnInit,DoCheck {
   buyNow(item: any) {
     item.quantity = 1;
     item.product_id = item.id;
-    item.product_name = item.name;    
+    item.product_name = item.name;
     this._storageService.saveDetailCart([item]);
     this._storageService.saveCartItemId(0);
     this.router.navigate(["payment"]);
+  }
+
+  nzEvent(event: any): void {
+    if (event.eventName == "check") {
+      if (event.checkedKeys?.length > 1) {
+        event.checkedKeys[0]._isChecked = false;
+        event.keys.shift();
+        event.checkedKeys.shift();
+      }
+      this.filter.category = event.keys[0];
+      this.getProduct();
+    }
+  }
+
+  test(e: any) {
+    console.log(`Node ${e.key} checked: ${e.checked}`);
+    console.log('e :', e);
+
   }
 
 }

@@ -1,7 +1,14 @@
-<div class="flex justify-end mb-2">
+<div class="flex justify-end mb-2 space-x-3">
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+        <input type="text" nz-input placeholder="Nhập tên sản phẩm" [(ngModel)]="filter.name" (keypress)="getProduct()"/>
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+        <span nz-icon nzType="search"></span>
+    </ng-template>
     <button nz-button nzType="primary" (click)="opentCreateUpdateProduct_Modal()">Thêm mới</button>
 </div>
-<nz-table #categoryTable (nzPageIndexChange)="onChangePageIndex($event)" [nzData]="listOfData" [nzPageSize]="page.size"
+<div class="overflow-y-auto">
+    <nz-table #categoryTable (nzPageIndexChange)="onChangePageIndex($event)" [nzData]="listOfData" [nzPageSize]="page.size"
     [nzTotal]="page.totalItem">
     <thead>
         <tr>
@@ -33,8 +40,9 @@
         </tr>
     </tbody>
 </nz-table>
+</div>
 
-<nz-modal [(nzVisible)]="isVisible_CreateUpdateProductModal" [nzTitle]="!!id?'Cập nhật':'Tạo mới'"
+<nz-modal [(nzVisible)]="isVisible_CreateUpdateProductModal" nzCentered [nzTitle]="!!id?'Cập nhật':'Tạo mới'"
     (nzOnCancel)="handleCancel()" [nzWidth]="1500">
     <div *nzModalContent>
         <form nz-form nzLayout="vertical" [formGroup]="form">
@@ -54,7 +62,7 @@
                             </ng-container>
                         </nz-select>
                     </nz-form-control>
-                </nz-form-item>              
+                </nz-form-item>
                 <!-- <nz-form-item>
                     <nz-form-label>Kích cỡ</nz-form-label>
                     <nz-form-control>
@@ -131,16 +139,19 @@
                 <nz-form-item>
                     <nz-form-label>Ảnh đại diện</nz-form-label>
                     <nz-form-control>
-                        <img [src]="environment.API.urlViewImage + imageAvata" alt="avata" width="90" height="90" *ngIf="!!imageAvata">
+                        <img [src]="environment.API.urlViewImage + imageAvata" alt="avata" width="90" height="90"
+                            *ngIf="!!imageAvata" class="mb-3">
                         <input type="file" (change)="onFileSelectedOne($event)" name="image" />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Ảnh sản phẩm</nz-form-label>
                     <nz-form-control>
-                        <ng-container *ngFor="let item of imageProduct">
-                            <img [src]="environment.API.urlViewImage + item" alt="avata" width="90" height="90">
-                        </ng-container>
+                        <div class="flex space-x-3 mb-3">
+                            <ng-container *ngFor="let item of imageProduct">
+                                <img [src]="environment.API.urlViewImage + item" alt="avata" width="90" height="90">
+                            </ng-container>
+                        </div>
                         <input type="file" (change)="onFileSelectedMulti($event)" name="image" />
                     </nz-form-control>
                 </nz-form-item>

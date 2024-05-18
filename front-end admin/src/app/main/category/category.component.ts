@@ -4,6 +4,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { messageAddSuccess, messageDeleteSuccess, messageUpdateSuccess } from 'src/app/common/const';
 import { TypeNotification } from 'src/app/common/enum';
+import { deepCopy } from 'src/app/common/globalFC';
 import { CategoryService } from 'src/app/services/category.service';
 import { ConfigService } from 'src/app/services/config.service';
 
@@ -15,6 +16,7 @@ import { ConfigService } from 'src/app/services/config.service';
 export class CategoryComponent implements OnInit {
 
   listOfData: any[] = [];
+  listTreeOfData: any[] = [];
 
   page: any = this._configService.page();
 
@@ -44,10 +46,31 @@ export class CategoryComponent implements OnInit {
     })
   }
 
+  opentChildrent(item: any) {
+    item.children.map((obj: any) => obj.expand = !obj.expand);
+  }
+
+
   getCategory() {
     this._categoryService.categoryController().search().subscribe(
       (res: any) => {
-        this.listOfData = res.Data;
+        this.listOfData = deepCopy(res.Data);
+        let listTreeOfData: any = [];
+        this.listOfData = this.listOfData.map((data: any) => {
+          data.isChildren = this.listOfData.some((child: any) => child.parent_id === data.id);
+          data.expanded = false;
+          return data;
+        })
+        this.listOfData.forEach((data: any, index: number) => {
+          if (data.isChildren) {
+            data.children = this.listOfData.filter((child: any) => child.parent_id == data.id);
+            listTreeOfData.push(data);
+          }
+          if ((!data.parent_id) && (!data.isChildren)) {
+            listTreeOfData.push(data);
+          }
+        })
+        this.listTreeOfData = listTreeOfData;      
         this.page.totalItem = res.Data.length;
       }
     ),
@@ -61,6 +84,7 @@ export class CategoryComponent implements OnInit {
         }
       }
   }
+
 
   opentCreateUpdateCategory_Modal(item: any = undefined) {
     this.isVisible_CreateUpdateCategoryModal = true;
@@ -115,7 +139,18 @@ export class CategoryComponent implements OnInit {
   }
 
   handleOk(): void {
-    if (!this.form.value?.parent_id) {
+    if (this.form.value?.parent_id) {
+      let objItem: any = this.listOfData.find((obj: any) => obj.id === this.form.value.parent_id);
+      if (!!objItem.parent_id) {
+        this.notification.create(
+          TypeNotification.warning,
+          'Thông báo',
+          'Danh mục đã được phân cấp'
+        );
+        return
+      }
+    }
+    else {
       this.form.patchValue({
         parent_id: 0,
       });

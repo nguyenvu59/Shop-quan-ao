@@ -29,11 +29,11 @@ export class ProductComponent implements OnInit {
     toolbar: {
       items: [
         'undo', 'redo',
-        '|', 'heading',       
+        '|', 'heading',
         '|', 'bold', 'italic',
         '|', 'bulletedList', 'numberedList'
       ],
-      shouldNotGroupWhenFull: true      
+      shouldNotGroupWhenFull: true
     }
   };
   listOfData: any[] = [];
@@ -59,6 +59,10 @@ export class ProductComponent implements OnInit {
 
   imageAvata: any = '';
   imageProduct: any = [];
+
+  filter: any = {
+    name: null,
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -116,9 +120,8 @@ export class ProductComponent implements OnInit {
       }
   }
 
-  getProduct() {
-    let dataFilter: any = { keywork: '' }
-    this._productService.productController().search(dataFilter).subscribe(
+  getProduct() {     
+    this._productService.productController().search(getObjectTruThy(this.filter)).subscribe(
       (res: any) => {
         this.listOfData = res.Data;
         this.page.totalItem = res.Data.length;

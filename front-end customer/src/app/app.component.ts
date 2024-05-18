@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { CartService } from './services/cart.service';
 import { Component, DoCheck, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -31,7 +32,10 @@ export class AppComponent implements OnInit, DoCheck {
   openModalRegister: boolean = false;
   openModalLogin: boolean = false;
 
+  filterName: string = "";
+
   constructor(
+    private router:Router,
     private fb: FormBuilder,
     private toastr: ToastrService,
     private _authService: AuthService,
@@ -168,5 +172,13 @@ export class AppComponent implements OnInit, DoCheck {
     this.token = this._storageService.getToken();
     console.log('this.token :', this.token);
     this.user = this._storageService.getUser();
+  }
+
+  saveFilterProduct() {
+    if(!this.filterName){
+      this.filterName = '';
+    }
+    this._storageService.saveFilterProduct(this.filterName);
+    this.router.navigate(["shop-page"]);
   }
 }

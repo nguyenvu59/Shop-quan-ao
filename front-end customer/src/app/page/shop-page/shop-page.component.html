@@ -190,32 +190,21 @@
             <div>
                 <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">Danh mục</h3>
                 <div class="space-y-2">
-                    <ng-container *ngFor="let item of listCategory;let i = index">
+                    <!-- <ng-container *ngFor="let item of listCategory;let i = index">
                         <div class="flex items-center">
                             <input type="checkbox" name="cat-1" id="cat-1"
                                 class="text-primary focus:ring-0 rounded-sm cursor-pointer"
                                 [(ngModel)]="item.isCategory" (ngModelChange)="searchCategory(item,i)">
-                            <label for="cat-1" class="text-gray-600 ml-3 cusror-pointer">{{item.name}}</label>
-                            <!-- <div class="ml-auto text-gray-600 text-sm">(15)</div> -->
+                            <label for="cat-1" class="text-gray-600 ml-3 cusror-pointer">{{item.name}}</label>                          
                         </div>
-                    </ng-container>
+                    </ng-container> -->
+                    <nz-tree [nzData]="listTreeOfData" nzCheckable [nzCheckStrictly]="true"
+                        (nzClick)="nzEvent($event)" (nzExpandChange)="nzEvent($event)"
+                        (nzCheckBoxChange)="nzEvent($event)"></nz-tree>
+
                 </div>
             </div>
 
-            <div class="pt-4">
-                <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">Thương hiệu</h3>
-                <div class="space-y-2">
-                    <ng-container *ngFor="let item of listBrand;let i = index">
-                        <div class="flex items-center">
-                            <input type="checkbox" name="brand-1" id="brand-1"
-                                class="text-primary focus:ring-0 rounded-sm cursor-pointer" [(ngModel)]="item.isBrand"
-                                (click)="searchBrand(item,i)">
-                            <label for="brand-1" class="text-gray-600 ml-3 cusror-pointer">{{item.name}}</label>
-                            <!-- <div class="ml-auto text-gray-600 text-sm">(15)</div> -->
-                        </div>
-                    </ng-container>
-                </div>
-            </div>
 
             <!-- <div class="pt-4">
                 <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">Price</h3>
@@ -291,15 +280,16 @@
     <!-- products -->
     <div class="col-span-3">
 
-
-        <div class="grid md:grid-cols-4 grid-cols-2 gap-6 mb-24">
+        <p class="uppercase font-bold text-3xl py-3" *ngIf="!!filter.name">KẾT QUẢ TÌM KIẾM THEO '{{filter.name}}'</p>
+        <div class="grid md:grid-cols-4 grid-cols-2 gap-6 mb-24">            
             <ng-container *ngFor="let item of listProduct">
                 <div class="bg-white shadow rounded overflow-hidden group">
-                    <img [src]="environment.API.urlViewImage + item.avata" alt="product 1" class="w-full" style="height: 330px;">
+                    <img [src]="environment.API.urlViewImage + item.avata" alt="product 1" class="w-full"
+                        style="height: 330px;">
                     <div class="pt-4 pb-3 px-4">
                         <a href="javascript:void(0)">
-                            <p
-                                class="uppercase font-bold text-base mb-2 text-gray-800 hover:text-primary truncate" [title]="item.name" (click)="changePageProduct(item.id)">
+                            <p class="uppercase font-bold text-base mb-2 text-gray-800 hover:text-primary truncate"
+                                [title]="item.name" (click)="changePageProduct(item.id)">
                                 {{item.name}}</p>
                         </a>
                         <div class="flex items-baseline mb-1 space-x-2">
@@ -315,7 +305,7 @@
                             <a href="javascript:void(0)"
                                 class="block text-xs w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
                                 (click)="addCart(item.id)">Thêm
-                                vào giỏ hàng</a>
+                                vào giỏ</a>
                         </div>
                     </div>
                 </div>

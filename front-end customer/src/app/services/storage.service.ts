@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 const keyToken = 'token';
+const keyFilterProduct = 'filterproduct';
 const keyUser = 'user';
 const keyQuantityCart = 'quantityCart';
 const keyDetailCart = 'detailCart';
@@ -23,6 +24,14 @@ export class StorageService {
 
   saveToken(token: string) {
     localStorage.setItem(keyToken, token);
+  }
+
+  getFilterProduct() {
+    return localStorage.getItem(keyFilterProduct);
+  }
+
+  saveFilterProduct(name: string) {
+    localStorage.setItem(keyFilterProduct, name);
   }
 
   getUser() {
