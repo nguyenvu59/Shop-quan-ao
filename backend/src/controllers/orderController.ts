@@ -3,6 +3,9 @@ import { Request, Response } from 'express';
 import { Order } from '../entity/Order';
 import { Order_Detail } from '../entity/Order_Detail';
 import { Product } from '../entity/Product';
+import * as crypto from 'crypto';
+import * as qs from 'qs';
+import moment from 'moment';
 
 /**
  * Tạo một đơn hàng mới cùng với các chi tiết đơn hàng.
@@ -164,3 +167,67 @@ export const detail = async (req: Request, res: Response) => {
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
+
+export const createPaymentUrl = async (req: Request, res: Response) => {
+  const ipAddr = req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.remoteAddress;
+
+  const tmnCode = "60R8OTG7";
+  const secretKey = "V93ZLJYS20REXPLISS3XAF1IWI8K5NOQ";
+  let vnpUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+  const returnUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+
+  process.env.TZ = 'Asia/Ho_Chi_Minh';
+    
+    let date = new Date();
+    let createDate = moment(date).format('YYYYMMDDHHmmss');
+    let orderId = moment(date).format('DDHHmmss');
+    let amount = Number(req.params.amount);
+    
+    let locale: string =  'vn';
+    let currCode: string = 'VND';
+    let vnp_Params: { [key: string]: string } = {};
+    vnp_Params['vnp_Version'] = '2.1.0';
+    vnp_Params['vnp_Command'] = 'pay';
+    vnp_Params['vnp_TmnCode'] = tmnCode;
+    vnp_Params['vnp_Locale'] = locale;
+    vnp_Params['vnp_CurrCode'] = currCode;
+    vnp_Params['vnp_TxnRef'] = orderId;
+    vnp_Params['vnp_OrderInfo'] = 'Thanh toan cho ma GD:' + orderId;
+    vnp_Params['vnp_OrderType'] = 'other';
+    vnp_Params['vnp_Amount'] = (amount * 100).toString();
+    vnp_Params['vnp_ReturnUrl'] = returnUrl;
+    vnp_Params['vnp_IpAddr'] = ipAddr as string;
+    vnp_Params['vnp_CreateDate'] = createDate;
+    
+    vnp_Params = sortObject(vnp_Params);
+
+    var querystring = require('qs');
+    var signData = querystring.stringify(vnp_Params, { encode: false });
+    var crypto = require("crypto");     
+    var hmac = crypto.createHmac("sha512", secretKey);
+    var signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex"); 
+    vnp_Params['vnp_SecureHash'] = signed;
+    vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
+    return res.send({ Status: 200, Data: vnpUrl });
+
+    
+};
+
+function sortObject(obj: { [key: string]: any }): { [key: string]: string } {
+  let sorted: { [key: string]: string } = {};
+  let str: string[] = [];
+  let key: string;
+  for (key in obj){
+      if (obj.hasOwnProperty(key)) {
+          str.push(encodeURIComponent(key));
+      }
+  }
+  str.sort();
+  for (let i = 0; i < str.length; i++) {
+      sorted[str[i]] = encodeURIComponent(obj[str[i]]).replace(/%20/g, "+");
+  }
+  return sorted;
+}

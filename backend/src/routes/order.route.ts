@@ -1,8 +1,9 @@
 import express from "express";
-import { list_by_customer_id, list, create, detail, update, deleteById } from "../controllers/orderController"
+import { createPaymentUrl,list_by_customer_id, list, create, detail, update, deleteById } from "../controllers/orderController"
 
 const router = express.Router();
 
+router.get('/createPMURL', createPaymentUrl);
 router.get('/list/', list);
 router.get('/customer/:customer_id', list_by_customer_id);
 router.post('/', create);
