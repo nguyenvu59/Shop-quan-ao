@@ -184,7 +184,7 @@ export const createPaymentUrl = async (req: Request, res: Response) => {
     let date = new Date();
     let createDate = moment(date).format('YYYYMMDDHHmmss');
     let orderId = moment(date).format('DDHHmmss');
-    let amount = Number(req.params.amount);
+    let amount = Number(req.query.amount);
     
     let locale: string =  'vn';
     let currCode: string = 'VND';
