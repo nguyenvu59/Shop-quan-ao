@@ -117,6 +117,47 @@
                 </nz-form-item>
             </div>
         </form>
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-6 py-3">
+                  Tên sản phẩm
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Giá
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Thương hiệu
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Số lượng
+                </th>
+  
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let item of dataDetail.details">
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <div class="flex items-center">
+                      <img class="h-16 w-16 mr-4" [src]="environment.API.urlViewImage + item.avata" alt="Product image">
+                      <span class="font-semibold">{{item.product_name}}</span>
+                    </div>
+                  </th>
+                  <td class="px-6 py-4">
+                    {{item.price|number}}
+                  </td>
+                  <td class="px-6 py-4">
+                    {{item.brand}}
+                  </td>
+                  <td class="px-6 py-4">
+                    {{item.quantity}}
+                  </td>
+  
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
     </div>
     <div *nzModalFooter>
         <button nz-button nzType="default" (click)="handleCancel()">Thoát</button>

@@ -8,6 +8,7 @@ import { deepCopy } from 'src/app/common/globalFC';
 import { ConfigService } from 'src/app/services/config.service';
 import { OrderService } from 'src/app/services/order.service';
 import { VoucherService } from 'src/app/services/voucher.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-order',
@@ -39,6 +40,7 @@ export class OrderComponent implements OnInit {
     },
   ];
   listVoucher: any[] = [];
+  environment = environment;
 
   constructor(
     private fb: FormBuilder,
@@ -127,6 +129,7 @@ export class OrderComponent implements OnInit {
   }
 
   copy_form = {};
+  dataDetail: any = {};
   opentCreateUpdateOrder_Modal(item: any = undefined) {
     this.isVisible_CreateUpdateOrderModal = true;
     this.id = 0;
@@ -135,6 +138,7 @@ export class OrderComponent implements OnInit {
       this._orderService.orderController().getItem(this.id).subscribe(
         (res: any) => {
           this.copy_form = deepCopy(res.Data);
+          this.dataDetail = deepCopy(res.Data);
           this.form.patchValue(res.Data);
           console.log('this.form :', this.form);
         }
