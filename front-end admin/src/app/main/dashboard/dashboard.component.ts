@@ -25,24 +25,23 @@ export type ChartOptions = {
 })
 export class DashboardComponent implements OnInit {
 
-  chartOptions: any = {};  
-  chartOptions2: any = {};  
-  chartOptions3: any = {};  
+  chartOptions: any = {};
+  chartOptions2: any = {};
+  chartOptions3: any = {};
 
   constructor(
     private _reportService: ReportService,
   ) {
-  
+
   }
 
   ngOnInit(): void {
 
     let chartOptions = this._reportService.reportController().orderbydate().toPromise(),
-     chartOptions2 = this._reportService.reportController().totalbydate().toPromise(),
-     chartOptions3 = this._reportService.reportController().productbydate().toPromise();
+      chartOptions2 = this._reportService.reportController().totalbydate().toPromise(),
+      chartOptions3 = this._reportService.reportController().productbydate().toPromise();
 
-    Promise.all([chartOptions,chartOptions2,chartOptions3]).then((res:any) => {
-    console.log('res :', res);
+    Promise.all([chartOptions, chartOptions2, chartOptions3]).then((res: any) => {
       this.chartOptions = {
         series: [
           {
@@ -105,23 +104,26 @@ export class DashboardComponent implements OnInit {
           categories: []
         }
       };
-      this.chartOptions.xaxis.categories = res[0].Data.map((obj:any)=>dayjs(obj.date).format('DD/MM/YYYY'));
-      this.chartOptions.series[0].data = res[0].Data.map((obj:any)=> +obj.count);   
-      this.chartOptions2.xaxis.categories = res[1].Data.map((obj:any)=>dayjs(obj.date).format('DD/MM/YYYY'));
-      this.chartOptions2.series[0].data = res[1].Data.map((obj:any)=> +obj.benefit);
-      this.chartOptions2.series[1].data = res[1].Data.map((obj:any)=> +obj.totalImportValue);
-      this.chartOptions2.series[2].data = res[1].Data.map((obj:any)=> +obj.totalSold);     
-      this.chartOptions3.xaxis.categories = res[2].Data.map((obj:any)=>obj.productName);
-      this.chartOptions3.series[0].data = res[2].Data.map((obj:any)=> +obj.quantitySold);           
-    }) 
-    .catch((err) => {
-
+      // biểu đồ đơn hàng
+      this.chartOptions.xaxis.categories = res[0].Data.map((obj: any) => dayjs(obj.date).format('DD/MM/YYYY'));
+      this.chartOptions.series[0].data = res[0].Data.map((obj: any) => +obj.count);
+      // biểu đồ doanh thu
+      this.chartOptions2.xaxis.categories = res[1].Data.map((obj: any) => dayjs(obj.date).format('DD/MM/YYYY'));
+      this.chartOptions2.series[0].data = res[1].Data.map((obj: any) => +obj.benefit);
+      this.chartOptions2.series[1].data = res[1].Data.map((obj: any) => +obj.totalImportValue);
+      this.chartOptions2.series[2].data = res[1].Data.map((obj: any) => +obj.totalSold);
+      // biểu đồ sản phẩm
+      this.chartOptions3.xaxis.categories = res[2].Data.map((obj: any) => obj.productName);
+      this.chartOptions3.series[0].data = res[2].Data.map((obj: any) => +obj.quantitySold);
     })
-      
+      .catch((err) => {
+
+      })
+
   }
 
-  percentage(partialValue:number, totalValue:number) {
+  percentage(partialValue: number, totalValue: number) {
     return (100 * partialValue) / totalValue;
- } 
+  }
 
 }
