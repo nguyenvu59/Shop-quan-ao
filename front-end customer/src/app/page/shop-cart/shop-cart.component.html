@@ -11,6 +11,7 @@
                                 <th class="text-left font-semibold">Giá</th>
                                 <th class="text-left font-semibold">Số lượng</th>
                                 <th class="text-left font-semibold">Tổng</th>
+                                <th class="text-left font-semibold">#</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -18,21 +19,28 @@
                                 <tr>
                                     <td class="py-4">
                                         <div class="flex items-center">
-                                            <img class="h-16 w-16 mr-4" [src]="environment.API.urlViewImage + item.avata" alt="Product image">
+                                            <img class="h-16 w-16 mr-4"
+                                                [src]="environment.API.urlViewImage + item.avata" alt="Product image">
                                             <span class="font-semibold">{{item.product_name}}</span>
                                         </div>
                                     </td>
                                     <td class="py-4">{{item.price|number}}</td>
                                     <td class="py-4">
                                         <div class="flex items-center">
-                                            <!-- <button class="border rounded-md py-2 px-4 mr-2">-</button> -->
+                                            <button class="border rounded-md py-2 px-4 mr-2"
+                                                (click)="changeNumberOfQuantity(item,'-')">-</button>
                                             <span class="text-center w-8">{{item.quantity|number}}</span>
-                                            <!-- <button class="border rounded-md py-2 px-4 ml-2">+</button> -->
+                                            <button class="border rounded-md py-2 px-4 ml-2"
+                                                (click)="changeNumberOfQuantity(item,'+')">+</button>
                                         </div>
                                     </td>
                                     <td class="py-4">{{item.price * item.quantity|number}}</td>
+                                    <td class="py-4">
+                                        <i nz-icon nzType="delete" nzTheme="outline" (click)="deleteCart(item.id)"
+                                            class="cursor-pointer"></i>
+                                    </td>
                                 </tr>
-                            </ng-container>                                                        
+                            </ng-container>
                         </tbody>
                     </table>
                 </div>
@@ -43,7 +51,7 @@
                     <div class="flex justify-between mb-2">
                         <span>Tổng phụ</span>
                         <span>{{subtotal|number}}</span>
-                    </div>                
+                    </div>
                     <div class="flex justify-between mb-2">
                         <span>Vận chuyển</span>
                         <span>0</span>
@@ -53,7 +61,8 @@
                         <span class="font-semibold">Tổng</span>
                         <span class="font-semibold">{{subtotal|number}} VNĐ</span>
                     </div>
-                    <button class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full" (click)="onChangePagePayment()">Thanh toán</button>
+                    <button class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
+                        (click)="onChangePagePayment()">Thanh toán</button>
                 </div>
             </div>
         </div>

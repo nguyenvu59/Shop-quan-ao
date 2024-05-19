@@ -5,6 +5,7 @@ import { CartService } from 'src/app/services/cart.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { ToastrService } from 'ngx-toastr';
 import { getObjectTruThy } from 'src/app/common/globalFC';
+import { messageDeleteSuccess } from 'src/app/common/const';
 
 @Component({
   selector: 'app-shop-cart',
@@ -55,10 +56,35 @@ export class ShopCartComponent implements OnInit {
       }
   }
 
+  changeNumberOfQuantity(item: any, type: string) {
+    if (type === "-") {
+      item.quantity -= 1;
+      if (item.quantity < 0) {
+        item.quantity = 0;
+      }
+    } else {
+      item.quantity += 1;
+    }
+  }
+
   onChangePagePayment() {
     this._storageService.saveDetailCart(this.listCart);
     this._storageService.saveCartItemId(this.id);
     this.router.navigate(["payment"]);
+  }
+
+  deleteCart(id:number) {
+    this._cartService.cartController().delete(id).subscribe(
+      (res: any) => {
+        this.getCart();
+        this.toastr.error(messageDeleteSuccess, "Thông báo");
+      },
+      (error: any) => {
+        if (error?.Data) {
+          this.toastr.error(error.error?.Data, "Thông báo");
+        }
+      }
+    )  
   }
 
 }
