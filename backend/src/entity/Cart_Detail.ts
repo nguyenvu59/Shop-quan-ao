@@ -14,7 +14,7 @@ export class Cart_Detail {
   @Column()
   product_name: string;
 
-  @Column()
+  @Column({ type: 'text' })
   description: string;
 
   @Column()

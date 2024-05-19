@@ -13,7 +13,7 @@ export class Order_Detail {
   @Column()
   product_name: string;
 
-  @Column()
+  @Column({ type: 'text' })
   description: string;
 
   @Column()
