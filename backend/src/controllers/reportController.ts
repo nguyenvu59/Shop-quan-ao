@@ -18,15 +18,16 @@ export const getOrdersByDate = async (req: Request, res: Response): Promise<Resp
     return res.status(500).send({ Status: 200, Data: 'Internal Server Error' });
   }
 };
-export const getProductsSoldByDate = async (req: Request, res: Response): Promise<Response> => {
+// get products sold all time
+export const getProductsSoldAllTime = async (req: Request, res: Response): Promise<Response> => {
   try {
     const connection = getConnection();
     const products = await connection.query(`
-      SELECT DATE(\`order\`.create_time) as date, product.name as productName, SUM(orderDetail.quantity) as quantitySold, SUM(orderDetail.quantity * product.price) as total
+      SELECT product.name as productName, SUM(orderDetail.quantity) as quantitySold, SUM(orderDetail.quantity * product.price) as total
       FROM \`order\`
       INNER JOIN order_detail as orderDetail ON \`order\`.id = orderDetail.orderId
       INNER JOIN product ON product.id = orderDetail.product_id
-      GROUP BY date, product.name
+      GROUP BY product.name
     `);
     return res.status(200).send({ Status: 200, Data: products });
   } catch (error) {
@@ -34,7 +35,6 @@ export const getProductsSoldByDate = async (req: Request, res: Response): Promis
     return res.status(500).send({ Status: 500, Data: 'Internal Server Error' });
   }
 };
-// get total revenue, import value and benefit by date
 // get total revenue, import value and benefit by date
 export const getTotalRevenueByDate = async (req: Request, res: Response): Promise<Response> => {
   try {
