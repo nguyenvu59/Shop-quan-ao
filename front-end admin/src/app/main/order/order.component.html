@@ -27,7 +27,7 @@
     </tbody>
 </nz-table>
 
-<nz-modal [(nzVisible)]="isVisible_CreateUpdateOrderModal" [nzTitle]="!!id?'Cập nhật':'Tạo mới'"
+<nz-modal [(nzVisible)]="isVisible_CreateUpdateOrderModal" nzCentered [nzTitle]="!!id?'Cập nhật':'Tạo mới'"
     (nzOnCancel)="handleCancel()" [nzWidth]="1500">
     <div *nzModalContent>
         <form nz-form nzLayout="vertical" [formGroup]="form">
