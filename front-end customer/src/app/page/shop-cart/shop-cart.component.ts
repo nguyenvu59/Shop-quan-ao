@@ -77,7 +77,7 @@ export class ShopCartComponent implements OnInit {
     this._cartService.cartController().delete(id).subscribe(
       (res: any) => {
         this.getCart();
-        this.toastr.error(messageDeleteSuccess, "Thông báo");
+        this.toastr.success(messageDeleteSuccess, "Thông báo");
       },
       (error: any) => {
         if (error?.Data) {
