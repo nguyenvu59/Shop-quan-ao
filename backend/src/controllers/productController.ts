@@ -192,3 +192,20 @@ export const deleteProductById = async (req: Request, res: Response): Promise<Re
     return res.status(500).json({ Status: 500, Data: 'Internal Server Error' });
   }
 };
+//get top 10 product have the most sold
+export const getTop10Product = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const productRepository = getRepository(Product);
+    const products = await productRepository.find({ order: { sold: 'DESC' }, take: 10 });
+    // Lấy danh sách hình ảnh của sản phẩm từ bảng Product_Image
+    const productImageRepository = getRepository(ProductImage);
+    for (let i = 0; i < products.length; i++) {
+      const images = await productImageRepository.find({ where: { product: { id: products[i].id } } });
+      products[i].images = images;
+    }
+    return res.status(200).json({ Status: 200, Data: products });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ Status: 500, Data: 'Internal Server Error' });
+  }
+};
