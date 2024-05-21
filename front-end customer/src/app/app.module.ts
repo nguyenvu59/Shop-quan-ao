@@ -44,6 +44,7 @@ import { PaymentComponent } from './page/payment/payment.component';
 import { VoucherService } from './services/voucher.service';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NgxPaginationModule } from 'ngx-pagination';
 registerLocaleData(vi);
 
 @NgModule({
@@ -78,6 +79,7 @@ registerLocaleData(vi);
     ToastrModule.forRoot(),
     NzTreeModule,
     NzInputModule,
+    NgxPaginationModule,
   ],
   providers: [
     AuthService,

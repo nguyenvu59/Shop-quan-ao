@@ -20,6 +20,7 @@ export class EcommerceComponent implements OnInit, DoCheck {
 
   listProduct: any[] = [];
   listProductTop: any[] = [];
+  listProductTop10: any[] = [];
   listProductRamdom8: any[] = [];
   environment = environment;
   user: any = {};
@@ -34,6 +35,7 @@ export class EcommerceComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.user = this._storageService.getUser();
+    this.getProductTop10();
     this.getProduct()
   }
 
@@ -47,6 +49,19 @@ export class EcommerceComponent implements OnInit, DoCheck {
         this.listProduct = res.Data;
         this.listProductTop = this.listProduct.slice(0, 4);
         this.listProductRamdom8 = getRandomArray(this.listProduct, 8);
+      }
+    ),
+      (error: any) => {
+        if (error?.Data) {
+          this.toastr.error(error.error?.Data, "Thông báo");
+        }
+      }
+  }
+
+  getProductTop10() {
+    this._productService.productController().getTop10().subscribe(
+      (res: any) => {
+        this.listProductTop10 = res.Data;
       }
     ),
       (error: any) => {
@@ -95,7 +110,7 @@ export class EcommerceComponent implements OnInit, DoCheck {
   buyNow(item: any) {
     item.quantity = 1;
     item.product_id = item.id;
-    item.product_name = item.name;    
+    item.product_name = item.name;
     this._storageService.saveDetailCart([item]);
     this._storageService.saveCartItemId(0);
     this.router.navigate(["payment"]);

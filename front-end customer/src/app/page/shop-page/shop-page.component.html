@@ -282,7 +282,7 @@
 
         <p class="uppercase font-bold text-3xl py-3" *ngIf="!!filter.name">KẾT QUẢ TÌM KIẾM THEO '{{filter.name}}'</p>
         <div class="grid md:grid-cols-4 grid-cols-2 gap-6 mb-24">            
-            <ng-container *ngFor="let item of listProduct">
+            <ng-container *ngFor="let item of listProduct| paginate: { itemsPerPage: page.size, currentPage: page.page,totalItems: page.totalPages }">
                 <div class="bg-white shadow rounded overflow-hidden group">
                     <img [src]="environment.API.urlViewImage + item.avata" alt="product 1" class="w-full"
                         style="height: 330px;">
@@ -310,6 +310,9 @@
                     </div>
                 </div>
             </ng-container>
+        </div>
+        <div class="flex justify-center">
+            <pagination-controls (pageChange)="page.page = $event" previousLabel="Trang Trước" nextLabel="Trang kế"></pagination-controls>
         </div>
         <!-- <div class="flex justify-end">
             <nav aria-label="Page navigation example">

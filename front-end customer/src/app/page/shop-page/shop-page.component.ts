@@ -39,7 +39,7 @@ export class ShopPageComponent implements OnInit, DoCheck {
   listProduct: any[] = [];
   user: any = {};
 
-  page: any = this._configService.page;
+  page: any = this._configService.page();
 
   constructor(
     private router: Router,
@@ -58,13 +58,13 @@ export class ShopPageComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
-    this.user = this._storageService.getUser(); 
-    if(!this.filter.name&&!this._storageService.getFilterProduct()){
+    this.user = this._storageService.getUser();
+    if (!this.filter.name && !this._storageService.getFilterProduct()) {
       return
-    }   
-    if (this.filter.name!=this._storageService.getFilterProduct()) {
+    }
+    if (this.filter.name != this._storageService.getFilterProduct()) {
       this.filter.name = this._storageService.getFilterProduct();
-      this.getProduct();      
+      this.getProduct();
     }
   }
 
@@ -104,10 +104,12 @@ export class ShopPageComponent implements OnInit, DoCheck {
   }
 
   getProduct() {
+    this.page.page = 1;
     this._productService.productController().search(getObjectTruThy(this.filter)).subscribe(
       (res: any) => {
         this.listProduct = res.Data;
         this.page.totalItem = res.Data.length;
+        this.page.totalPages = res.Data / this.page.size
       }
     ),
       (error: any) => {
@@ -115,6 +117,10 @@ export class ShopPageComponent implements OnInit, DoCheck {
           this.toastr.error(error.error?.Data, "Thông báo");
         }
       }
+  }
+
+  onPageIndexChange(e: any) {
+    this.page
   }
 
   searchCategory(e: any, index: number) {

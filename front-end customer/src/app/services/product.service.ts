@@ -31,7 +31,10 @@ export class ProductService {
       },
       delete: (id: number) => {
         return this.http.delete(`${url}/${id}`);
-      }
+      },
+      getTop10: () => {
+        return this.http.get(`${url}/top10`);
+      },
     };
   }
 }

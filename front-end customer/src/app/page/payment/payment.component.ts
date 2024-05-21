@@ -25,6 +25,7 @@ export class PaymentComponent implements OnInit {
   total_amount_voucher: number = 0;
   detailCart: any[] = [];
   cartItemId: number = 0;
+  token: string|null = '';
 
   constructor(
     private router: Router,
@@ -37,6 +38,7 @@ export class PaymentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.token = this._storageService.getToken();
     this.user = this._storageService.getUser();
     this.cartItemId = +`${this._storageService.getCartItemId()}`;
     this.detailCart = this._storageService.getDetailCart();
@@ -46,16 +48,18 @@ export class PaymentComponent implements OnInit {
       0,
     );
     this.total_amount_voucher = deepCopy(this.total_amount);
-    this._customersService.customerController().getItem(this.user.id).subscribe(
-      (res: any) => {
-        this.user = res.Data;
-      }
-    ),
-      (error: any) => {
-        if (error?.Data) {
-          this.toastr.error(error?.Data, "Thông báo");
+    if(!!this.token){
+      this._customersService.customerController().getItem(this.user.id).subscribe(
+        (res: any) => {
+          this.user = res.Data;
+        }, (error: any) => {
+          if (error?.Data) {
+            this.toastr.error(error?.Data, "Thông báo");
+          }
         }
-      }
+  
+      )
+    }
   }
 
   getVoucher() {
@@ -153,6 +157,10 @@ export class PaymentComponent implements OnInit {
   }
 
   thanhtoan() {
+    if(!this.token){
+      this.toastr.error("Yêu cầu đăng nhập",'Thông báo');
+      return;
+    }
     if (this.paymentmethods == 'creatcard') {
       if (this.creditCard.cardnumber == '3141592653589793' && this.creditCard.date == '06/15' && this.creditCard.password == '1234') {
         this.callApiThanhToan();
