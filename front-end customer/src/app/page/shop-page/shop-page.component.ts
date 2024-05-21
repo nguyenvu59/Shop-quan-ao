@@ -107,10 +107,10 @@ export class ShopPageComponent implements OnInit, DoCheck {
   getProduct() {
     this.page.page = 1;
     this._productService.productController().search(getObjectTruThy(this.filter)).subscribe(
-      (res: any) => {
+      async (res: any) => {        
         this.listProduct = res.Data;
-        this.page.totalItem = res.Data.length;
-        this.page.totalPages = res.Data / this.page.size
+        this.page.totalItem = this.listProduct.length;
+        this.page.totalPages = Math.round(this.listProduct.length / this.page.size);
       }
     ),
       (error: any) => {
