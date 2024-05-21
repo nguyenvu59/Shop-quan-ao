@@ -52,6 +52,7 @@ export class ShopPageComponent implements OnInit, DoCheck {
   ) { }
 
   ngOnInit(): void {
+    this.page.size = 12;
     this.user = this._storageService.getUser();
     this.getCategory();
     this.getProduct();
