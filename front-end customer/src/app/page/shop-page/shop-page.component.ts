@@ -110,7 +110,7 @@ export class ShopPageComponent implements OnInit, DoCheck {
       async (res: any) => {        
         this.listProduct = res.Data;
         this.page.totalItem = this.listProduct.length;
-        this.page.totalPages = Math.round(res.Data / this.page.size);
+        this.page.totalPages = Math.round(res?.Data / this.page.size);
       }
     ),
       (error: any) => {
