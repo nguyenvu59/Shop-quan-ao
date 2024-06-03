@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
-export class ProductComponent implements OnInit,DoCheck {
+export class ProductComponent implements OnInit, DoCheck {
 
   id: number = 0;
 
@@ -24,7 +24,7 @@ export class ProductComponent implements OnInit,DoCheck {
   numberOfQuantity: number = 1;
   imageShow: string = "";
   user: any = {};
-  listSize=listSize
+  listSize = listSize
 
   constructor(
     private route: ActivatedRoute,
@@ -51,6 +51,7 @@ export class ProductComponent implements OnInit,DoCheck {
       (res: any) => {
         this.listProduct = res.Data;
         this.listProductRamdom4 = getRandomArray(this.listProduct, 4);
+        this.listProductRamdom4.map(product => product.size = this.listSize[0] )
       }
     ),
       (error: any) => {
@@ -64,6 +65,7 @@ export class ProductComponent implements OnInit,DoCheck {
     this._productService.productController().getItem(this.id).subscribe(
       (res: any) => {
         this.item = res.Data;
+        this.item.size = this.listSize[0];
         if (this.item.images.length > 0) {
           this.imageShow = this.item.images[0].imageUrl;
         }
@@ -101,25 +103,25 @@ export class ProductComponent implements OnInit,DoCheck {
     let dataPush = {
       "customerId": this.user.id,
       "productId": this.id,
-      "quantity": this.numberOfQuantity
+      "quantity": this.numberOfQuantity,
+      "size": this.item.size,
     }
-    console.log('dataPush :', dataPush);
-    // this._cartService.cartController().create(dataPush).subscribe(
-    //   (res: any) => {
-    //     this._cartService.cartController().getCartForCustomer(this.user.id).subscribe(
-    //       (res: any) => {
-    //         this._storageService.saveQuantityCart(res.Data.count_product);
-    //       }
-    //     ),
-    //       (error: any) => {
-    //         if (error?.Data) {
-    //           this.toastr.error(error?.Data, "Thông báo");
-    //         }
-    //       }
-    //     this.numberOfQuantity = 1;
-    //     this.toastr.success("Thêm giỏ hàng thành công", "Thông báo");
-    //   }
-    // ),
+    this._cartService.cartController().create(dataPush).subscribe(
+      (res: any) => {
+        this._cartService.cartController().getCartForCustomer(this.user.id).subscribe(
+          (res: any) => {
+            this._storageService.saveQuantityCart(res.Data.count_product);
+          }
+        ),
+          (error: any) => {
+            if (error?.Data) {
+              this.toastr.error(error?.Data, "Thông báo");
+            }
+          }
+        this.numberOfQuantity = 1;
+        this.toastr.success("Thêm giỏ hàng thành công", "Thông báo");
+      }
+    ),
       (error: any) => {
         if (error?.Data) {
           this.toastr.error(error.error?.Data, "Thông báo");
@@ -127,7 +129,7 @@ export class ProductComponent implements OnInit,DoCheck {
       }
   }
 
-  addCart2() {
+  addCart2(item:any) {
     if (!this.user?.id) {
       this.toastr.error("Hãy đăng nhập tài khoản của bạn", "Thông báo");
       return;
@@ -135,7 +137,8 @@ export class ProductComponent implements OnInit,DoCheck {
     let dataPush = {
       "customerId": this.user.id,
       "productId": this.id,
-      "quantity": 1
+      "quantity": 1,
+      "size": item.size,
     }
     this._cartService.cartController().create(dataPush).subscribe(
       (res: any) => {
@@ -163,17 +166,16 @@ export class ProductComponent implements OnInit,DoCheck {
   buyNow(item: any) {
     item.quantity = this.numberOfQuantity;
     item.product_id = item.id;
-    item.product_name = item.name;    
-    console.log('item :', item);
-    // this._storageService.saveDetailCart([item]);
-    // this._storageService.saveCartItemId(0);
-    // this.router.navigate(["payment"]);
+    item.product_name = item.name;   
+    this._storageService.saveDetailCart([item]);
+    this._storageService.saveCartItemId(0);
+    this.router.navigate(["payment"]);
   }
 
   buyNow_Products_Purchased_Together(item: any) {
     item.quantity = 1;
     item.product_id = item.id;
-    item.product_name = item.name;    
+    item.product_name = item.name;
     this._storageService.saveDetailCart([item]);
     this._storageService.saveCartItemId(0);
     this.router.navigate(["payment"]);

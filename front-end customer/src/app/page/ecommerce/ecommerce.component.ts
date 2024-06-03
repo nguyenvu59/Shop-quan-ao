@@ -1,6 +1,7 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { listSize } from 'src/app/common/const';
 import { getObjectTruThy, getRandomArray } from 'src/app/common/globalFC';
 import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -24,6 +25,7 @@ export class EcommerceComponent implements OnInit, DoCheck {
   listProductRamdom8: any[] = [];
   environment = environment;
   user: any = {};
+  listSize = listSize
 
   constructor(
     private router: Router,
@@ -47,7 +49,9 @@ export class EcommerceComponent implements OnInit, DoCheck {
     this._productService.productController().search(getObjectTruThy(this.filter)).subscribe(
       (res: any) => {
         this.listProduct = res.Data;
-        this.listProductTop = this.listProduct.slice(0, 4);
+        this.listProduct.reverse();
+        this.listProduct.map(product => product.size = this.listSize[0] )
+        this.listProductTop = this.listProduct.slice(0, 5);
         this.listProductRamdom8 = getRandomArray(this.listProduct, 8);
       }
     ),
@@ -62,6 +66,7 @@ export class EcommerceComponent implements OnInit, DoCheck {
     this._productService.productController().getTop10().subscribe(
       (res: any) => {
         this.listProductTop10 = res.Data;
+        this.listProductTop10.map(product => product.size = this.listSize[0] )
       }
     ),
       (error: any) => {
@@ -75,15 +80,16 @@ export class EcommerceComponent implements OnInit, DoCheck {
     this.router.navigate(["product", id]);
   }
 
-  addCart(idProduct: number) {
+  addCart(item: any) {
     if (!this.user?.id) {
       this.toastr.error("Hãy đăng nhập tài khoản của bạn", "Thông báo");
       return;
     }
     let dataPush = {
       "customerId": this.user.id,
-      "productId": idProduct,
-      "quantity": 1
+      "productId": item.id,
+      "quantity": 1,
+      "size": item.size,
     }
     this._cartService.cartController().create(dataPush).subscribe(
       (res: any) => {

@@ -295,6 +295,13 @@
                         <div class="flex items-baseline mb-1 space-x-2">
                             <p class="text-base text-primary font-semibold">{{item.price|number}} VNĐ</p>
                         </div>
+                        <nz-radio-group [(ngModel)]="item.size" nzSize="small" class="my-1">
+                            <div class="flex space-x-2">
+                                <ng-container *ngFor="let data of listSize">
+                                    <label nz-radio-button [nzValue]="data">{{data}}</label>
+                                </ng-container>
+                            </div>
+                        </nz-radio-group>
                     </div>
                     <div class="flex flex-row" *ngIf="item.quantity > 0;else elsequantity">
                         <div class="basis-1/2">
@@ -304,7 +311,7 @@
                         <div class="basis-1/2">
                             <a href="javascript:void(0)"
                                 class="block text-xs w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
-                                (click)="addCart(item.id)">Thêm
+                                (click)="addCart(item)">Thêm
                                 vào giỏ</a>
                         </div>
                     </div>

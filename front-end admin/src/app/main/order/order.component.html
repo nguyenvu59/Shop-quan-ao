@@ -15,8 +15,8 @@
             <td class="text-center">{{(page.page - 1) * page.size + i + 1}}</td>
             <td>{{ data.code }}</td>
             <td>{{ data.customer_phone_number }}</td>
-            <td>{{ data.status_name }}</td>            
-            <td>{{ data.payment_status_name }}</td>            
+            <td>{{ data.status_name }}</td>
+            <td>{{ data.payment_status_name }}</td>
             <td>
                 <div class="text-center">
                     <i nz-icon nzType="edit" nzTheme="outline" (click)="opentCreateUpdateOrder_Modal(data)"
@@ -50,7 +50,7 @@
                         <input nz-input placeholder="Nhập số điện thoại khách"
                             formControlName="customer_phone_number" />
                     </nz-form-control>
-                </nz-form-item>               
+                </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Tên khách hàng</nz-form-label>
                     <nz-form-control>
@@ -66,12 +66,13 @@
                 <nz-form-item>
                     <nz-form-label>Tổng giá trị</nz-form-label>
                     <nz-form-control>
-                        <nz-input-number formControlName="total_product_value" placeholder="Nhập tổng giá trị" [nzMin]="0" [nzStep]="1" class="w-full"></nz-input-number>
+                        <nz-input-number formControlName="total_product_value" placeholder="Nhập tổng giá trị"
+                            [nzMin]="0" [nzStep]="1" class="w-full"></nz-input-number>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Voucher</nz-form-label>
-                    <nz-form-control>                        
+                    <nz-form-control>
                         <nz-select formControlName="voucher_id" [nzAllowClear]="true" nzPlaceHolder="Chọn Voucher">
                             <ng-container *ngFor="let item of listVoucher">
                                 <nz-option [nzValue]="item.id" [nzLabel]="item.code"></nz-option>
@@ -81,14 +82,16 @@
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Tổng thanh toán</nz-form-label>
-                    <nz-form-control>                        
-                        <nz-input-number formControlName="total_amount" placeholder="Nhập tổng thanh toán" [nzMin]="0" [nzStep]="1" class="w-full"></nz-input-number>
+                    <nz-form-control>
+                        <nz-input-number formControlName="total_amount" placeholder="Nhập tổng thanh toán" [nzMin]="0"
+                            [nzStep]="1" class="w-full"></nz-input-number>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Phương thức thanh toán</nz-form-label>
-                    <nz-form-control>                        
-                        <nz-select formControlName="payment_method" [nzAllowClear]="true" nzPlaceHolder="Chọn phương thức thanh toán">
+                    <nz-form-control>
+                        <nz-select formControlName="payment_method" [nzAllowClear]="true"
+                            nzPlaceHolder="Chọn phương thức thanh toán">
                             <ng-container *ngFor="let item of listPaymentMethod">
                                 <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
                             </ng-container>
@@ -98,7 +101,8 @@
                 <nz-form-item>
                     <nz-form-label>Trạng thái đơn hàng</nz-form-label>
                     <nz-form-control>
-                        <nz-select formControlName="status" [nzAllowClear]="true" nzPlaceHolder="Chọn trạng thái đơn hàng">
+                        <nz-select formControlName="status" [nzAllowClear]="true"
+                            nzPlaceHolder="Chọn trạng thái đơn hàng">
                             <ng-container *ngFor="let item of listStatusOrder">
                                 <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
                             </ng-container>
@@ -108,7 +112,8 @@
                 <nz-form-item>
                     <nz-form-label>Trạng thái thanh toán</nz-form-label>
                     <nz-form-control>
-                        <nz-select formControlName="payment_status" [nzAllowClear]="true" nzPlaceHolder="Chọn trạng thái Thanh toán">
+                        <nz-select formControlName="payment_status" [nzAllowClear]="true"
+                            nzPlaceHolder="Chọn trạng thái Thanh toán">
                             <ng-container *ngFor="let item of listStatusPay">
                                 <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
                             </ng-container>
@@ -119,45 +124,52 @@
         </form>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" class="px-6 py-3">
-                  Tên sản phẩm
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Giá
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Thương hiệu
-                </th>
-                <th scope="col" class="px-6 py-3">
-                  Số lượng
-                </th>
-  
-              </tr>
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Tên sản phẩm
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        size
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Giá
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Thương hiệu
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Số lượng
+                    </th>
+
+                </tr>
             </thead>
             <tbody>
-              <ng-container *ngFor="let item of dataDetail.details">
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <div class="flex items-center">
-                      <img class="h-16 w-16 mr-4" [src]="environment.API.urlViewImage + item.avata" alt="Product image">
-                      <span class="font-semibold">{{item.product_name}}</span>
-                    </div>
-                  </th>
-                  <td class="px-6 py-4">
-                    {{item.price|number}}
-                  </td>
-                  <td class="px-6 py-4">
-                    {{item.brand}}
-                  </td>
-                  <td class="px-6 py-4">
-                    {{item.quantity}}
-                  </td>
-  
-                </tr>
-              </ng-container>
+                <ng-container *ngFor="let item of dataDetail.details">
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <div class="flex items-center">
+                                <img class="h-16 w-16 mr-4" [src]="environment.API.urlViewImage + item.avata"
+                                    alt="Product image">
+                                <span class="font-semibold">{{item.product_name}}</span>
+                            </div>
+                        </th>
+                        <td class="px-6 py-4 uppercase">
+                            {{item.size}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{item.price|number}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{item.brand}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{item.quantity}}
+                        </td>
+
+                    </tr>
+                </ng-container>
             </tbody>
-          </table>
+        </table>
     </div>
     <div *nzModalFooter>
         <button nz-button nzType="default" (click)="handleCancel()">Thoát</button>

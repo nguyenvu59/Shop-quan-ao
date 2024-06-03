@@ -1,4 +1,4 @@
-import { page } from './../../common/const';
+import { listSize, page } from './../../common/const';
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faGripVertical, faList } from '@fortawesome/free-solid-svg-icons';
@@ -40,6 +40,8 @@ export class ShopPageComponent implements OnInit, DoCheck {
   user: any = {};
 
   page: any = this._configService.page();
+
+  listSize = listSize
 
   constructor(
     private router: Router,
@@ -109,6 +111,7 @@ export class ShopPageComponent implements OnInit, DoCheck {
     this._productService.productController().search(getObjectTruThy(this.filter)).subscribe(
       async (res: any) => {        
         this.listProduct = res.Data;
+        this.listProduct.map(product => product.size = this.listSize[0] )
         this.page.totalItem = this.listProduct.length;
         this.page.totalPages = Math.round(res?.Data / this.page.size)||0;
       }
@@ -146,15 +149,16 @@ export class ShopPageComponent implements OnInit, DoCheck {
     this.router.navigate(["product", id]);
   }
 
-  addCart(idProduct: number) {
+  addCart(item: any) {
     if (!this.user?.id) {
       this.toastr.error("Hãy đăng nhập tài khoản của bạn", "Thông báo");
       return;
     }
     let dataPush = {
       "customerId": this.user.id,
-      "productId": idProduct,
-      "quantity": 1
+      "productId": item.id,
+      "quantity": 1,
+      "size": item.size,
     }
     this._cartService.cartController().create(dataPush).subscribe(
       (res: any) => {
