@@ -45,6 +45,7 @@ import { VoucherService } from './services/voucher.service';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 registerLocaleData(vi);
 
 @NgModule({
@@ -80,6 +81,7 @@ registerLocaleData(vi);
     NzTreeModule,
     NzInputModule,
     NgxPaginationModule,
+    NzRadioModule,
   ],
   providers: [
     AuthService,

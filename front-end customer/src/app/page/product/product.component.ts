@@ -1,6 +1,7 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { listSize } from 'src/app/common/const';
 import { getObjectTruThy, getRandomArray } from 'src/app/common/globalFC';
 import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -23,6 +24,7 @@ export class ProductComponent implements OnInit,DoCheck {
   numberOfQuantity: number = 1;
   imageShow: string = "";
   user: any = {};
+  listSize=listSize
 
   constructor(
     private route: ActivatedRoute,
@@ -101,22 +103,23 @@ export class ProductComponent implements OnInit,DoCheck {
       "productId": this.id,
       "quantity": this.numberOfQuantity
     }
-    this._cartService.cartController().create(dataPush).subscribe(
-      (res: any) => {
-        this._cartService.cartController().getCartForCustomer(this.user.id).subscribe(
-          (res: any) => {
-            this._storageService.saveQuantityCart(res.Data.count_product);
-          }
-        ),
-          (error: any) => {
-            if (error?.Data) {
-              this.toastr.error(error?.Data, "Thông báo");
-            }
-          }
-        this.numberOfQuantity = 1;
-        this.toastr.success("Thêm giỏ hàng thành công", "Thông báo");
-      }
-    ),
+    console.log('dataPush :', dataPush);
+    // this._cartService.cartController().create(dataPush).subscribe(
+    //   (res: any) => {
+    //     this._cartService.cartController().getCartForCustomer(this.user.id).subscribe(
+    //       (res: any) => {
+    //         this._storageService.saveQuantityCart(res.Data.count_product);
+    //       }
+    //     ),
+    //       (error: any) => {
+    //         if (error?.Data) {
+    //           this.toastr.error(error?.Data, "Thông báo");
+    //         }
+    //       }
+    //     this.numberOfQuantity = 1;
+    //     this.toastr.success("Thêm giỏ hàng thành công", "Thông báo");
+    //   }
+    // ),
       (error: any) => {
         if (error?.Data) {
           this.toastr.error(error.error?.Data, "Thông báo");
@@ -161,9 +164,10 @@ export class ProductComponent implements OnInit,DoCheck {
     item.quantity = this.numberOfQuantity;
     item.product_id = item.id;
     item.product_name = item.name;    
-    this._storageService.saveDetailCart([item]);
-    this._storageService.saveCartItemId(0);
-    this.router.navigate(["payment"]);
+    console.log('item :', item);
+    // this._storageService.saveDetailCart([item]);
+    // this._storageService.saveCartItemId(0);
+    // this.router.navigate(["payment"]);
   }
 
   buyNow_Products_Purchased_Together(item: any) {

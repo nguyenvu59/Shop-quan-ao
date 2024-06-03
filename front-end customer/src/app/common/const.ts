@@ -163,6 +163,10 @@ export const listStatusPay = [
   },
 ]
 
+export const listSize = [
+  'S', 'M', 'L', 'XL'
+]
+
 import {
   AccountBookTwoTone,
   AccountBookFill,

@@ -78,7 +78,7 @@ export class OrderComponent implements OnInit {
   }
 
   cancelOrder(id: number) {
-    this._orderService.orderController().delete(id).subscribe(
+    this._orderService.orderController().cancel(id).subscribe(
       (res: any) => {
         this.getOrder();
         this.toastr.success(messageUpdateSuccess, "Thông báo");

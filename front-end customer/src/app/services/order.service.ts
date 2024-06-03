@@ -30,6 +30,9 @@ export class OrderService {
       delete: (id: number) => {
         return this.http.delete(`${url}/${id}`);
       },
+      cancel: (id: number) => {
+        return this.http.get(`${url}/cancel/${id}`);
+      },
       craeteVNPAY: (params: any) => {
         return this.http.get(`${url}/createPMURL`, {
           params: params,
