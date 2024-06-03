@@ -8,13 +8,12 @@ dotenv.config();
 const SECRET_KEY = "krizpham123";
 
 /**
- * Tạo một admin mới.
+ * Tạo một admin mới. type ORM Node js Express 
  * @param req Request object từ client.
  * @param res Response object để gửi kết quả về client.
  */
 export const create = async (req: Request, res: Response) => {
   try {
-    // @ts-ignore
     const { name, email, password, phone_number } = req.body;
     const adminRepository = getRepository(Admin);
     // Kiểm tra xem admin có tồn tại trong cơ sở dữ liệu không
@@ -43,15 +42,14 @@ export const create = async (req: Request, res: Response) => {
  */
 export const update = async (req: Request, res: Response) => {
   try {
-    // @ts-ignore
+    // lay du lieu tu body cua request
     const { name, email, phone_number, password } = req.body;
     const adminRepository = getRepository(Admin);
     // Cập nhật admin trong cơ sở dữ liệu
-    // @ts-ignore
     await adminRepository.update(Number(req.params.id), { name, email, password, phone_number });
     // Lấy thông tin admin đã cập nhật
     const updatedAdmin = await adminRepository.findOne({ where: { email: email } });
-    return res.send({ Status: 400, Data: updatedAdmin });
+    return res.send({ Status: 200, Data: updatedAdmin });
   } catch (error) {
     console.error(error);
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
@@ -80,7 +78,7 @@ export const login = async (req: Request, res: Response) => {
           id: admin.id,
           name: admin.name
         };
-        const token = jwt.sign(payload, SECRET_KEY, { expiresIn: 3600 });
+        const token = jwt.sign(payload, SECRET_KEY, { expiresIn: 3600 });  // jwt token
         return res.status(200).send({ Status: 200, Data: token });
       } else {
         return res.status(400).send({ Status: 400, Data: 'Invalid email or password' });

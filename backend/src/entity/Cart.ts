@@ -17,6 +17,6 @@ export class Cart {
 
   @CreateDateColumn({ type: 'timestamp' })
   create_time: Date;
+  
   details: Cart_Detail[]
-
 }

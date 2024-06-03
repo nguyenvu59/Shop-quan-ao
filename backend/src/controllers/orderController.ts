@@ -75,7 +75,6 @@ export const update = async (req: Request, res: Response) => {
         product.sold += detail.quantity;
         await productRepository.save(product);
       }
-      
       await orderDetailRepository.save(newOrderDetail);
     }
     return res.send({ Status: 200, Data: order });
@@ -84,6 +83,38 @@ export const update = async (req: Request, res: Response) => {
     return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
   }
 };
+
+/**
+ * huỷ 1 đơn hàng dựa trên id của đơn hàng. Cộng lại số lượng sản phẩm đã mua vào kho.
+ */
+export const cancel = async (req: Request, res: Response) => {
+  try {
+    const orderRepository = getRepository(Order);
+    const orderDetailRepository = getRepository(Order_Detail);
+    const productRepository = getRepository(Product);
+    const orderId = Number(req.params.id);
+    const order = await orderRepository.findOne({ where: { id: orderId } });
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+    // Delete old Order_Detail entities
+    const details = await orderDetailRepository.find({ where: { order: { id: orderId } } });
+    for (const detail of details) {
+      // Update product quantity, refund quantity to product, and reduce sold quantity
+      const product = await productRepository.findOne({ where: { id: detail.product_id } });
+      if (product) {
+        product.quantity += detail.quantity;
+        product.sold -= detail.quantity;
+        await productRepository.save(product);
+      }
+      await orderDetailRepository.remove(detail);
+    }
+    await orderRepository.remove(order);
+    return res.send({ Status: 200, Data: `Order id ${orderId} has been canceled.` });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({ Status: 400, Data: 'Internal Server Error' });
+  }
+}
+
 
 /**
  * Lấy danh sách tất cả các đơn hàng và sắp xếp theo thời gian tạo giảm dần.
