@@ -7,6 +7,7 @@ import {
   ApexXAxis,
   ApexTitleSubtitle
 } from "ng-apexcharts";
+import { deepCopy, getObjectTruThy } from 'src/app/common/globalFC';
 import { ReportService } from 'src/app/services/report.service';
 
 const dayjs = require('dayjs')
@@ -29,6 +30,8 @@ export class DashboardComponent implements OnInit {
   chartOptions2: any = {};
   chartOptions3: any = {};
 
+  formFilter: any = {};
+
   constructor(
     private _reportService: ReportService,
   ) {
@@ -36,10 +39,24 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initFormFilter();
+    this.getChartReport();
+  }
 
-    let chartOptions = this._reportService.reportController().orderbydate().toPromise(),
-      chartOptions2 = this._reportService.reportController().totalbydate().toPromise(),
-      chartOptions3 = this._reportService.reportController().productbydate().toPromise();
+  initFormFilter() {
+    this.formFilter = {
+      from_date: dayjs().format('YYYY-MM-DD'),
+      to_date: dayjs().format('YYYY-MM-DD'),
+    }
+  }
+
+  getChartReport() {
+    let formFilter = deepCopy(this.formFilter);
+    formFilter.from_date = dayjs(formFilter.from_date).format('YYYY-MM-DD');
+    formFilter.to_date = dayjs(formFilter.to_date).format('YYYY-MM-DD');
+    let chartOptions = this._reportService.reportController().orderbydate(getObjectTruThy(formFilter)).toPromise(),
+      chartOptions2 = this._reportService.reportController().totalbydate(getObjectTruThy(formFilter)).toPromise(),
+      chartOptions3 = this._reportService.reportController().productbydate(getObjectTruThy(formFilter)).toPromise();
 
     Promise.all([chartOptions, chartOptions2, chartOptions3]).then((res: any) => {
       this.chartOptions = {
@@ -119,7 +136,6 @@ export class DashboardComponent implements OnInit {
       .catch((err) => {
 
       })
-
   }
 
   percentage(partialValue: number, totalValue: number) {

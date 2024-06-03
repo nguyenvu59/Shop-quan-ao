@@ -1,3 +1,9 @@
+<div class="flex justify-end space-x-3 mb-6">
+    <nz-date-picker [(ngModel)]="formFilter.from_date" nzPlaceHolder="Từ ngày" nzFormat='dd/MM/yyyy' [nzAllowClear]="false"></nz-date-picker>
+    <nz-date-picker [(ngModel)]="formFilter.to_date" nzPlaceHolder="Đến ngày" nzFormat='dd/MM/yyyy' [nzAllowClear]="false"></nz-date-picker>
+    <button nz-button nzType="primary" (click)="getChartReport()">Tìm kiếm</button>
+</div>
+
 <div class="grid grid-cols-2 gap-4">
     <div>
         <p class="font-bold text-center">Đơn hàng</p>

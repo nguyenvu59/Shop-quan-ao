@@ -15,14 +15,20 @@ export class ReportService {
   reportController() {
     let url: string = `${this._configService.url}/report`;
     return {
-      orderbydate: () => {
-        return this.http.get(`${url}/orderbydate`);
+      orderbydate: (params: any) => {
+        return this.http.get(`${url}/orderbydate`, {
+          params: params,
+        });
       },
-      productbydate: () => {
-        return this.http.get(`${url}/productbydate`);
+      productbydate: (params: any) => {
+        return this.http.get(`${url}/productbydate`, {
+          params: params,
+        });
       },
-      totalbydate: () => {
-        return this.http.get(`${url}/totalbydate`);
+      totalbydate: (params: any) => {
+        return this.http.get(`${url}/totalbydate`, {
+          params: params,
+        });
       },
     };
   }
