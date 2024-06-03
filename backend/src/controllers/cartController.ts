@@ -9,7 +9,7 @@ import { Product } from '../entity/Product';
  */
 export const addToCart = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const { customerId, productId, quantity } = req.body;
+    const { customerId, productId, quantity, size } = req.body;
     const cartRepository = getRepository(Cart);
     const cartDetailRepository = getRepository(Cart_Detail);
     console.log(customerId, productId, quantity)
@@ -34,7 +34,7 @@ export const addToCart = async (req: Request, res: Response): Promise<Response> 
         product_id: product.id,
         product_name: product.name,
         description: product.description,
-        size: product.size,
+        size: size,
         sex: product.sex,
         price: product.price,
         quantity: quantity,
