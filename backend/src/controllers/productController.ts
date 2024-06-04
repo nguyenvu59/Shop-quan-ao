@@ -184,7 +184,7 @@ export const deleteProductById = async (req: Request, res: Response): Promise<Re
     await productImageRepository.delete({ product: productToDelete });
 
     // Xóa sản phẩm
-    await productRepository.delete(productToDelete);
+    await productRepository.delete(productId);
 
     return res.status(200).json({ Status: 200, Data: 'Product deleted successfully' });
   } catch (error) {
