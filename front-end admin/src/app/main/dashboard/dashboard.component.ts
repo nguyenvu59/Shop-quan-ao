@@ -68,13 +68,25 @@ export class DashboardComponent implements OnInit {
         ],
         chart: {
           height: 350,
-          type: "bar"
+          type: "bar",
+          toolbar:{
+            export: {
+              csv: {
+                headerCategory: 'Ngày sản phẩm',
+              }
+            }
+          }
         },
         title: {
           text: "Số lượng"
         },
         xaxis: {
-          categories: []
+          categories: [
+            {
+              name: "Số lượng",
+              data: []
+            }
+          ]
         }
       };
       this.chartOptions2 = {
@@ -94,7 +106,14 @@ export class DashboardComponent implements OnInit {
         ],
         chart: {
           height: 350,
-          type: "bar"
+          type: "bar",
+          toolbar:{
+            export: {
+              csv: {
+                headerCategory: 'Ngày sản phẩm',
+              }
+            }
+          }
         },
         title: {
           text: "VNĐ"
@@ -112,7 +131,14 @@ export class DashboardComponent implements OnInit {
         ],
         chart: {
           height: 350,
-          type: "bar"
+          type: "bar",
+          toolbar:{
+            export: {
+              csv: {
+                headerCategory: 'Tên sản phẩm',
+              }
+            }
+          }
         },
         title: {
           text: "Số lượng"
